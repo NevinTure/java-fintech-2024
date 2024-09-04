@@ -22,7 +22,10 @@ public class JacksonJsonCityParser implements JsonCityParser {
     @Override
     public Optional<City> parseJson(File jsonFile) {
         try {
-            return Optional.of(mapper.readValue(jsonFile, City.class));
+            log.info("Start parsing json file {}", jsonFile.getAbsolutePath());
+            City city = mapper.readValue(jsonFile, City.class);
+            log.info("Finish parsing json file {}", jsonFile.getAbsolutePath());
+            return Optional.of(city);
         } catch (IOException e) {
             log.error(e.getMessage());
         }

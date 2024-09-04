@@ -6,5 +6,6 @@ import java.util.Optional;
 
 public interface JsonCityParser {
     Optional<City> parseJson(String jsonFilePath);
+
     Optional<City> parseJson(File jsonFile);
 }
