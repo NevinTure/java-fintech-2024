@@ -15,11 +15,17 @@ public class JacksonXMLCityParser implements XMLCityParser {
 
     @Override
     public void toXML(City city, String xmlFilePath) {
+        log.debug("Start toXML method in JacksonXMLCityParser with city: {} and xmlFilePath: {}",
+                city,
+                xmlFilePath);
         toXML(city, new File(xmlFilePath));
     }
 
     @Override
     public void toXML(City city, File xmlFile) {
+        log.debug("Start toXML method in JacksonXMLCityParser with city: {} and xmlFile: {}",
+                city,
+                xmlFile.getAbsolutePath());
         try {
             log.info("Start writing to {}", xmlFile.getAbsolutePath());
             mapper.writeValue(xmlFile, city);

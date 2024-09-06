@@ -16,11 +16,15 @@ public class JacksonJsonCityParser implements JsonCityParser {
 
     @Override
     public Optional<City> parseJson(String jsonFilePath) {
+        log.debug("Start parseJson method in JacksonJsonCityParser with jsonFilePath: {}",
+                jsonFilePath);
         return parseJson(new File(jsonFilePath));
     }
 
     @Override
     public Optional<City> parseJson(File jsonFile) {
+        log.debug("Start parseJson method in JacksonJsonCityParser with jsonFile: {}",
+                jsonFile.getAbsolutePath());
         try {
             log.info("Start parsing json file {}", jsonFile.getAbsolutePath());
             City city = mapper.readValue(jsonFile, City.class);
@@ -29,6 +33,7 @@ public class JacksonJsonCityParser implements JsonCityParser {
         } catch (IOException e) {
             log.error(e.getMessage());
         }
+        log.warn("Finish parsing json file {} with error", jsonFile.getAbsolutePath());
         return Optional.empty();
     }
 }
