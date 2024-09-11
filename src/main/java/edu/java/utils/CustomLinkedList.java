@@ -14,6 +14,8 @@ public class CustomLinkedList<T> extends LinkedList<T> {
     public CustomLinkedList() {
         head = new Node<>();
         tail = new Node<>();
+        head.setNext(tail);
+        tail.setPrev(head);
         size = 0;
     }
 
@@ -36,6 +38,7 @@ public class CustomLinkedList<T> extends LinkedList<T> {
         Node<T> now = new Node<>(t, tail, prev);
         prev.setNext(now);
         tail.setPrev(now);
+        size++;
         return true;
     }
 
@@ -75,14 +78,6 @@ public class CustomLinkedList<T> extends LinkedList<T> {
             }
         }
         return false;
-    }
-
-    private void unlink(Node<T> node) {
-        Node<T> prev = node.getPrev();
-        Node<T> next = node.getNext();
-        prev.setNext(next);
-        next.setPrev(prev);
-        size--;
     }
 
     @Override
@@ -131,6 +126,19 @@ public class CustomLinkedList<T> extends LinkedList<T> {
 
     private boolean checkIndex(int index) {
         return index >= 0 && index < size;
+    }
+
+    private void unlink(Node<T> node) {
+        Node<T> prev = node.getPrev();
+        Node<T> next = node.getNext();
+        prev.setNext(next);
+        next.setPrev(prev);
+        size--;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return super.iterator();
     }
 
     @Data
