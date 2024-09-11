@@ -7,6 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class CustomLinkedListTest {
 
@@ -119,5 +120,28 @@ public class CustomLinkedListTest {
         //then
         assertThat(result).isTrue();
         assertThat(list).size().isEqualTo(5);
+    }
+
+    @Test
+    public void testCreateListFromStream() {
+        //given
+        LinkedList<Integer> customList;
+
+        //when
+        customList = Stream.of(1, 2, 3)
+                .reduce(new CustomLinkedList<>(),
+                        (l, v) -> {
+                            l.add(v);
+                            return l;
+                        },
+                        (l1, l2) -> {
+                            l1.add(l2.get(0));
+                            return l1;
+                        });
+
+        //then
+        assertThat(customList).size().isEqualTo(3);
+        assertThat(customList.get(0)).isEqualTo(1);
+        assertThat(customList.get(2)).isEqualTo(3);
     }
 }
