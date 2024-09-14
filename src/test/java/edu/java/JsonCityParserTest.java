@@ -7,12 +7,13 @@ import edu.java.services.JacksonJsonCityParser;
 import edu.java.services.JsonCityParser;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import static org.assertj.core.api.Assertions.assertThat;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class JsonCityParserTest {
 
