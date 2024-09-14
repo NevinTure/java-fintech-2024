@@ -1,11 +1,9 @@
 package edu.java.utils;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import java.util.*;
+import lombok.*;
+import java.util.Collection;
 
-public class CustomLinkedList<T> extends LinkedList<T> {
+public class CustomLinkedList<T> {
 
     private final Node<T> head;
     private final Node<T> tail;
@@ -19,7 +17,6 @@ public class CustomLinkedList<T> extends LinkedList<T> {
         size = 0;
     }
 
-    @Override
     public T get(int index) {
         if (!checkIndex(index)) {
             throw new IndexOutOfBoundsException();
@@ -32,7 +29,6 @@ public class CustomLinkedList<T> extends LinkedList<T> {
         return now.getVal();
     }
 
-    @Override
     public boolean add(T t) {
         Node<T> prev = tail.getPrev();
         Node<T> now = new Node<>(t, tail, prev);
@@ -42,7 +38,6 @@ public class CustomLinkedList<T> extends LinkedList<T> {
         return true;
     }
 
-    @Override
     public T remove(int index) {
         if (!checkIndex(index)) {
             throw new IndexOutOfBoundsException();
@@ -56,7 +51,6 @@ public class CustomLinkedList<T> extends LinkedList<T> {
         return now.getVal();
     }
 
-    @Override
     public boolean remove(Object o) {
         if (o == null) {
             Node<T> now = head.getNext();
@@ -80,7 +74,6 @@ public class CustomLinkedList<T> extends LinkedList<T> {
         return false;
     }
 
-    @Override
     public boolean contains(Object o) {
         if (o == null) {
             Node<T> now = head.getNext();
@@ -102,7 +95,6 @@ public class CustomLinkedList<T> extends LinkedList<T> {
         return false;
     }
 
-    @Override
     public boolean addAll(Collection<? extends T> c) {
         if (c == null || c.isEmpty()) {
             return false;
@@ -119,7 +111,6 @@ public class CustomLinkedList<T> extends LinkedList<T> {
         return true;
     }
 
-    @Override
     public int size() {
         return size;
     }
@@ -134,11 +125,6 @@ public class CustomLinkedList<T> extends LinkedList<T> {
         prev.setNext(next);
         next.setPrev(prev);
         size--;
-    }
-
-    @Override
-    public Iterator<T> iterator() {
-        return super.iterator();
     }
 
     @Data
