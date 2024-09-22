@@ -1,10 +1,12 @@
 package edu.java.kudagoapi.repositories;
 
 import edu.java.kudagoapi.model.Location;
+import org.springframework.stereotype.Repository;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
+@Repository
 public class MapLocationRepository implements LocationRepository {
 
     private final Map<Long, Location> locations;
