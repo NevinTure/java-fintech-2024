@@ -37,8 +37,6 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop
-    implementation 'org.springframework.boot:spring-boot-starter-aop:3.3.4'
     // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
     implementation 'org.modelmapper:modelmapper:3.2.1'
     // https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign
