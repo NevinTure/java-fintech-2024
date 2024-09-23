@@ -1,10 +1,12 @@
 package edu.java.kudagoapi.services;
 
+import edu.java.kudagoapi.clients.KudagoClient;
 import edu.java.kudagoapi.dtos.LocationDto;
 import edu.java.kudagoapi.exceptions.BadRequestApiException;
 import edu.java.kudagoapi.exceptions.NotFoundApiException;
 import edu.java.kudagoapi.model.Location;
 import edu.java.kudagoapi.repositories.LocationRepository;
+import jakarta.annotation.PostConstruct;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +18,19 @@ public class LocationServiceImpl implements LocationService {
 
     private final LocationRepository repository;
     private final ModelMapper mapper;
+    private final KudagoClient kudagoClient;
+    private final static String FIELDS = "name,slug,language";
 
-    public LocationServiceImpl(LocationRepository repository, ModelMapper mapper) {
+    public LocationServiceImpl(
+            LocationRepository repository, ModelMapper mapper, KudagoClient kudagoClient) {
         this.repository = repository;
         this.mapper = mapper;
+        this.kudagoClient = kudagoClient;
+    }
+
+    @PostConstruct
+    private void initialFill() {
+        saveAll(kudagoClient.getLocations(FIELDS));
     }
 
     @Override
