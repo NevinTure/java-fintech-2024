@@ -1,10 +1,10 @@
 package edu.java.customaspect.autoconfiguration;
 
 import edu.java.customaspect.aspects.TimedAspect;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
-@Configuration
+@AutoConfiguration
 public class TimedAnnotationAspectAutoConfiguration {
 
     @Bean

@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'edu.java'
-version = '0.0.1-SNAPSHOT'
+version = '0.1'
 
 java {
     toolchain {
@@ -17,12 +17,20 @@ repositories {
     mavenCentral()
 }
 
+tasks.register('prepareKotlinBuildScriptModel') {
+
+}
+
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop
     implementation 'org.springframework.boot:spring-boot-starter-aop:3.3.4'
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-autoconfigure
+    implementation 'org.springframework.boot:spring-boot-autoconfigure:3.3.4'
+
 }
 
 tasks.named('test') {

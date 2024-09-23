@@ -31,6 +31,10 @@ repositories {
     mavenCentral()
 }
 
+tasks.register('prepareKotlinBuildScriptModel') {
+
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
@@ -43,6 +47,7 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.1.3'
     // https://mvnrepository.com/artifact/org.assertj/assertj-core
     testImplementation 'org.assertj:assertj-core:3.26.3'
+    implementation project(':custom-aspect-starter')
 
 
 
