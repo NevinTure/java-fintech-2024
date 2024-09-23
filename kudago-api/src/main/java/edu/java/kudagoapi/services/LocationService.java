@@ -1,16 +1,16 @@
 package edu.java.kudagoapi.services;
 
-import edu.java.kudagoapi.model.Location;
+import edu.java.kudagoapi.dtos.LocationDto;
 import org.springframework.http.ResponseEntity;
-import java.util.*;
+import java.util.List;
 
 public interface LocationService {
 
-    ResponseEntity<Object> save(Location location);
+    ResponseEntity<Object> save(LocationDto dto, String id);
 
-    ResponseEntity<Object> saveAll(List<Location> locations);
+    ResponseEntity<Object> saveAll(List<LocationDto> dtos);
 
-    ResponseEntity<Location> findById(Long id);
+    ResponseEntity<LocationDto> findById(String id);
 
-    ResponseEntity<Object> deleteById(Long id);
+    ResponseEntity<Object> deleteById(String id);
 }

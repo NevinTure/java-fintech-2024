@@ -1,7 +1,8 @@
 package edu.java.kudagoapi.repositories;
 
 import edu.java.kudagoapi.model.Category;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 public interface CategoryRepository {
 

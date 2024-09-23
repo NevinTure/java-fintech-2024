@@ -1,37 +1,60 @@
 package edu.java.kudagoapi.services;
 
+import edu.java.kudagoapi.dtos.CategoryDto;
+import edu.java.kudagoapi.exceptions.BadRequestApiException;
 import edu.java.kudagoapi.exceptions.NotFoundApiException;
 import edu.java.kudagoapi.model.Category;
 import edu.java.kudagoapi.repositories.CategoryRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository repository;
+    private final ModelMapper mapper;
 
-    public CategoryServiceImpl(CategoryRepository repository) {
+    public CategoryServiceImpl(CategoryRepository repository, ModelMapper mapper) {
         this.repository = repository;
+        this.mapper = mapper;
     }
 
     @Override
-    public ResponseEntity<Object> save(Category category) {
+    public ResponseEntity<Object> save(CategoryDto dto, long id) {
+        validateParams(dto, id);
+        Category category = mapper.map(dto, Category.class);
+        category.setId(id);
+        repository.save(category);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    private void validateParams(CategoryDto dto, long id) {
+        if (repository.findById(id).isPresent()) {
+            throw new BadRequestApiException(
+                    String.format("Category with id %d already exists", id));
+        }
+    }
+
+    @Override
+    public ResponseEntity<Object> saveAll(List<CategoryDto> dtos) {
+        List<Category> categories = dtos
+                .stream()
+                .map(v -> mapper.map(v, Category.class))
+                .toList();
+        repository.saveAll(categories);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Object> saveAll(List<Category> categories) {
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<Category> getById(long id) {
+    public ResponseEntity<CategoryDto> getById(long id) {
         Optional<Category> categoryOptional = repository.findById(id);
         if (categoryOptional.isPresent()) {
-            return ResponseEntity.ok(categoryOptional.get());
+            return ResponseEntity
+                    .ok(mapper.map(categoryOptional.get(), CategoryDto.class));
         }
         throw new NotFoundApiException(
                 String.format("Category with id %d not found", id));

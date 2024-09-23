@@ -1,8 +1,11 @@
 package edu.java.kudagoapi.services;
 
+import edu.java.kudagoapi.dtos.LocationDto;
+import edu.java.kudagoapi.exceptions.BadRequestApiException;
 import edu.java.kudagoapi.exceptions.NotFoundApiException;
 import edu.java.kudagoapi.model.Location;
 import edu.java.kudagoapi.repositories.LocationRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -12,41 +15,62 @@ import java.util.*;
 public class LocationServiceImpl implements LocationService {
 
     private final LocationRepository repository;
+    private final ModelMapper mapper;
 
-    public LocationServiceImpl(LocationRepository repository) {
+    public LocationServiceImpl(LocationRepository repository, ModelMapper mapper) {
         this.repository = repository;
+        this.mapper = mapper;
     }
 
     @Override
-    public ResponseEntity<Object> save(Location location) {
+    public ResponseEntity<Object> save(LocationDto dto, String id) {
+        validateParams(dto, id);
+        Location location = mapper.map(dto, Location.class);
+        repository.save(location);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    private void validateParams(LocationDto dto, String id) {
+        if (repository.findById(id).isPresent()) {
+            throw new BadRequestApiException(
+                    String.format("Location with id: %s already exists", id));
+        }
+        if (!Objects.equals(dto.getName(), id)) {
+            throw new BadRequestApiException("Id must match Location name");
+        }
+    }
+
+    @Override
+    public ResponseEntity<Object> saveAll(List<LocationDto> dtos) {
+        List<Location> locations = dtos
+                .stream()
+                .map(v -> mapper.map(v, Location.class))
+                .toList();
+        repository.saveAll(locations);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Object> saveAll(List<Location> locations) {
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<Location> findById(Long id) {
+    public ResponseEntity<LocationDto> findById(String id) {
         Optional<Location> locationOptional = repository.findById(id);
         if (locationOptional.isPresent()) {
-            return ResponseEntity.ok(locationOptional.get());
+            return ResponseEntity
+                    .ok(mapper.map(locationOptional.get(), LocationDto.class));
         }
         throw new NotFoundApiException(
-                String.format("Location with id %d not found", id)
+                String.format("Location with id %s not found", id)
         );
     }
 
     @Override
-    public ResponseEntity<Object> deleteById(Long id) {
+    public ResponseEntity<Object> deleteById(String id) {
         Optional<Location> locationOptional = repository.findById(id);
         if (locationOptional.isPresent()) {
             repository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         throw new NotFoundApiException(
-                String.format("Location with id %d not found", id)
+                String.format("Location with id %s not found", id)
         );
     }
 }

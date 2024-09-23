@@ -4,33 +4,26 @@ import edu.java.kudagoapi.model.Category;
 import org.springframework.stereotype.Repository;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
 public class MapCategoryRepository implements CategoryRepository {
 
     private final Map<Long, Category> categories;
-    private final AtomicLong sequence;
 
     public MapCategoryRepository() {
         this.categories = new ConcurrentHashMap<>();
-        this.sequence = new AtomicLong(1);
     }
 
     @Override
     public Category save(Category category) {
-        long id = sequence.getAndIncrement();
-        category.setId(id);
-        categories.put(id, category);
+        categories.put(category.getId(), category);
         return category;
     }
 
     @Override
     public List<Category> saveAll(List<Category> categoryList) {
         for (Category category : categoryList) {
-            long id = sequence.getAndIncrement();
-            category.setId(id);
-            categories.put(id, category);
+            categories.put(category.getId(), category);
         }
         return categoryList;
     }

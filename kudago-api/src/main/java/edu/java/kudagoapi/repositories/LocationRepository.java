@@ -10,7 +10,7 @@ public interface LocationRepository {
 
     List<Location> saveAll(List<Location> locationList);
 
-    Optional<Location> findById(long id);
+    Optional<Location> findById(String id);
 
-    void deleteById(long id);
+    void deleteById(String id);
 }

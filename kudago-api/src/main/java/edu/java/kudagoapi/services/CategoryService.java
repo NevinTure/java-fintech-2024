@@ -1,17 +1,16 @@
 package edu.java.kudagoapi.services;
 
-import edu.java.kudagoapi.model.Category;
+import edu.java.kudagoapi.dtos.CategoryDto;
 import org.springframework.http.ResponseEntity;
 import java.util.List;
-import java.util.Optional;
 
 public interface CategoryService {
 
-    ResponseEntity<Object> save(Category category);
+    ResponseEntity<Object> save(CategoryDto dto, long id);
 
-    ResponseEntity<Object> saveAll(List<Category> categories);
+    ResponseEntity<Object> saveAll(List<CategoryDto> dtos);
 
-    ResponseEntity<Category> getById(long id);
+    ResponseEntity<CategoryDto> getById(long id);
 
     ResponseEntity<Object> deleteById(long id);
 }

@@ -1,12 +1,13 @@
-package edu.java.kudagoapi.model;
+package edu.java.kudagoapi.dtos;
 
 import lombok.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Location {
+public class CategoryDto {
+
+    private Long id;
     private String name;
     private String slug;
-    private String language;
 }
