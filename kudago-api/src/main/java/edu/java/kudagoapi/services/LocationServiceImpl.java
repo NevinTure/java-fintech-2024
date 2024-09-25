@@ -2,34 +2,30 @@ package edu.java.kudagoapi.services;
 
 import edu.java.kudagoapi.clients.KudagoClient;
 import edu.java.kudagoapi.dtos.LocationDto;
+import edu.java.kudagoapi.events.LocationServiceInitializedEvent;
 import edu.java.kudagoapi.exceptions.*;
 import edu.java.kudagoapi.model.Location;
 import edu.java.kudagoapi.repositories.LocationRepository;
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class LocationServiceImpl implements LocationService {
 
     private final LocationRepository repository;
     private final ModelMapper mapper;
-    private final KudagoClient kudagoClient;
-    private final static String FIELDS = "name,slug,language";
-
-    public LocationServiceImpl(
-            LocationRepository repository, ModelMapper mapper, KudagoClient kudagoClient) {
-        this.repository = repository;
-        this.mapper = mapper;
-        this.kudagoClient = kudagoClient;
-    }
+    private final ApplicationEventPublisher eventPublisher;
 
     @PostConstruct
-    private void initialFill() {
-        saveAll(kudagoClient.getLocations(FIELDS));
+    public void init() {
+        eventPublisher.publishEvent(new LocationServiceInitializedEvent(this));
     }
 
     @Override

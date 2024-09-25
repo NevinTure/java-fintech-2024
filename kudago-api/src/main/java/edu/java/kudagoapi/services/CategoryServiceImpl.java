@@ -1,12 +1,16 @@
 package edu.java.kudagoapi.services;
 
+import edu.java.customaspect.annotations.Timed;
 import edu.java.kudagoapi.clients.KudagoClient;
 import edu.java.kudagoapi.dtos.CategoryDto;
+import edu.java.kudagoapi.events.CategoryServiceInitializedEvent;
 import edu.java.kudagoapi.exceptions.*;
 import edu.java.kudagoapi.model.Category;
 import edu.java.kudagoapi.repositories.CategoryRepository;
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -14,22 +18,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository repository;
     private final ModelMapper mapper;
-    private final KudagoClient kudagoClient;
-
-    public CategoryServiceImpl(
-            CategoryRepository repository, ModelMapper mapper, KudagoClient kudagoClient) {
-        this.repository = repository;
-        this.mapper = mapper;
-        this.kudagoClient = kudagoClient;
-    }
+    private final ApplicationEventPublisher eventPublisher;
 
     @PostConstruct
-    private void initialFill() {
-        saveAll(kudagoClient.getCategories());
+    public void init() {
+        eventPublisher.publishEvent(new CategoryServiceInitializedEvent(this));
     }
 
     @Override

@@ -1,5 +1,6 @@
 package edu.java.kudagoapi.controllers;
 
+import edu.java.customaspect.annotations.Timed;
 import edu.java.kudagoapi.dtos.LocationDto;
 import edu.java.kudagoapi.services.LocationService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/locations")
 @RequiredArgsConstructor
+@Timed
 public class LocationController {
 
     private final LocationService service;

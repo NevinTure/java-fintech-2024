@@ -27,7 +27,6 @@ public class TimedAspect {
         String methodName = getMethodName(signature);
         String className = getClassName(signature);
         log.info(String.format("Method: %s from class: %s started", methodName, className));
-        System.out.println("kek");
         long startTime = System.currentTimeMillis();
         Object result = joinPoint.proceed();
         long endTime = System.currentTimeMillis();

@@ -1,5 +1,6 @@
 package edu.java.kudagoapi.controllers;
 
+import edu.java.customaspect.annotations.Timed;
 import edu.java.kudagoapi.dtos.CategoryDto;
 import edu.java.kudagoapi.services.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/places/categories")
 @RequiredArgsConstructor
+@Timed
 public class CategoryController {
 
     private final CategoryService service;
