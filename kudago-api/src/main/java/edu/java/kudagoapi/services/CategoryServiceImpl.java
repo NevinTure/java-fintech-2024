@@ -2,8 +2,7 @@ package edu.java.kudagoapi.services;
 
 import edu.java.kudagoapi.clients.KudagoClient;
 import edu.java.kudagoapi.dtos.CategoryDto;
-import edu.java.kudagoapi.exceptions.BadRequestApiException;
-import edu.java.kudagoapi.exceptions.NotFoundApiException;
+import edu.java.kudagoapi.exceptions.*;
 import edu.java.kudagoapi.model.Category;
 import edu.java.kudagoapi.repositories.CategoryRepository;
 import jakarta.annotation.PostConstruct;
@@ -35,14 +34,14 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public ResponseEntity<Object> save(CategoryDto dto, long id) {
-        validateParams(dto, id);
+        validateParams(id);
         Category category = mapper.map(dto, Category.class);
         category.setId(id);
         repository.save(category);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private void validateParams(CategoryDto dto, long id) {
+    private void validateParams( long id) {
         if (repository.findById(id).isPresent()) {
             throw new BadRequestApiException(
                     String.format("Category with id %d already exists", id));
@@ -66,8 +65,27 @@ public class CategoryServiceImpl implements CategoryService {
             return ResponseEntity
                     .ok(mapper.map(categoryOptional.get(), CategoryDto.class));
         }
-        throw new NotFoundApiException(
-                String.format("Category with id %d not found", id));
+        throw new CategoryNotFoundApiException(id);
+    }
+
+    @Override
+    public ResponseEntity<List<CategoryDto>> findAll() {
+        return ResponseEntity.ok(repository
+                .findAll()
+                .stream()
+                .map(v -> mapper.map(v, CategoryDto.class))
+                .toList());
+    }
+
+    @Override
+    public ResponseEntity<Object> update(CategoryDto dto, long id) {
+        Optional<Category> categoryOptional = repository.findById(id);
+        if (categoryOptional.isPresent()) {
+            Category category = mapper.map(dto, Category.class);
+            category.setId(id);
+            repository.save(category);
+        }
+        throw new CategoryNotFoundApiException(id);
     }
 
     @Override
@@ -77,7 +95,6 @@ public class CategoryServiceImpl implements CategoryService {
             repository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);
         }
-        throw new NotFoundApiException(
-                String.format("Category with id %d not found", id));
+        throw new CategoryNotFoundApiException(id);
     }
 }

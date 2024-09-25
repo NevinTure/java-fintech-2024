@@ -10,7 +10,11 @@ public interface LocationService {
 
     ResponseEntity<Object> saveAll(List<LocationDto> dtos);
 
-    ResponseEntity<LocationDto> findById(String id);
+    ResponseEntity<LocationDto> getById(String id);
+
+    ResponseEntity<List<LocationDto>> findAll();
+
+    ResponseEntity<Object> update(LocationDto dto, String id);
 
     ResponseEntity<Object> deleteById(String id);
 }

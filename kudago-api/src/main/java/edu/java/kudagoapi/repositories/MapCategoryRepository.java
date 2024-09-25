@@ -34,6 +34,11 @@ public class MapCategoryRepository implements CategoryRepository {
     }
 
     @Override
+    public List<Category> findAll() {
+        return new ArrayList<>(categories.values());
+    }
+
+    @Override
     public void deleteById(long id) {
         categories.remove(id);
     }

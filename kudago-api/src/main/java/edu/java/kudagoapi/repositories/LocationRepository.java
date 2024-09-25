@@ -12,5 +12,7 @@ public interface LocationRepository {
 
     Optional<Location> findById(String id);
 
+    List<Location> findAll();
+
     void deleteById(String id);
 }

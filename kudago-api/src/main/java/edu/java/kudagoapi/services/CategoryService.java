@@ -12,5 +12,9 @@ public interface CategoryService {
 
     ResponseEntity<CategoryDto> getById(long id);
 
+    ResponseEntity<List<CategoryDto>> findAll();
+
+    ResponseEntity<Object> update(CategoryDto dto, long id);
+
     ResponseEntity<Object> deleteById(long id);
 }

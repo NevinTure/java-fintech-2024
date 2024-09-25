@@ -2,8 +2,7 @@ package edu.java.kudagoapi.services;
 
 import edu.java.kudagoapi.clients.KudagoClient;
 import edu.java.kudagoapi.dtos.LocationDto;
-import edu.java.kudagoapi.exceptions.BadRequestApiException;
-import edu.java.kudagoapi.exceptions.NotFoundApiException;
+import edu.java.kudagoapi.exceptions.*;
 import edu.java.kudagoapi.model.Location;
 import edu.java.kudagoapi.repositories.LocationRepository;
 import jakarta.annotation.PostConstruct;
@@ -62,15 +61,33 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public ResponseEntity<LocationDto> findById(String id) {
+    public ResponseEntity<LocationDto> getById(String id) {
         Optional<Location> locationOptional = repository.findById(id);
         if (locationOptional.isPresent()) {
             return ResponseEntity
                     .ok(mapper.map(locationOptional.get(), LocationDto.class));
         }
-        throw new NotFoundApiException(
-                String.format("Location with id %s not found", id)
-        );
+        throw new LocationNotFoundApiException(id);
+    }
+
+    @Override
+    public ResponseEntity<List<LocationDto>> findAll() {
+        return ResponseEntity.ok(repository
+                .findAll()
+                .stream()
+                .map(v -> mapper.map(v, LocationDto.class))
+                .toList());
+    }
+
+    @Override
+    public ResponseEntity<Object> update(LocationDto dto, String id) {
+        Optional<Location> locationOptional = repository.findById(id);
+        if (locationOptional.isPresent()) {
+            Location location = mapper.map(dto, Location.class);
+            location.setName(id);
+            repository.save(location);
+        }
+        throw new LocationNotFoundApiException(id);
     }
 
     @Override
@@ -80,8 +97,6 @@ public class LocationServiceImpl implements LocationService {
             repository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);
         }
-        throw new NotFoundApiException(
-                String.format("Location with id %s not found", id)
-        );
+        throw new LocationNotFoundApiException(id);
     }
 }

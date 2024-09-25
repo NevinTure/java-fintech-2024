@@ -34,6 +34,11 @@ public class MapLocationRepository implements LocationRepository {
     }
 
     @Override
+    public List<Location> findAll() {
+        return new ArrayList<>(locations.values());
+    }
+
+    @Override
     public void deleteById(String id) {
         locations.remove(id);
     }
