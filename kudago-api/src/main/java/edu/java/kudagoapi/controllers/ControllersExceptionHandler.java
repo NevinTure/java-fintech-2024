@@ -43,6 +43,7 @@ public class ControllersExceptionHandler extends ResponseEntityExceptionHandler 
                 .getAllErrors()
                 .stream()
                 .map(v -> ((FieldError) v).getField())
+                .sorted()
                 .toList();
         ApiErrorResponse response = new ApiErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),

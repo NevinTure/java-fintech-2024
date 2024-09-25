@@ -26,24 +26,24 @@ public class LocationController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<LocationDto> getById(@PathVariable("id") @Size(min = 1) String id) {
+    public ResponseEntity<LocationDto> getById(@PathVariable("id") @Size(min = 2) String id) {
         return service.getById(id);
     }
 
     @PostMapping("/{id}")
     public ResponseEntity<Object> create(
-            @PathVariable("id") @Size(min = 1) String id, @RequestBody @Valid LocationDto dto) {
+            @PathVariable("id") @Size(min = 2) String id, @RequestBody @Valid LocationDto dto) {
         return service.save(dto, id);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> putUpdate(
-            @PathVariable("id") @Size(min = 1) String id, @RequestBody @Valid LocationDto dto) {
-        return service.update(dto, id);
+            @PathVariable("id") @Size(min = 2) String id, @RequestBody @Valid LocationDto dto) {
+        return service.fullUpdate(dto, id);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete(@PathVariable("id") @Size(min = 1) String id) {
+    public ResponseEntity<Object> delete(@PathVariable("id") @Size(min = 2) String id) {
         return service.deleteById(id);
     }
 }

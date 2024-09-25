@@ -14,7 +14,7 @@ public interface LocationService {
 
     ResponseEntity<List<LocationDto>> findAll();
 
-    ResponseEntity<Object> update(LocationDto dto, String id);
+    ResponseEntity<Object> fullUpdate(LocationDto dto, String id);
 
     ResponseEntity<Object> deleteById(String id);
 }

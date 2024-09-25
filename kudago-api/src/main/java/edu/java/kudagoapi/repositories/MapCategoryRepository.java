@@ -22,6 +22,9 @@ public class MapCategoryRepository implements CategoryRepository {
 
     @Override
     public List<Category> saveAll(List<Category> categoryList) {
+        if (categoryList == null || categoryList.isEmpty()) {
+            return List.of();
+        }
         for (Category category : categoryList) {
             categories.put(category.getId(), category);
         }

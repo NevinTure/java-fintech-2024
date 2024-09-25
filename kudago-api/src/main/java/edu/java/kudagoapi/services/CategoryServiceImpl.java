@@ -75,7 +75,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public ResponseEntity<Object> update(CategoryDto dto, long id) {
+    public ResponseEntity<Object> fullUpdate(CategoryDto dto, long id) {
         Optional<Category> categoryOptional = repository.findById(id);
         if (categoryOptional.isPresent()) {
             Category category = mapper.map(dto, Category.class);

@@ -76,7 +76,7 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public ResponseEntity<Object> update(LocationDto dto, String id) {
+    public ResponseEntity<Object> fullUpdate(LocationDto dto, String id) {
         Optional<Location> locationOptional = repository.findById(id);
         if (locationOptional.isPresent()) {
             Location location = mapper.map(dto, Location.class);

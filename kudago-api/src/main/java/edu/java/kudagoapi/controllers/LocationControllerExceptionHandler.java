@@ -16,6 +16,6 @@ public class LocationControllerExceptionHandler {
                 ex.getCode(),
                 ex.getMessage()
         );
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 }

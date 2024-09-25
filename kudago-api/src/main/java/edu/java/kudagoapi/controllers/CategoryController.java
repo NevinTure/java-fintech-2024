@@ -39,7 +39,7 @@ public class CategoryController {
     @PutMapping("/{id}")
     public ResponseEntity<Object> putUpdate(
             @PathVariable("id") @Min(0) long id, @RequestBody @Valid CategoryDto dto) {
-        return service.update(dto, id);
+        return service.fullUpdate(dto, id);
     }
 
     @DeleteMapping("/{id}")
