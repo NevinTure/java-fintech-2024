@@ -1,9 +1,9 @@
 package edu.java.kudagoapi.services;
 
-import edu.java.kudagoapi.clients.KudagoClient;
 import edu.java.kudagoapi.dtos.LocationDto;
 import edu.java.kudagoapi.events.LocationServiceInitializedEvent;
-import edu.java.kudagoapi.exceptions.*;
+import edu.java.kudagoapi.exceptions.BadRequestApiException;
+import edu.java.kudagoapi.exceptions.LocationNotFoundApiException;
 import edu.java.kudagoapi.model.Location;
 import edu.java.kudagoapi.repositories.LocationRepository;
 import jakarta.annotation.PostConstruct;

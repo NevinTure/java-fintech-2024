@@ -3,8 +3,11 @@ package edu.java.kudagoapi.controllers;
 import edu.java.customaspect.annotations.Timed;
 import edu.java.kudagoapi.dtos.CategoryDto;
 import edu.java.kudagoapi.services.CategoryService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -12,6 +15,7 @@ import java.util.List;
 @RequestMapping("/api/v1/places/categories")
 @RequiredArgsConstructor
 @Timed
+@Validated
 public class CategoryController {
 
     private final CategoryService service;
@@ -22,22 +26,24 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryDto> getById(@PathVariable("id") long id) {
+    public ResponseEntity<CategoryDto> getById(@PathVariable("id") @Min(0) long id) {
         return service.getById(id);
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<Object> create(@PathVariable("id") long id, @RequestBody CategoryDto dto) {
+    public ResponseEntity<Object> create(
+            @PathVariable("id") @Min(0) long id, @RequestBody @Valid CategoryDto dto) {
         return service.save(dto, id);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> putUpdate(@PathVariable("id") long id, @RequestBody CategoryDto dto) {
+    public ResponseEntity<Object> putUpdate(
+            @PathVariable("id") @Min(0) long id, @RequestBody @Valid CategoryDto dto) {
         return service.update(dto, id);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete(@PathVariable("id") long id) {
+    public ResponseEntity<Object> delete(@PathVariable("id") @Min(0) long id) {
         return service.deleteById(id);
     }
 }

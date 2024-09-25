@@ -1,10 +1,9 @@
 package edu.java.kudagoapi.services;
 
-import edu.java.customaspect.annotations.Timed;
-import edu.java.kudagoapi.clients.KudagoClient;
 import edu.java.kudagoapi.dtos.CategoryDto;
 import edu.java.kudagoapi.events.CategoryServiceInitializedEvent;
-import edu.java.kudagoapi.exceptions.*;
+import edu.java.kudagoapi.exceptions.BadRequestApiException;
+import edu.java.kudagoapi.exceptions.CategoryNotFoundApiException;
 import edu.java.kudagoapi.model.Category;
 import edu.java.kudagoapi.repositories.CategoryRepository;
 import jakarta.annotation.PostConstruct;
@@ -39,7 +38,7 @@ public class CategoryServiceImpl implements CategoryService {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private void validateParams( long id) {
+    private void validateParams(long id) {
         if (repository.findById(id).isPresent()) {
             throw new BadRequestApiException(
                     String.format("Category with id %d already exists", id));
