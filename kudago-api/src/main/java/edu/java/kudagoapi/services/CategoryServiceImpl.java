@@ -47,12 +47,24 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public ResponseEntity<Object> saveAll(List<CategoryDto> dtos) {
+        if (dtos == null || dtos.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        validateDtos(dtos);
         List<Category> categories = dtos
                 .stream()
                 .map(v -> mapper.map(v, Category.class))
                 .toList();
         repository.saveAll(categories);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    private void validateDtos(List<CategoryDto> dtos) {
+        for (CategoryDto dto : dtos) {
+            if (dto.getId() == null) {
+                throw new BadRequestApiException("When saveAll category ids must be specified");
+            }
+        }
     }
 
     @Override
@@ -81,6 +93,7 @@ public class CategoryServiceImpl implements CategoryService {
             Category category = mapper.map(dto, Category.class);
             category.setId(id);
             repository.save(category);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         throw new CategoryNotFoundApiException(id);
     }

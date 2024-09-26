@@ -48,6 +48,9 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public ResponseEntity<Object> saveAll(List<LocationDto> dtos) {
+        if (dtos == null || dtos.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
         List<Location> locations = dtos
                 .stream()
                 .map(v -> mapper.map(v, Location.class))
@@ -82,6 +85,7 @@ public class LocationServiceImpl implements LocationService {
             Location location = mapper.map(dto, Location.class);
             location.setName(id);
             repository.save(location);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         throw new LocationNotFoundApiException(id);
     }

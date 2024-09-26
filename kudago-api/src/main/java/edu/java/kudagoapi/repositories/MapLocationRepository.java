@@ -22,9 +22,6 @@ public class MapLocationRepository implements LocationRepository {
 
     @Override
     public List<Location> saveAll(List<Location> locationList) {
-        if (locationList == null || locationList.isEmpty()) {
-            return List.of();
-        }
         for (Location location : locationList) {
             locations.put(location.getName(), location);
         }
