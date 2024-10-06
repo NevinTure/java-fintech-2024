@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.3.4'
     id 'io.spring.dependency-management' version '1.1.6'
+    id 'jacoco'
 }
 
 group = 'edu.java'
@@ -35,6 +36,28 @@ tasks.register('prepareKotlinBuildScriptModel') {
 
 }
 
+jacoco {
+    toolVersion = '0.8.12'
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+        html.required = true
+        csv.required = false
+    }
+
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, excludes: ['**/dtos/**'])
+        })
+    }
+}
+
+build {
+    dependsOn jacocoTestReport
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
@@ -50,9 +73,9 @@ dependencies {
     implementation project(':custom-aspect-starter')
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation
     implementation 'org.springframework.boot:spring-boot-starter-validation:3.3.4'
-
-
-
+    // https://mvnrepository.com/artifact/org.testcontainers/junit-jupiter
+    testImplementation "org.testcontainers:junit-jupiter:1.17.3"
+    testImplementation "org.wiremock.integrations.testcontainers:wiremock-testcontainers-module:1.0-alpha-14"
 
 }
 
