@@ -27,11 +27,11 @@ public class TimedAspect {
         String methodName = getMethodName(signature);
         String className = getClassName(signature);
         log.info(String.format("Method: %s from class: %s started", methodName, className));
-        long startTime = System.currentTimeMillis();
+        long startTime = System.nanoTime();
         Object result = joinPoint.proceed();
-        long endTime = System.currentTimeMillis();
+        long endTime = System.nanoTime();
         log.info(String
-                .format("Method: %s from class: %s took %d ms to finish",
+                .format("Method: %s from class: %s took %d ns to finish",
                         methodName, className, endTime - startTime));
         return result;
     }
