@@ -8,7 +8,7 @@ import org.springframework.web.client.RestClient;
 @Configuration
 public class CbrClientConfig {
 
-    private static final String BASE_URL = "https://api.stackexchange.com/2.3/questions/";
+    private static final String BASE_URL = "http://www.cbr.ru/";
 
     @Bean
     public RestClient cbrClient(ApplicationConfig applicationConfig) {
