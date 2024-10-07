@@ -4,3 +4,18 @@ app:
 spring:
   application:
     name: currency-api
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+        alphanumeric-ids:
+          enabled: true
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      CbrCurrencyClient_getCbrCurrencies:
+        register-health-indicator: true
+        sliding-window-size: 3
+        record-exceptions:
+          - java.lang.Exception

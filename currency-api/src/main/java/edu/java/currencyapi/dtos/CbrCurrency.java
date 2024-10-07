@@ -10,6 +10,8 @@ import java.math.BigDecimal;
 public class CbrCurrency {
     @JsonProperty("NumCode")
     private Integer code;
+    @JsonProperty("CharCode")
+    private String charCode;
     @JsonProperty("VunitRate")
     @JsonDeserialize(using = CbrCurrencyValueDeserializer.class)
     private BigDecimal value;
