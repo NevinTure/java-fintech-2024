@@ -1,3 +1,6 @@
+app:
+  cbr-base-api: http://www.cbr.ru/
+
 spring:
   application:
     name: currency-api
