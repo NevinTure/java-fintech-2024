@@ -14,3 +14,5 @@ resilience4j:
         sliding-window-size: 3
         record-exceptions:
           - java.lang.Exception
+server:
+  port: 8070

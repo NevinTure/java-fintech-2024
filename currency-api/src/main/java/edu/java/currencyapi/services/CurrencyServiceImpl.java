@@ -2,6 +2,7 @@ package edu.java.currencyapi.services;
 
 import edu.java.currencyapi.clients.CbrClient;
 import edu.java.currencyapi.dtos.*;
+import edu.java.currencyapi.exceptions.BadRequestApiException;
 import edu.java.currencyapi.exceptions.NotFoundApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +19,8 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     private final CbrClient client;
     private final Set<Currency> buildInCurrencies = Currency.getAvailableCurrencies();
+    private static final CbrCurrency RUBLE
+            = new CbrCurrency(643, "RUB", new BigDecimal(1));
 
     @Override
     public ResponseEntity<CurrencyRateResponse> getRate(Integer code) {
@@ -28,7 +32,7 @@ public class CurrencyServiceImpl implements CurrencyService {
                     new CurrencyRateResponse(currency.getCharCode(), currency.getValue()));
         }
         if (currencyOp.isEmpty()) {
-            throw new NotFoundApiException(String.format("Currency with code %d not found in CB api", code));
+            throw new BadRequestApiException(String.format("Currency with code %d not found in CB api", code));
         }
         throw new NotFoundApiException(String.format("Currency with code %d not found", code));
     }
@@ -39,9 +43,9 @@ public class CurrencyServiceImpl implements CurrencyService {
         BigDecimal from = getRateByStrCode(request.getFromCurrency());
         BigDecimal to = getRateByStrCode(request.getToCurrency());
         BigDecimal ans = from
+                .setScale(4, RoundingMode.HALF_UP)
                 .divide(to, RoundingMode.HALF_UP)
-                .multiply(amount)
-                .setScale(2, RoundingMode.HALF_UP);
+                .multiply(amount);
         return ResponseEntity
                 .ok(new CurrencyConvertResponse(
                         request.getFromCurrency(),
@@ -50,6 +54,9 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     private Optional<CbrCurrency> findCbrCurrency(Predicate<CbrCurrency> filter) {
+        if (filter.test(RUBLE)) {
+            return Optional.of(RUBLE);
+        }
         return client
                 .getCurrencies()
                 .getCurrencies()
@@ -72,7 +79,7 @@ public class CurrencyServiceImpl implements CurrencyService {
             return cbrCurrencyOp.get().getValue();
         }
         if (currencyOp.isEmpty()) {
-            throw new NotFoundApiException(String.format("Currency with code %s not found", strCode));
+            throw new BadRequestApiException(String.format("Currency with code %s not found", strCode));
         }
         throw new NotFoundApiException(String.format("Currency with code %s not found in CB api", strCode));
     }

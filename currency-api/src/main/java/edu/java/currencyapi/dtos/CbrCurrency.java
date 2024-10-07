@@ -3,10 +3,12 @@ package edu.java.currencyapi.dtos;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import edu.java.currencyapi.deserializers.CbrCurrencyValueDeserializer;
-import lombok.Data;
+import lombok.*;
 import java.math.BigDecimal;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class CbrCurrency {
     @JsonProperty("NumCode")
     private Integer code;
