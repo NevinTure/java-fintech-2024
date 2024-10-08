@@ -1,15 +1,14 @@
 package edu.java.currencyapi.controllers;
 
 import edu.java.currencyapi.dtos.ApiErrorResponse;
-import edu.java.currencyapi.exceptions.BadRequestApiException;
-import edu.java.currencyapi.exceptions.NotFoundApiException;
-import jakarta.validation.ConstraintViolationException;
+import edu.java.currencyapi.exceptions.*;
 import org.springframework.http.*;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import java.time.Duration;
 import java.util.List;
 
 @RestControllerAdvice
@@ -25,14 +24,16 @@ public class CurrencyControllerExceptionHandler extends ResponseEntityExceptionH
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<Object> handleConstraintViolation(ConstraintViolationException ex) {
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
+    @ExceptionHandler(ServiceUnavailableApiException.class)
+    public ResponseEntity<Object> handleServiceUnavailable(ServiceUnavailableApiException ex) {
         ApiErrorResponse response = new ApiErrorResponse(
-                HttpStatus.BAD_REQUEST.value(),
+                ex.getCode(),
                 ex.getMessage()
         );
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                .header("Retry-After", String.valueOf(Duration.ofHours(1).toSeconds()))
+                .body(response);
     }
 
     @Override

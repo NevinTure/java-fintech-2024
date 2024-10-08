@@ -3,10 +3,12 @@ package edu.java.currencyapi.dtos;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.*;
 import java.math.BigDecimal;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class CurrencyConvertRequest {
     @NotNull
     private String fromCurrency;

@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -32,9 +31,10 @@ public class CurrencyServiceImpl implements CurrencyService {
                     new CurrencyRateResponse(currency.getCharCode(), currency.getValue()));
         }
         if (currencyOp.isEmpty()) {
-            throw new BadRequestApiException(String.format("Currency with code %d not found in CB api", code));
+            throw new BadRequestApiException(String.format("Currency with code %d not found", code));
         }
-        throw new NotFoundApiException(String.format("Currency with code %d not found", code));
+        throw new NotFoundApiException(
+                String.format("Currency with code %d not found in CB response", code));
     }
 
     @Override
@@ -81,6 +81,7 @@ public class CurrencyServiceImpl implements CurrencyService {
         if (currencyOp.isEmpty()) {
             throw new BadRequestApiException(String.format("Currency with code %s not found", strCode));
         }
-        throw new NotFoundApiException(String.format("Currency with code %s not found in CB api", strCode));
+        throw new NotFoundApiException(
+                String.format("Currency with code %s not found in CB response", strCode));
     }
 }
