@@ -1,5 +1,6 @@
 app:
   cbr-base-api: http://www.cbr.ru/
+  cache-ttl: 1h
 
 spring:
   application:

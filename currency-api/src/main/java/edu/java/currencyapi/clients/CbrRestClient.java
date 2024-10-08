@@ -5,20 +5,24 @@ import edu.java.currencyapi.exceptions.ApiException;
 import edu.java.currencyapi.exceptions.ServiceUnavailableApiException;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
-import java.io.FileNotFoundException;
-import javax.naming.ServiceUnavailableException;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class CbrRestClient implements CbrClient {
 
     private final RestClient cbrClient;
 
     @Override
     @CircuitBreaker(name = "cbr-client", fallbackMethod = "circuitBreakerFallback")
+    @Cacheable("cbr-client")
     public CbrCurrenciesResponse getCurrencies() {
         return cbrClient
                 .get()
@@ -30,5 +34,11 @@ public class CbrRestClient implements CbrClient {
 
     public CbrCurrenciesResponse circuitBreakerFallback(Exception e) {
         throw new ServiceUnavailableApiException("Service Unavailable");
+    }
+
+    @CacheEvict(value = "cbr-client", allEntries = true)
+    @Scheduled(fixedRateString = "${app.cache-ttl}")
+    public void updateCache() {
+        log.info("Cache deleted!");
     }
 }
