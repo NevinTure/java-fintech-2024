@@ -1,7 +1,6 @@
 package edu.java.currencyapi.clients;
 
 import edu.java.currencyapi.dtos.CbrCurrenciesResponse;
-import edu.java.currencyapi.exceptions.ApiException;
 import edu.java.currencyapi.exceptions.ServiceUnavailableApiException;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;

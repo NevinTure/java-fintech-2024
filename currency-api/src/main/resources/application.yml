@@ -12,8 +12,11 @@ resilience4j:
       cbr-client:
         sliding-window-type: count_based
         register-health-indicator: true
-        sliding-window-size: 3
-        record-exceptions:
-          - java.lang.Exception
+        sliding-window-size: 10
+
 server:
   port: 8070
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui
