@@ -4,7 +4,6 @@ import edu.java.kudagoapi.IntegrationEnvironment;
 import edu.java.kudagoapi.clients.CurrencyClient;
 import edu.java.kudagoapi.clients.KudagoClient;
 import edu.java.kudagoapi.dtos.*;
-import edu.java.kudagoapi.dtos.events.EventsRequest;
 import edu.java.kudagoapi.dtos.events.EventsResponse;
 import edu.java.kudagoapi.services.EventService;
 import org.junit.jupiter.api.Test;
@@ -38,7 +37,7 @@ public class EventControllerTest extends IntegrationEnvironment {
 
     @Test
     public void test() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/api/v1/events/future")
+        MvcResult mvcResult = mockMvc.perform(get("/api/v1/events/reactor")
                         .queryParam("budget", "100")
                         .queryParam("currency", "RUB")
                         .queryParam("dateFrom", "2024-02-12")

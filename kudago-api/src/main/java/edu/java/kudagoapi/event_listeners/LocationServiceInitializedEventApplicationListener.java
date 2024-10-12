@@ -8,6 +8,7 @@ import edu.java.kudagoapi.services.LocationServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.util.concurrent.*;
@@ -19,7 +20,7 @@ public class LocationServiceInitializedEventApplicationListener
 
     private final KudagoClient kudagoClient;
     private final static String FIELDS = "name,slug,language";
-    private final ExecutorService kudagoUpdateExecutor;
+    private final ThreadPoolTaskExecutor kudagoUpdateExecutor;
     private final ScheduledExecutorService kudagoUpdateScheduler;
     @Value("${app.update-delay}")
     private Duration updateDelay;
