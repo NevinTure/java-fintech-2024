@@ -15,8 +15,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -86,11 +86,11 @@ public class CategoryControllerTest {
         mockMvc.perform(post("/api/v1/places/categories/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
-                        {
-                        "name": "test",
-                        "slug": "test"
-                        }
-                        """))
+                                {
+                                "name": "test",
+                                "slug": "test"
+                                }
+                                """))
                 .andExpect(status().isOk());
         Mockito.verify(service, Mockito.times(1)).save(dto, 1);
     }
@@ -111,11 +111,11 @@ public class CategoryControllerTest {
         mockMvc.perform(post("/api/v1/places/categories/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
-                        {
-                        "name": "test",
-                        "slug": "test"
-                        }
-                        """))
+                                {
+                                "name": "test",
+                                "slug": "test"
+                                }
+                                """))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().json("""
                         {
@@ -131,11 +131,11 @@ public class CategoryControllerTest {
         mockMvc.perform(post("/api/v1/places/categories/-1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
-                        {
-                        "name": "test",
-                        "slug": "test"
-                        }
-                        """))
+                                {
+                                "name": "test",
+                                "slug": "test"
+                                }
+                                """))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().json("""
                         {
@@ -151,11 +151,11 @@ public class CategoryControllerTest {
         mockMvc.perform(post("/api/v1/places/categories/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
-                        {
-                        "name": "",
-                        "slug": ""
-                        }
-                        """))
+                                {
+                                "name": "",
+                                "slug": ""
+                                }
+                                """))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().json("""
                         {
@@ -177,11 +177,11 @@ public class CategoryControllerTest {
         mockMvc.perform(put("/api/v1/places/categories/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
-                        {
-                        "name": "test",
-                        "slug": "test"
-                        }
-                        """))
+                                {
+                                "name": "test",
+                                "slug": "test"
+                                }
+                                """))
                 .andExpect(status().isOk());
         Mockito.verify(service, Mockito.times(1)).fullUpdate(dto, 1);
     }
@@ -201,11 +201,11 @@ public class CategoryControllerTest {
         mockMvc.perform(put("/api/v1/places/categories/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
-                        {
-                        "name": "test",
-                        "slug": "test"
-                        }
-                        """))
+                                {
+                                "name": "test",
+                                "slug": "test"
+                                }
+                                """))
                 .andExpect(status().isNotFound())
                 .andExpect(content().json("""
                         {
@@ -221,11 +221,11 @@ public class CategoryControllerTest {
         mockMvc.perform(put("/api/v1/places/categories/-1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
-                        {
-                        "name": "test",
-                        "slug": "test"
-                        }
-                        """))
+                                {
+                                "name": "test",
+                                "slug": "test"
+                                }
+                                """))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().json("""
                         {
@@ -241,11 +241,11 @@ public class CategoryControllerTest {
         mockMvc.perform(put("/api/v1/places/categories/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
-                        {
-                        "name": "",
-                        "slug": ""
-                        }
-                        """))
+                                {
+                                "name": "",
+                                "slug": ""
+                                }
+                                """))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().json("""
                         {
