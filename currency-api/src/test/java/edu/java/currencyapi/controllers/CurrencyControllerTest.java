@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.math.BigDecimal;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -85,7 +86,7 @@ public class CurrencyControllerTest {
                 new BigDecimal(30))));
 
         //then
-        mockMvc.perform(get("/currencies/convert")
+        mockMvc.perform(post("/currencies/convert")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                         {
@@ -112,7 +113,7 @@ public class CurrencyControllerTest {
                 .thenThrow(NotFoundApiException.class);
 
         //then
-        mockMvc.perform(get("/currencies/convert")
+        mockMvc.perform(post("/currencies/convert")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -135,7 +136,7 @@ public class CurrencyControllerTest {
                 .thenThrow(BadRequestApiException.class);
 
         //then
-        mockMvc.perform(get("/currencies/convert")
+        mockMvc.perform(post("/currencies/convert")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -150,7 +151,7 @@ public class CurrencyControllerTest {
     @Test
     public void testConvertWhenMissingParam() throws Exception {
         //then
-        mockMvc.perform(get("/currencies/convert")
+        mockMvc.perform(post("/currencies/convert")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -170,7 +171,7 @@ public class CurrencyControllerTest {
     @Test
     public void testConvertWhenNegativeAmount() throws Exception {
         //then
-        mockMvc.perform(get("/currencies/convert")
+        mockMvc.perform(post("/currencies/convert")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -198,7 +199,7 @@ public class CurrencyControllerTest {
         ))).thenThrow(ServiceUnavailableApiException.class);
 
         //then
-        mockMvc.perform(get("/currencies/convert")
+        mockMvc.perform(post("/currencies/convert")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {

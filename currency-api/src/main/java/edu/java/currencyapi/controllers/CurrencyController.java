@@ -23,7 +23,7 @@ public class CurrencyController {
         return service.getRate(code);
     }
 
-    @GetMapping("/convert")
+    @PostMapping("/convert")
     @Operation(summary = "Convert between currencies")
     public ResponseEntity<CurrencyConvertResponse> convert(@RequestBody @Valid CurrencyConvertRequest request) {
         return service.convert(request);
