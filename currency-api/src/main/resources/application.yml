@@ -1,0 +1,22 @@
+app:
+  cbr-base-api: http://www.cbr.ru/
+  cache-ttl: 1h
+
+spring:
+  application:
+    name: currency-api
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      cbr-client:
+        sliding-window-type: count_based
+        register-health-indicator: true
+        sliding-window-size: 10
+
+server:
+  port: 8070
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui
