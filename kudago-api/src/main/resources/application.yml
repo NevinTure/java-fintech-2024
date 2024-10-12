@@ -3,10 +3,28 @@ app:
   kudago-api-base-url: https://kudago.com/public-api/${app.api-version}
   pool-size: 5
   update-delay: 1h
+  currency-api-base-url: http://localhost:8070
 
 spring:
   application:
     name: kudago-api
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            loggerLevel: full
 
 server:
   port: 8090
+
+logging:
+  config: classpath:log4j2-plain.xml
+  level:
+    root: debug
+    org:
+      springframework:
+        web: trace
+      apache: trace
+debug: true
+

@@ -1,0 +1,21 @@
+{
+  "mappings": [
+    {
+      "request": {
+        "method": "POST",
+        "url": "/currencies/convert"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "jsonBody": {
+          "fromCurrency": "RUB",
+          "toCurrency": "RUB",
+          "convertedAmount": 100
+        }
+      }
+    }
+  ]
+}

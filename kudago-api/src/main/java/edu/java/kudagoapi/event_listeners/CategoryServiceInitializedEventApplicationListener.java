@@ -20,7 +20,7 @@ public class CategoryServiceInitializedEventApplicationListener
     private final KudagoClient kudagoClient;
     private final ExecutorService kudagoUpdateExecutor;
     private final ScheduledExecutorService kudagoUpdateScheduler;
-    @Value("app.update-delay")
+    @Value("${app.update-delay}")
     private Duration updateDelay;
 
     @Override

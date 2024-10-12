@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ExecutorConfig {
 
     @Bean
-    public ExecutorService kudagoUpdateExecutor(@Value("app.pool-size") int poolSize) {
+    public ExecutorService kudagoUpdateExecutor(@Value("${app.pool-size}") int poolSize) {
         ThreadFactory threadFactory = new ThreadFactory() {
 
             private final AtomicInteger threadNum = new AtomicInteger(1);

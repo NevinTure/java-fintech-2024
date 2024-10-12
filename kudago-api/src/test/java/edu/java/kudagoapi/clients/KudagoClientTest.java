@@ -1,32 +1,22 @@
 package edu.java.kudagoapi.clients;
 
+import edu.java.kudagoapi.IntegrationEnvironment;
 import edu.java.kudagoapi.dtos.CategoryDto;
 import edu.java.kudagoapi.dtos.LocationDto;
 import edu.java.kudagoapi.services.CategoryService;
 import edu.java.kudagoapi.services.LocationService;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import org.wiremock.integrations.testcontainers.WireMockContainer;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Testcontainers
-@SpringBootTest("app.kudago-api-base-url=http://localhost:8080")
-class KudagoClientTest {
-
-    static WireMockContainer server = new WireMockContainer("wiremock/wiremock:2.35.0")
-            .withMappingFromResource("kudago-api", KudagoClientTest.class, "kudago_client_mappings.json");
-
-    @BeforeAll
-    static void setup() {
-        server.setPortBindings(List.of("8080:8080"));
-        server.start();
-    }
+@SpringBootTest
+class KudagoClientTest extends IntegrationEnvironment {
 
     @Autowired
     KudagoClient kudagoClient;
