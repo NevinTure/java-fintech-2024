@@ -8,6 +8,7 @@ import java.time.Duration;
 @ConfigurationProperties(prefix = "app", ignoreUnknownFields = false)
 public record ApplicationConfig(
         String kudagoApiBaseUrl,
+        String currencyApiBaseUrl,
         String apiVersion,
         Integer poolSize,
         Duration updateDelay

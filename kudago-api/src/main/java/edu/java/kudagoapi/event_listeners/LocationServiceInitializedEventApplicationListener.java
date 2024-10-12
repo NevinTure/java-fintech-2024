@@ -21,7 +21,7 @@ public class LocationServiceInitializedEventApplicationListener
     private final static String FIELDS = "name,slug,language";
     private final ExecutorService kudagoUpdateExecutor;
     private final ScheduledExecutorService kudagoUpdateScheduler;
-    @Value("app.update-delay")
+    @Value("${app.update-delay}")
     private Duration updateDelay;
 
     @Override
