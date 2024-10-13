@@ -1,9 +1,10 @@
 app:
   api-version: v1.4
   kudago-api-base-url: https://kudago.com/public-api/${app.api-version}
+  currency-api-base-url: http://localhost:8070
   pool-size: 5
   update-delay: 1h
-  currency-api-base-url: http://localhost:8070
+  enable-update: true
 
 spring:
   application:

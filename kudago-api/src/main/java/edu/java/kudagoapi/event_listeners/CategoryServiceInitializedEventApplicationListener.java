@@ -7,6 +7,7 @@ import edu.java.kudagoapi.services.CategoryService;
 import edu.java.kudagoapi.services.CategoryServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationListener;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.util.concurrent.*;
 
 @Service
 @RequiredArgsConstructor
+@ConditionalOnProperty(prefix = "app", name = "enable-update", havingValue = "true")
 public class CategoryServiceInitializedEventApplicationListener
         implements ApplicationListener<CategoryServiceInitializedEvent> {
 

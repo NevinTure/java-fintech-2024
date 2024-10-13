@@ -11,7 +11,8 @@ public record ApplicationConfig(
         String currencyApiBaseUrl,
         String apiVersion,
         Integer poolSize,
-        Duration updateDelay
+        Duration updateDelay,
+        Boolean enableUpdate
 ) {
 
 }
