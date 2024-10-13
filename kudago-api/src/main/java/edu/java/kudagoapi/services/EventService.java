@@ -12,8 +12,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 @Service
@@ -36,11 +35,9 @@ public class EventService {
                         () -> currencyClient.convert(convertRequest));
         CompletableFuture<EventsResponse> eventsResponse =
                 CompletableFuture.supplyAsync(
-                        () -> kudagoClient.getEvents(eventsRequest)
-                );
-        eventsResponse
-                .thenAcceptBoth(currencyResponse, this::filterEventsResponse);
-        return eventsResponse;
+                        () -> kudagoClient.getEvents(eventsRequest));
+        return eventsResponse
+                .thenCombine(currencyResponse, this::createFilteredEventsResponse);
     }
 
     public Mono<EventsResponse> getEventsWithReactor(
@@ -53,10 +50,7 @@ public class EventService {
                 .fromSupplier(() -> currencyClient.convert(convertRequest));
         Mono<EventsResponse> eventsMono = Mono
                 .fromSupplier(() -> kudagoClient.getEvents(eventsRequest));
-        return eventsMono.zipWith(curConvMono, (evRes, curRes) -> {
-            filterEventsResponse(evRes, curRes);
-            return evRes;
-        });
+        return eventsMono.zipWith(curConvMono, this::createFilteredEventsResponse);
     }
 
     private CurrencyConvertRequest createConvertRequestWithDefaults(
@@ -71,16 +65,16 @@ public class EventService {
 
     private Map<String, String> createEventsRequestWithDefaults(LocalDate from, LocalDate to) {
         Map<String, String> request = new HashMap<>();
-        request.put("actual_since", (from == null ? LocalDate.MIN : from).toString());
-        request.put("actual_until", (to == null ? LocalDate.MAX : to).toString());
+        request.put("actual_since", (from == null ? LocalDate.ofEpochDay(0) : from).toString());
+        request.put("actual_until", (to == null ? LocalDate.ofEpochDay(1_000_000) : to).toString());
         request.put("fields", "id,place,location,price");
         request.put("expand", "place,location");
         request.put("page_size", "100");
         return request;
     }
 
-    private void filterEventsResponse(EventsResponse evRes, CurrencyConvertResponse curRes) {
-        evRes.setEvents(evRes
+    private EventsResponse createFilteredEventsResponse(EventsResponse evRes, CurrencyConvertResponse curRes) {
+        return new EventsResponse(evRes
                 .getEvents()
                 .stream()
                 .filter(v -> PriceParser
