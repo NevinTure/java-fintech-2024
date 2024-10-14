@@ -7,11 +7,11 @@ import edu.java.kudagoapi.dtos.CurrencyConvertResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
+@SemaphoreRateLimiter("currency")
 @FeignClient(name = "currency",
 url = "${app.currency-api-base-url}", configuration = BaseClientConfig.class)
 public interface CurrencyClient {
 
-    @SemaphoreRateLimiter("currency")
     @PostMapping("/currencies/convert")
     CurrencyConvertResponse convert(@RequestBody CurrencyConvertRequest request);
 

@@ -2,14 +2,14 @@ app:
   api-version: v1.4
   kudago-api-base-url: https://kudago.com/public-api/${app.api-version}
   currency-api-base-url: http://localhost:8070
-  pool-size: 5
+  pool-size: 2
   update-delay: 1h
   enable-update: true
 
 custom-aspect:
   rate-limiter-config:
     enable: true
-    acquire-timeout: 5s
+    acquire-timeout: 100ms
     permits: 10
 
 spring:
