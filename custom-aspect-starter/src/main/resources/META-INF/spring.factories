@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-edu.java.customaspect.autoconfiguration.TimedAnnotationAspectAutoConfiguration
+edu.java.customaspect.autoconfiguration.CustomAspectAutoConfiguration
