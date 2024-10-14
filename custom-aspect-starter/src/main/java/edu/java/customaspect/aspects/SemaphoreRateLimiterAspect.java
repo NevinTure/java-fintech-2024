@@ -48,7 +48,7 @@ public class SemaphoreRateLimiterAspect {
                 return joinPoint.proceed();
             } else {
                 throw new RateLimitException(String
-                        .format("Rate permits exceeded for rateLimiter: %s", id));
+                        .format("Rate limit exceeded for rateLimiter: %s", id));
             }
         } catch (Throwable e) {
             log.error(e.getMessage(), e);
