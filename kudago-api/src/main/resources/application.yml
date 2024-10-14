@@ -6,6 +6,12 @@ app:
   update-delay: 1h
   enable-update: true
 
+custom-aspect:
+  rate-limiter-config:
+    enable: true
+    acquire-timeout: 5s
+    permits: 10
+
 spring:
   application:
     name: kudago-api
@@ -22,4 +28,3 @@ logging:
 #        web: trace
 #      apache: trace
 #debug: true
-

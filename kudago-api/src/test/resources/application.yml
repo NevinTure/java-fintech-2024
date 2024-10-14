@@ -6,6 +6,12 @@ app:
   update-delay: 1ms
   enable-update: false
 
+custom-aspect:
+  rate-limiter-config:
+    enable: true
+    acquire-timeout: 10ms
+    permits: 1
+
 spring:
   application:
     name: kudago-api
