@@ -1,7 +1,6 @@
 package edu.java.kudagoapi.services;
 
-import edu.java.kudagoapi.clients.CurrencyClient;
-import edu.java.kudagoapi.clients.KudagoClient;
+import edu.java.kudagoapi.clients.*;
 import edu.java.kudagoapi.dtos.CurrencyConvertRequest;
 import edu.java.kudagoapi.dtos.CurrencyConvertResponse;
 import edu.java.kudagoapi.dtos.events.EventsResponse;
@@ -12,7 +11,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 @Service
@@ -21,7 +21,9 @@ public class EventService {
 
     private final CurrencyClient currencyClient;
     private final KudagoClient kudagoClient;
+    private final KudagoWebClient kudagoWebClient;
     private static final String RUBLE = "RUB";
+    private static final int PAGE_SIZE = 1000;
 
     @Async
     public CompletableFuture<EventsResponse> getEventsWithFuture(
@@ -42,15 +44,12 @@ public class EventService {
 
     public Mono<EventsResponse> getEventsWithReactor(
             BigDecimal budget, String currency, LocalDate from, LocalDate to) {
-
         CurrencyConvertRequest convertRequest = createConvertRequestWithDefaults(budget, currency);
         Map<String, String> eventsRequest = createEventsRequestWithDefaults(from, to);
-
         Mono<CurrencyConvertResponse> curConvMono = Mono
                 .fromSupplier(() -> currencyClient.convert(convertRequest));
-        Mono<EventsResponse> eventsMono = Mono
-                .fromSupplier(() -> kudagoClient.getEvents(eventsRequest));
-        return eventsMono.zipWith(curConvMono, this::createFilteredEventsResponse);
+        return kudagoWebClient.getEvents(eventsRequest)
+                .zipWith(curConvMono, this::createFilteredEventsResponse);
     }
 
     private CurrencyConvertRequest createConvertRequestWithDefaults(
@@ -69,7 +68,7 @@ public class EventService {
         request.put("actual_until", (to == null ? LocalDate.ofEpochDay(1_000_000) : to).toString());
         request.put("fields", "id,place,location,price");
         request.put("expand", "place,location");
-        request.put("page_size", "100");
+        request.put("page_size", String.valueOf(PAGE_SIZE));
         return request;
     }
 

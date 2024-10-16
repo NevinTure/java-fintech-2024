@@ -61,7 +61,7 @@
     {
       "request": {
         "method": "GET",
-        "url": "/events?expand=place%2Clocation&fields=id%2Cplace%2Clocation%2Cprice&actual_since=2024-08-12&actual_until=2024-10-12&page_size=100"
+        "url": "/events?expand=place%2Clocation&fields=id%2Cplace%2Clocation%2Cprice&actual_since=2024-08-12&actual_until=2024-10-12&page_size=1000"
       },
       "response": {
         "status": 200,
@@ -190,7 +190,7 @@
     {
       "request": {
         "method": "GET",
-        "url": "/events?expand=place%2Clocation&fields=id%2Cplace%2Clocation%2Cprice&actual_since=1970-01-01&actual_until=4707-11-29&page_size=100"
+        "url": "/events?expand=place%2Clocation&fields=id%2Cplace%2Clocation%2Cprice&actual_since=1970-01-01&actual_until=4707-11-29&page_size=1000"
       },
       "response": {
         "status": 200,

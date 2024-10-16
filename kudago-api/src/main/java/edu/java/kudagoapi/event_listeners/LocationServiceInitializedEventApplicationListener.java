@@ -12,7 +12,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import java.time.Duration;
-import java.util.concurrent.*;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +23,7 @@ public class LocationServiceInitializedEventApplicationListener
 
     private final KudagoClient kudagoClient;
     private final static String FIELDS = "name,slug,language";
-    private final ThreadPoolTaskExecutor kudagoUpdateExecutor;
+    private final ThreadPoolTaskExecutor kudagoExecutor;
     private final ScheduledExecutorService kudagoUpdateScheduler;
     @Value("${app.update-delay}")
     private Duration updateDelay;
@@ -32,7 +33,7 @@ public class LocationServiceInitializedEventApplicationListener
     public void onApplicationEvent(LocationServiceInitializedEvent event) {
         LocationService locationService = (LocationServiceImpl) event.getSource();
         kudagoUpdateScheduler.schedule(
-                () -> kudagoUpdateExecutor
+                () -> kudagoExecutor
                         .submit(() -> locationService.saveAll(kudagoClient.getLocations(FIELDS))),
                 updateDelay.getSeconds(), TimeUnit.SECONDS);
     }
