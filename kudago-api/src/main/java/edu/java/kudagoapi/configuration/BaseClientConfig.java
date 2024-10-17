@@ -1,13 +1,13 @@
 package edu.java.kudagoapi.configuration;
 
-import edu.java.kudagoapi.clients.KudagoClientErrorDecoder;
+import edu.java.kudagoapi.clients.ErrorDecoderImpl;
 import feign.codec.ErrorDecoder;
 import org.springframework.context.annotation.Bean;
 
-public class KudagoClientConfig {
+public class BaseClientConfig {
 
     @Bean
     public ErrorDecoder errorDecoder() {
-        return new KudagoClientErrorDecoder();
+        return new ErrorDecoderImpl();
     }
 }
