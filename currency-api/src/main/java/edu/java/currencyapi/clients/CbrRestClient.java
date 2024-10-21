@@ -38,6 +38,6 @@ public class CbrRestClient implements CbrClient {
     @CacheEvict(value = "cbr-client", allEntries = true)
     @Scheduled(fixedRateString = "${app.cache-ttl}")
     public void updateCache() {
-        log.info("Cache deleted!");
+        log.debug("Cache deleted!");
     }
 }
