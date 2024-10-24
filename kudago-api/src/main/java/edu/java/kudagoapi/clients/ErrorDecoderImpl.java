@@ -4,7 +4,7 @@ import edu.java.kudagoapi.exceptions.ApiException;
 import feign.Response;
 import feign.codec.ErrorDecoder;
 
-public class KudagoClientErrorDecoder implements ErrorDecoder {
+public class ErrorDecoderImpl implements ErrorDecoder {
 
     @Override
     public Exception decode(String methodKey, Response response) {
