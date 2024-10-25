@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.*;
 
-@Service
 @RequiredArgsConstructor
 public class LocationServiceImpl implements LocationService {
 

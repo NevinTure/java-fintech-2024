@@ -11,6 +11,9 @@ import java.time.LocalDate;
 @EqualsAndHashCode(exclude = "location")
 @ToString
 @Entity
+@NamedEntityGraph(
+        name = "event_entity-graph", attributeNodes = @NamedAttributeNode("location")
+)
 @Table(name = "event")
 public class Event {
     @Id

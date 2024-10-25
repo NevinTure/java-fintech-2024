@@ -1,7 +1,7 @@
 package edu.java.kudagoapi.services;
 
-import edu.java.kudagoapi.dtos.CategoryDto;
 import edu.java.kudagoapi.dtos.events.EventDto;
+import edu.java.kudagoapi.dtos.events.EventDtoResponse;
 import org.springframework.http.ResponseEntity;
 import java.util.List;
 

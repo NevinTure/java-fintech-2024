@@ -5,8 +5,7 @@ import edu.java.kudagoapi.model.Location;
 import feign.Param;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.*;
@@ -17,12 +16,13 @@ public interface JpaEventRepository extends JpaRepository<Event, Long> {
     @Query("from Event e join fetch e.location where e.id = :id")
     Optional<Event> findById(@Param("id") @NotNull Long id);
 
+    @EntityGraph("event_entity-graph")
     List<Event> findAll(Specification<Event> spec);
 
-    static Specification<Event> buildSpecification(String slug, Location location, LocalDate fromDate, LocalDate toDate) {
+    static Specification<Event> buildSpecification(String title, Location location, LocalDate fromDate, LocalDate toDate) {
         List<Specification<Event>> specs = new ArrayList<>();
-        if (slug != null) {
-            specs.add((Specification<Event>) (event, query, cb) -> cb.equal(event.get("slug"), slug));
+        if (title != null) {
+            specs.add((Specification<Event>) (event, query, cb) -> cb.equal(event.get("title"), title));
         }
         if (location != null) {
             specs.add((Specification<Event>) (event, query, cb) -> cb.equal(event.get("location"), location));

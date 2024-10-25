@@ -2,7 +2,7 @@ package edu.java.kudagoapi.services;
 
 import edu.java.kudagoapi.IntegrationEnvironment;
 import edu.java.kudagoapi.dtos.LocationDto;
-import edu.java.kudagoapi.dtos.events.EventDto;
+import edu.java.kudagoapi.dtos.events.EventDtoResponse;
 import edu.java.kudagoapi.dtos.events.EventsResponse;
 import edu.java.kudagoapi.exceptions.ApiException;
 import lombok.SneakyThrows;
@@ -17,10 +17,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @SpringBootTest
-public class EventServiceImplTest extends IntegrationEnvironment {
+public class EventCollectorServiceTest extends IntegrationEnvironment {
 
     @Autowired
-    private EventServiceImpl service;
+    private EventCollectorService service;
 
     @Test
     @SneakyThrows
@@ -33,7 +33,7 @@ public class EventServiceImplTest extends IntegrationEnvironment {
                 LocalDate.of(2024, 10, 12)).get();
 
         //then
-        EventDto expectedFirst = new EventDto(
+        EventDtoResponse expectedFirst = new EventDtoResponse(
                 192427L,
                 null,
                 new LocationDto(
@@ -66,7 +66,7 @@ public class EventServiceImplTest extends IntegrationEnvironment {
                 LocalDate.of(2024, 10, 12)).block();
 
         //then
-        EventDto expectedFirst = new EventDto(
+        EventDtoResponse expectedFirst = new EventDtoResponse(
                 192427L,
                 null,
                 new LocationDto(

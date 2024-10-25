@@ -1,8 +1,7 @@
 package edu.java.kudagoapi.controllers;
 
 import edu.java.kudagoapi.dtos.events.EventsResponse;
-import edu.java.kudagoapi.services.ConcurrentEventService;
-import edu.java.kudagoapi.services.EventServiceImpl;
+import edu.java.kudagoapi.services.EventCollectorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -15,7 +14,7 @@ import java.util.concurrent.CompletableFuture;
 @RequiredArgsConstructor
 public class EventController {
 
-    private final ConcurrentEventService service;
+    private final EventCollectorService collectorService;
 
     @GetMapping("/future")
     public CompletableFuture<EventsResponse> getEventsWithFuture(
@@ -23,7 +22,7 @@ public class EventController {
             @RequestParam("currency") String currency,
             @RequestParam(value = "dateFrom", required = false) LocalDate from,
             @RequestParam(value = "dateTo", required = false) LocalDate to) {
-        return service.getEventsWithFuture(budget, currency, from, to);
+        return collectorService.getEventsWithFuture(budget, currency, from, to);
     }
 
     @GetMapping("/reactor")
@@ -32,7 +31,7 @@ public class EventController {
             @RequestParam("currency") String currency,
             @RequestParam(value = "dateFrom", required = false) LocalDate from,
             @RequestParam(value = "dateTo", required = false) LocalDate to) {
-        return service.getEventsWithReactor(budget, currency, from, to);
+        return collectorService.getEventsWithReactor(budget, currency, from, to);
     }
 
 }

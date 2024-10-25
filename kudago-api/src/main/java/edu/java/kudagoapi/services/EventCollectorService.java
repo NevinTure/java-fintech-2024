@@ -3,12 +3,11 @@ package edu.java.kudagoapi.services;
 import edu.java.kudagoapi.clients.*;
 import edu.java.kudagoapi.dtos.CurrencyConvertRequest;
 import edu.java.kudagoapi.dtos.CurrencyConvertResponse;
-import edu.java.kudagoapi.dtos.events.EventDto;
 import edu.java.kudagoapi.dtos.events.EventsResponse;
 import edu.java.kudagoapi.repositories.JpaEventRepository;
 import edu.java.kudagoapi.utils.PriceParser;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.modelmapper.ModelMapper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -19,12 +18,13 @@ import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
-public class EventServiceImpl implements ConcurrentEventService {
+public class EventCollectorService {
 
     private final CurrencyClient currencyClient;
     private final KudagoClient kudagoClient;
     private final KudagoWebClient kudagoWebClient;
     private final JpaEventRepository repo;
+    private final ModelMapper mapper;
     private static final String RUBLE = "RUB";
     private static final int PAGE_SIZE = 1000;
 
@@ -82,30 +82,5 @@ public class EventServiceImpl implements ConcurrentEventService {
                 .filter(v -> PriceParser
                         .toBigDecimal(v.getPrice()).compareTo(curRes.getConvertedAmount()) <= 0)
                 .toList());
-    }
-
-    @Override
-    public ResponseEntity<Object> save(EventDto dto) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<EventDto> getById(long id) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<List<EventDto>> findAll() {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<Object> fullUpdate(long id, EventDto dto) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<Object> deleteById(long id) {
-        return null;
     }
 }
