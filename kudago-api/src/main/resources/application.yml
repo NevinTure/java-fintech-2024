@@ -15,6 +15,8 @@ custom-aspect:
 spring:
   application:
     name: kudago-api
+  liquibase:
+    enabled: false
 
 server:
   port: 8090
