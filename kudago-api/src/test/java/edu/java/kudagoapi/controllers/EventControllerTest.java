@@ -4,7 +4,7 @@ import edu.java.kudagoapi.IntegrationEnvironment;
 import edu.java.kudagoapi.dtos.LocationDto;
 import edu.java.kudagoapi.dtos.events.*;
 import edu.java.kudagoapi.exceptions.BadRequestApiException;
-import edu.java.kudagoapi.services.EventService;
+import edu.java.kudagoapi.services.EventServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class EventControllerTest extends IntegrationEnvironment {
 
     @MockBean
-    private EventService service;
+    private EventServiceImpl service;
     @Autowired
     private MockMvc mockMvc;
 

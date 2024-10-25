@@ -1,7 +1,8 @@
 package edu.java.kudagoapi.controllers;
 
 import edu.java.kudagoapi.dtos.events.EventsResponse;
-import edu.java.kudagoapi.services.EventService;
+import edu.java.kudagoapi.services.ConcurrentEventService;
+import edu.java.kudagoapi.services.EventServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -14,7 +15,7 @@ import java.util.concurrent.CompletableFuture;
 @RequiredArgsConstructor
 public class EventController {
 
-    private final EventService service;
+    private final ConcurrentEventService service;
 
     @GetMapping("/future")
     public CompletableFuture<EventsResponse> getEventsWithFuture(

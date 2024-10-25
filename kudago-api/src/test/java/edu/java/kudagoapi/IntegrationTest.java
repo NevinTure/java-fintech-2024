@@ -49,8 +49,7 @@ public class IntegrationTest extends IntegrationEnvironment {
                 location
         );
         eventRepository.save(event2);
-        List<Event> events = eventRepository.findAll(JpaEventRepository
-                .buildSpecification("test1", null, null, null));
-        System.out.println(events.getFirst().getLocation());
+        Event event = eventRepository.findById(1L).get();
+        System.out.println(event.getLocation());
     }
 }

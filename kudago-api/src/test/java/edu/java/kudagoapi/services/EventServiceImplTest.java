@@ -17,10 +17,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @SpringBootTest
-public class EventServiceTest extends IntegrationEnvironment {
+public class EventServiceImplTest extends IntegrationEnvironment {
 
     @Autowired
-    private EventService service;
+    private EventServiceImpl service;
 
     @Test
     @SneakyThrows
