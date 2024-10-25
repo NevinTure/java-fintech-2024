@@ -4,7 +4,7 @@ import edu.java.customaspect.annotations.Timed;
 import edu.java.kudagoapi.dtos.LocationDto;
 import edu.java.kudagoapi.services.LocationService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -26,24 +26,23 @@ public class LocationController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<LocationDto> getById(@PathVariable("id") @Size(min = 2) String id) {
+    public ResponseEntity<LocationDto> getById(@PathVariable("id") @Min(0) long id) {
         return service.getById(id);
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<Object> create(
-            @PathVariable("id") @Size(min = 2) String id, @RequestBody @Valid LocationDto dto) {
-        return service.save(dto, id);
+    @PostMapping
+    public ResponseEntity<Object> create(@RequestBody @Valid LocationDto dto) {
+        return service.save(dto);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> putUpdate(
-            @PathVariable("id") @Size(min = 2) String id, @RequestBody @Valid LocationDto dto) {
-        return service.fullUpdate(dto, id);
+            @PathVariable("id") @Min(0) long id, @RequestBody @Valid LocationDto dto) {
+        return service.fullUpdate(id, dto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete(@PathVariable("id") @Size(min = 2) String id) {
+    public ResponseEntity<Object> delete(@PathVariable("id") @Min(0) long id) {
         return service.deleteById(id);
     }
 }

@@ -1,5 +1,6 @@
 package edu.java.kudagoapi.services;
 
+import edu.java.kudagoapi.IntegrationEnvironment;
 import edu.java.kudagoapi.clients.KudagoClient;
 import edu.java.kudagoapi.dtos.CategoryDto;
 import edu.java.kudagoapi.exceptions.BadRequestApiException;
@@ -19,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @SpringBootTest
-public class CategoryServiceTest {
+public class CategoryServiceTest extends IntegrationEnvironment {
 
     @MockBean
     CategoryRepository repository;

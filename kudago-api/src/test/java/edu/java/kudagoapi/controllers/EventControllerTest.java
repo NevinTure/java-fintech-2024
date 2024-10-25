@@ -1,5 +1,6 @@
 package edu.java.kudagoapi.controllers;
 
+import edu.java.kudagoapi.IntegrationEnvironment;
 import edu.java.kudagoapi.dtos.LocationDto;
 import edu.java.kudagoapi.dtos.events.*;
 import edu.java.kudagoapi.exceptions.BadRequestApiException;
@@ -24,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class EventControllerTest {
+public class EventControllerTest extends IntegrationEnvironment {
 
     @MockBean
     private EventService service;

@@ -7,6 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode
 @Entity
 @Table(name = "location")
 public class Location {

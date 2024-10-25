@@ -29,21 +29,14 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public ResponseEntity<Object> save(LocationDto dto, String id) {
-        validateParams(dto, id);
+    public ResponseEntity<Object> save(LocationDto dto) {
+        if (repository.findBySlug(dto.getSlug()).isPresent()) {
+            throw new BadRequestApiException(
+                    String.format("Location with slug: %s already exists", dto.getSlug()));
+        }
         Location location = mapper.map(dto, Location.class);
         repository.save(location);
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    private void validateParams(LocationDto dto, String id) {
-        if (repository.findById(id).isPresent()) {
-            throw new BadRequestApiException(
-                    String.format("Location with id: %s already exists", id));
-        }
-        if (!Objects.equals(dto.getName(), id)) {
-            throw new BadRequestApiException("Id must match Location name");
-        }
     }
 
     @Override
@@ -60,7 +53,7 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public ResponseEntity<LocationDto> getById(String id) {
+    public ResponseEntity<LocationDto> getById(Long id) {
         Optional<Location> locationOptional = repository.findById(id);
         if (locationOptional.isPresent()) {
             return ResponseEntity
@@ -79,11 +72,11 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public ResponseEntity<Object> fullUpdate(LocationDto dto, String id) {
+    public ResponseEntity<Object> fullUpdate(Long id, LocationDto dto) {
         Optional<Location> locationOptional = repository.findById(id);
         if (locationOptional.isPresent()) {
             Location location = mapper.map(dto, Location.class);
-            location.setName(id);
+            location.setId(id);
             repository.save(location);
             return new ResponseEntity<>(HttpStatus.OK);
         }
@@ -91,7 +84,7 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public ResponseEntity<Object> deleteById(String id) {
+    public ResponseEntity<Object> deleteById(Long id) {
         Optional<Location> locationOptional = repository.findById(id);
         if (locationOptional.isPresent()) {
             repository.deleteById(id);

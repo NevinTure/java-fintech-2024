@@ -1,5 +1,6 @@
 package edu.java.kudagoapi.controllers;
 
+import edu.java.kudagoapi.IntegrationEnvironment;
 import edu.java.kudagoapi.clients.KudagoClient;
 import edu.java.kudagoapi.dtos.CategoryDto;
 import edu.java.kudagoapi.exceptions.BadRequestApiException;
@@ -20,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class CategoryControllerTest {
+public class CategoryControllerTest extends IntegrationEnvironment {
 
     @MockBean
     CategoryService service;
