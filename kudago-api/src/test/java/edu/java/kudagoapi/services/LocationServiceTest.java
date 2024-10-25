@@ -77,11 +77,11 @@ public class LocationServiceTest extends IntegrationEnvironment {
         //given
         Long id = 1L;
         Location location = new Location(
-                id,
                 "test",
                 "test",
                 "ru"
         );
+        location.setId(id);
         LocationDto dto = new LocationDto(
                 "test2",
                 "test",
@@ -101,11 +101,11 @@ public class LocationServiceTest extends IntegrationEnvironment {
         //given
         Long id = 1L;
         Location location = new Location(
-                id,
                 "test",
                 "test",
                 "ru"
         );
+        location.setId(id);
         LocationDto dto = mapper.map(location, LocationDto.class);
 
         //when
@@ -129,17 +129,17 @@ public class LocationServiceTest extends IntegrationEnvironment {
     public void testFindAll() {
         //given
         Location location1 = new Location(
-                1L,
                 "test1",
                 "test1",
                 "ru"
         );
+        location1.setId(1L);
         Location location2 = new Location(
-                2L,
                 "test2",
                 "test2",
                 "ru"
         );
+        location2.setId(2L);
         LocationDto dto1 = mapper.map(location1, LocationDto.class);
         LocationDto dto2 = mapper.map(location2, LocationDto.class);
 
@@ -156,11 +156,11 @@ public class LocationServiceTest extends IntegrationEnvironment {
         //given
         Long id = 1L;
         Location location = new Location(
-                id,
                 "test",
                 "test",
                 "ru"
         );
+        location.setId(id);
         LocationDto dto = new LocationDto(
                 "test2",
                 "test2",
@@ -200,11 +200,11 @@ public class LocationServiceTest extends IntegrationEnvironment {
         //given
         Long id = 1L;
         Location location = new Location(
-                id,
                 "test",
                 "test",
                 "ru"
         );
+        location.setId(id);
 
         //when
         Mockito.when(repository.findById(id)).thenReturn(Optional.of(location));
