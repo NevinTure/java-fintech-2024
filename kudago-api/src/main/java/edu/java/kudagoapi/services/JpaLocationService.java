@@ -58,10 +58,8 @@ public class JpaLocationService implements LocationService {
     public ResponseEntity<Object> fullUpdate(Long id, LocationDto dto) {
         Optional<Location> locationOp = repo.findById(id);
         if (locationOp.isPresent()) {
-            Location location = mapper.map(locationOp.get(), Location.class);
-            location.setId(id);
-            repo.save(location);
-            return new ResponseEntity<>(HttpStatus.OK);
+            dto.setId(id);
+            return save(dto);
         }
         throw new LocationNotFoundApiException(id);
     }

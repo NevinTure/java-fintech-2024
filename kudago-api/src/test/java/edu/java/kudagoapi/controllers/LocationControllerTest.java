@@ -109,7 +109,7 @@ public class LocationControllerTest extends IntegrationEnvironment {
 
         //when
         Mockito.when(service.save(dto))
-                .thenThrow(new BadRequestApiException("Location with slug test already exists"));
+                .thenThrow(new BadRequestApiException("Key (slug)=(test) already exists."));
 
         //then
         mockMvc.perform(post("/api/v1/locations")
@@ -125,7 +125,7 @@ public class LocationControllerTest extends IntegrationEnvironment {
                 .andExpect(content().json("""
                         {
                         "code": 400,
-                        "message": "Location with slug test already exists"
+                        "message": "Key (slug)=(test) already exists."
                         }
                         """));
     }

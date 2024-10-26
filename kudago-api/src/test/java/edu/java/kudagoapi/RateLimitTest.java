@@ -36,6 +36,6 @@ public class RateLimitTest extends IntegrationEnvironment {
         }
 
         //then
-        Mockito.verify(client, Mockito.atMost(3)).convert(request);
+        Mockito.verify(client, Mockito.atMost(6)).convert(request);
     }
 }

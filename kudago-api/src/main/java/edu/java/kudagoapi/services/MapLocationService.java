@@ -34,7 +34,7 @@ public class MapLocationService implements LocationService {
     public ResponseEntity<Object> save(LocationDto dto) {
         if (repository.findBySlug(dto.getSlug()).isPresent()) {
             throw new BadRequestApiException(
-                    String.format("Location with slug: %s already exists", dto.getSlug()));
+                    String.format("Key (slug)=(%s) already exists.", dto.getSlug()));
         }
         Location location = mapper.map(dto, Location.class);
         repository.save(location);
