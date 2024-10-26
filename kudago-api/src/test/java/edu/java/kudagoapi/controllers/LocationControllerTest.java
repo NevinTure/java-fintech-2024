@@ -146,7 +146,7 @@ public class LocationControllerTest extends IntegrationEnvironment {
                 .andExpect(content().json("""
                         {
                         "code": 400,
-                        "message": "Invalid request params: slug"
+                        "message": "Invalid request params: slug size must be between 1 and 2147483647"
                         }
                         """));
     }
@@ -243,7 +243,7 @@ public class LocationControllerTest extends IntegrationEnvironment {
                 .andExpect(content().json("""
                         {
                         "code": 400,
-                        "message": "Invalid request params: name, slug"
+                        "message": "Invalid request params: slug size must be between 1 and 2147483647"
                         }
                         """));
     }

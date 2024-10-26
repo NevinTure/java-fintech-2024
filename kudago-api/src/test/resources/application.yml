@@ -5,6 +5,7 @@ app:
   pool-size: 5
   update-delay: 1ms
   enable-update: false
+  database-access-type: jpa
 
 custom-aspect:
   rate-limiter-config:

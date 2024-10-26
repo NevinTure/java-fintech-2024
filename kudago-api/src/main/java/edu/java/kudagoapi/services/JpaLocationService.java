@@ -6,14 +6,16 @@ import edu.java.kudagoapi.model.Location;
 import edu.java.kudagoapi.repositories.JpaLocationRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service
 @RequiredArgsConstructor
+@ConditionalOnProperty(prefix = "app", value = "database-access-type", havingValue = "jpa")
+@Service
 public class JpaLocationService implements LocationService {
 
     private final JpaLocationRepository repo;

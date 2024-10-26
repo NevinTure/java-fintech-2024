@@ -19,8 +19,8 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-@SpringBootTest
-public class LocationServiceTest extends IntegrationEnvironment {
+@SpringBootTest("app.database-access-type=map")
+public class MapLocationServiceTest extends IntegrationEnvironment {
 
     @MockBean
     LocationRepository repository;

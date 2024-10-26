@@ -14,4 +14,10 @@ public class LocationDto {
     @NotNull
     private String slug;
     private String language;
+
+    public LocationDto(String name, String slug, String language) {
+        this.name = name;
+        this.slug = slug;
+        this.language = language;
+    }
 }

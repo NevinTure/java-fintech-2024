@@ -9,6 +9,7 @@ import edu.java.kudagoapi.repositories.LocationRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,9 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @RequiredArgsConstructor
-public class LocationServiceImpl implements LocationService {
+@ConditionalOnProperty(prefix = "app", value = "database-access-type", havingValue = "map")
+@Service
+public class MapLocationService implements LocationService {
 
     private final LocationRepository repository;
     private final ModelMapper mapper;
