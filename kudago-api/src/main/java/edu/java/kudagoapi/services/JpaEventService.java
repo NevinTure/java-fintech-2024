@@ -29,7 +29,6 @@ public class JpaEventService implements EventService {
 
     @Override
     public ResponseEntity<Object> save(EventDto dto) {
-        System.out.println(dto.toString());
         Event event = mapper.map(dto, Event.class);
         event.setLocation(getLocation(dto.getLocation()));
         eventRepo.save(event);
@@ -83,10 +82,8 @@ public class JpaEventService implements EventService {
     public ResponseEntity<Object> fullUpdate(long id, EventDto dto) {
         Optional<Event> eventOp = eventRepo.findById(id);
         if (eventOp.isPresent()) {
-            Event event = mapper.map(eventOp.get(), Event.class);
-            event.setId(id);
-            eventRepo.save(event);
-            return new ResponseEntity<>(HttpStatus.OK);
+            dto.setId(id);
+            return save(dto);
         }
         throw new EventNotFoundApiException(id);
     }

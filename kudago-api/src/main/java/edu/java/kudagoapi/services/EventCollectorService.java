@@ -4,16 +4,15 @@ import edu.java.kudagoapi.clients.*;
 import edu.java.kudagoapi.dtos.CurrencyConvertRequest;
 import edu.java.kudagoapi.dtos.CurrencyConvertResponse;
 import edu.java.kudagoapi.dtos.events.EventsResponse;
-import edu.java.kudagoapi.repositories.JpaEventRepository;
 import edu.java.kudagoapi.utils.PriceParser;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 @Service
@@ -23,8 +22,6 @@ public class EventCollectorService {
     private final CurrencyClient currencyClient;
     private final KudagoClient kudagoClient;
     private final KudagoWebClient kudagoWebClient;
-    private final JpaEventRepository repo;
-    private final ModelMapper mapper;
     private static final String RUBLE = "RUB";
     private static final int PAGE_SIZE = 1000;
 

@@ -65,12 +65,12 @@ public class LocationControllerTest extends IntegrationEnvironment {
     @Test
     public void testGetByIdWhenInvalidParams() throws Exception {
         //then
-        mockMvc.perform(get("/api/v1/locations/-5"))
+        mockMvc.perform(get("/api/v1/locations/0"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().json("""
                         {
                         "code": 400,
-                        "message": "getById.id: must be greater than or equal to 0"
+                        "message": "getById.id: must be greater than or equal to 1"
                         }
                         """));
     }
@@ -209,7 +209,7 @@ public class LocationControllerTest extends IntegrationEnvironment {
     @Test
     public void testPutUpdateWhenInvalidParams() throws Exception {
         //then
-        mockMvc.perform(put("/api/v1/locations/-1")
+        mockMvc.perform(put("/api/v1/locations/0")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -222,7 +222,7 @@ public class LocationControllerTest extends IntegrationEnvironment {
                 .andExpect(content().json("""
                         {
                         "code": 400,
-                        "message": "putUpdate.id: must be greater than or equal to 0"
+                        "message": "putUpdate.id: must be greater than or equal to 1"
                         }
                         """));
     }
@@ -274,12 +274,12 @@ public class LocationControllerTest extends IntegrationEnvironment {
     @Test
     public void testDeleteWhenInvalidParams() throws Exception {
         //then
-        mockMvc.perform(delete("/api/v1/locations/-1"))
+        mockMvc.perform(delete("/api/v1/locations/0"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().json("""
                         {
                         "code": 400,
-                        "message": "delete.id: must be greater than or equal to 0"
+                        "message": "delete.id: must be greater than or equal to 1"
                         }
                         """));
     }

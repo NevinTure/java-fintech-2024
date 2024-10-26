@@ -71,13 +71,13 @@ public class EventController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> fullUpdate(
-            @PathVariable("id") @Min(0) Long id,
+            @PathVariable("id") @Min(1) Long id,
             @Valid @RequestBody EventDto eventDto) {
         return eventService.fullUpdate(id, eventDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete(@PathVariable("id") @Min(0) Long id) {
+    public ResponseEntity<Object> delete(@PathVariable("id") @Min(1) Long id) {
         return eventService.deleteById(id);
     }
 }

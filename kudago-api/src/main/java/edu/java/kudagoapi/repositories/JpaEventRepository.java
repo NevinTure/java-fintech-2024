@@ -16,6 +16,8 @@ public interface JpaEventRepository extends JpaRepository<Event, Long> {
     @Query("from Event e join fetch e.location where e.id = :id")
     Optional<Event> findById(@Param("id") @NotNull Long id);
 
+    Optional<Event> findBySlug(String slug);
+
     @EntityGraph("event_entity-graph")
     List<Event> findAll();
 
