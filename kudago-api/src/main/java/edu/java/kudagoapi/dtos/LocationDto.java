@@ -1,5 +1,6 @@
 package edu.java.kudagoapi.dtos;
 
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -7,10 +8,10 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LocationDto {
-    @Size(min = 1)
+    private Long id;
     private String name;
     @Size(min = 1)
+    @NotNull
     private String slug;
-    @Size(min = 1)
     private String language;
 }

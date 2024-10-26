@@ -23,7 +23,7 @@ public class Event {
     @Column(name = "slug", nullable = false, unique = true)
     private String slug;
     private LocalDate date;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "location_id", referencedColumnName = "id")
     private Location location;
 

@@ -1,6 +1,9 @@
 package edu.java.kudagoapi.dtos.events;
 
 import edu.java.kudagoapi.dtos.LocationDto;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import java.time.LocalDate;
 
@@ -9,15 +12,13 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class EventDto {
     private Long id;
+    @Size(min = 1)
     private String title;
+    @Size(min = 1)
+    @NotNull
     private String slug;
     private LocalDate date;
+    @Valid
+    @NotNull
     private LocationDto location;
-
-    public EventDto(String title, String slug, LocalDate date, LocationDto location) {
-        this.title = title;
-        this.slug = slug;
-        this.date = date;
-        this.location = location;
-    }
 }

@@ -16,6 +16,7 @@ public class Location {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Column(unique = true, nullable = false)
     private String slug;
     private String language;
     @OneToMany(mappedBy = "location", fetch = FetchType.LAZY)

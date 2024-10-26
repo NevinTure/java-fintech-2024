@@ -42,7 +42,11 @@ public class ControllersExceptionHandler extends ResponseEntityExceptionHandler 
                 .getBindingResult()
                 .getAllErrors()
                 .stream()
-                .map(v -> ((FieldError) v).getField())
+                .map(v -> {
+                    FieldError fieldError = (FieldError) v;
+                    return String.format(
+                            "%s %s", fieldError.getField(), fieldError.getDefaultMessage());
+                })
                 .sorted()
                 .toList();
         ApiErrorResponse response = new ApiErrorResponse(

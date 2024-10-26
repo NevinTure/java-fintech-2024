@@ -4,7 +4,7 @@ app:
   currency-api-base-url: http://localhost:8070
   pool-size: 5
   update-delay: 1h
-  enable-update: true
+  enable-update: false
 
 custom-aspect:
   rate-limiter-config:
@@ -16,7 +16,8 @@ spring:
   application:
     name: kudago-api
   liquibase:
-    enabled: false
+    enabled: true
+    change-log: classpath:migrations/master.xml
   datasource:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}

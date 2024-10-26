@@ -17,6 +17,9 @@ public interface JpaEventRepository extends JpaRepository<Event, Long> {
     Optional<Event> findById(@Param("id") @NotNull Long id);
 
     @EntityGraph("event_entity-graph")
+    List<Event> findAll();
+
+    @EntityGraph("event_entity-graph")
     List<Event> findAll(Specification<Event> spec);
 
     static Specification<Event> buildSpecification(String title, Location location, LocalDate fromDate, LocalDate toDate) {

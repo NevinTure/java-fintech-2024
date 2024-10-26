@@ -1,7 +1,7 @@
 package edu.java.kudagoapi.services;
 
+import edu.java.kudagoapi.dtos.EventFilter;
 import edu.java.kudagoapi.dtos.events.EventDto;
-import edu.java.kudagoapi.dtos.events.EventDtoResponse;
 import org.springframework.http.ResponseEntity;
 import java.util.List;
 
@@ -12,6 +12,8 @@ public interface EventService {
     ResponseEntity<EventDto> getById(long id);
 
     ResponseEntity<List<EventDto>> findAll();
+
+    ResponseEntity<List<EventDto>> findAllByFilter(EventFilter filter);
 
     ResponseEntity<Object> fullUpdate(long id, EventDto dto);
 
