@@ -5,7 +5,7 @@ import edu.java.kudagoapi.clients.KudagoClient;
 import edu.java.kudagoapi.dtos.CategoryDto;
 import edu.java.kudagoapi.exceptions.BadRequestApiException;
 import edu.java.kudagoapi.exceptions.CategoryNotFoundApiException;
-import edu.java.kudagoapi.services.CategoryService;
+import edu.java.kudagoapi.services.category.CategoryService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;

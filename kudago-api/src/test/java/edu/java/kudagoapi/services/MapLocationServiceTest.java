@@ -7,6 +7,7 @@ import edu.java.kudagoapi.exceptions.BadRequestApiException;
 import edu.java.kudagoapi.exceptions.LocationNotFoundApiException;
 import edu.java.kudagoapi.model.Location;
 import edu.java.kudagoapi.repositories.LocationRepository;
+import edu.java.kudagoapi.services.location.LocationService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;

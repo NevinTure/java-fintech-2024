@@ -2,7 +2,7 @@ package edu.java.kudagoapi.controllers;
 
 import edu.java.customaspect.annotations.Timed;
 import edu.java.kudagoapi.dtos.CategoryDto;
-import edu.java.kudagoapi.services.CategoryService;
+import edu.java.kudagoapi.services.category.CategoryService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;

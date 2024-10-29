@@ -1,4 +1,4 @@
-package edu.java.kudagoapi.services;
+package edu.java.kudagoapi.services.location;
 
 import edu.java.kudagoapi.dtos.LocationDto;
 import edu.java.kudagoapi.events.LocationServiceInitializedEvent;

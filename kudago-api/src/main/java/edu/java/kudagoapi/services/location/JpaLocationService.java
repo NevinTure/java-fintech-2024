@@ -1,9 +1,10 @@
-package edu.java.kudagoapi.services;
+package edu.java.kudagoapi.services.location;
 
 import edu.java.kudagoapi.dtos.LocationDto;
 import edu.java.kudagoapi.exceptions.LocationNotFoundApiException;
 import edu.java.kudagoapi.model.Location;
 import edu.java.kudagoapi.repositories.JpaLocationRepository;
+import edu.java.kudagoapi.utils.LocationRequestOperation;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -20,10 +21,12 @@ public class JpaLocationService implements LocationService {
 
     private final JpaLocationRepository repo;
     private final ModelMapper mapper;
+    private final LocationEventManager eventManager;
 
     @Override
     public ResponseEntity<Object> save(LocationDto dto) {
-        repo.save(mapper.map(dto, Location.class));
+        Location location = mapper.map(dto, Location.class);
+        eventManager.notify(LocationRequestOperation.SAVE, location);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

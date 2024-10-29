@@ -5,7 +5,7 @@ import edu.java.kudagoapi.clients.KudagoClient;
 import edu.java.kudagoapi.dtos.LocationDto;
 import edu.java.kudagoapi.exceptions.BadRequestApiException;
 import edu.java.kudagoapi.exceptions.LocationNotFoundApiException;
-import edu.java.kudagoapi.services.LocationService;
+import edu.java.kudagoapi.services.location.LocationService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;

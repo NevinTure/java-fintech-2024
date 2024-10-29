@@ -2,7 +2,7 @@ package edu.java.kudagoapi.controllers;
 
 import edu.java.customaspect.annotations.Timed;
 import edu.java.kudagoapi.dtos.LocationDto;
-import edu.java.kudagoapi.services.LocationService;
+import edu.java.kudagoapi.services.location.LocationService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;

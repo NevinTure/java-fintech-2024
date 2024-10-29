@@ -1,4 +1,4 @@
-package edu.java.kudagoapi.services;
+package edu.java.kudagoapi.services.category;
 
 import edu.java.kudagoapi.dtos.CategoryDto;
 import org.springframework.http.ResponseEntity;
