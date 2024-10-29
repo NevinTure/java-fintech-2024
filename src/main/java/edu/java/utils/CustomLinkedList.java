@@ -127,6 +127,10 @@ public class CustomLinkedList<T> {
         size--;
     }
 
+    public CustomIterator<T> iterator() {
+        return new CustomIterator<>(this);
+    }
+
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
