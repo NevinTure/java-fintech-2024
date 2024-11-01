@@ -50,7 +50,7 @@ public class ControllersExceptionHandler extends ResponseEntityExceptionHandler 
     @ExceptionHandler(SnapshotNotFoundApiException.class)
     public ResponseEntity<Object> handleSnapshotNotFound(SnapshotNotFoundApiException ex) {
         ApiErrorResponse response = new ApiErrorResponse(
-                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.NOT_FOUND.value(),
                 ex.getMessage()
         );
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);

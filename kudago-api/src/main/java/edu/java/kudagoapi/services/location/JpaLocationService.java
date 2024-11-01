@@ -17,7 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @ConditionalOnProperty(prefix = "app", value = "database-access-type", havingValue = "jpa")
 @Service
-public class JpaLocationService implements LocationService {
+public class JpaLocationService implements UpdatableLocationService {
 
     private final JpaLocationRepository repo;
     private final ModelMapper mapper;
@@ -67,6 +67,12 @@ public class JpaLocationService implements LocationService {
             return save(dto);
         }
         throw new LocationNotFoundApiException(id);
+    }
+
+    @Override
+    public ResponseEntity<Object> undoUpdate(Long id) {
+        history.poll(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override

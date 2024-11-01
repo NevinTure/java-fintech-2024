@@ -1,9 +1,10 @@
 package edu.java.kudagoapi.controllers;
 
 import edu.java.kudagoapi.IntegrationEnvironment;
+import edu.java.kudagoapi.dtos.LocationDto;
 import edu.java.kudagoapi.model.Location;
 import edu.java.kudagoapi.repositories.JpaLocationRepository;
-import jakarta.persistence.EntityManager;
+import edu.java.kudagoapi.services.location.JpaLocationService;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,7 @@ public class LocationControllerSystemTest extends IntegrationEnvironment {
     @Autowired
     private JpaLocationRepository repo;
     @Autowired
-    EntityManager entityManager;
+    private JpaLocationService jpaLocationService;
 
     @BeforeEach
     @Transactional
@@ -201,6 +202,33 @@ public class LocationControllerSystemTest extends IntegrationEnvironment {
                         {
                         "code": 404,
                         "message": "Location with id 1 not found"
+                        }
+                        """));
+    }
+
+    @Test
+    public void testUndoUpdate() throws Exception {
+        //when
+        Location location = repo.save(new Location("test1", "test1", "ru"));
+        Long id = location.getId();
+        jpaLocationService.fullUpdate(id, new LocationDto("test2", "test2", "ru"));
+        mvc.perform(put("/api/v1/locations/undo/{id}", id))
+                .andExpect(status().isOk());
+
+        //then
+        assertThat(repo.findById(id)).isPresent();
+        assertThat(repo.findById(id).get()).isEqualTo(location);
+    }
+
+    @Test
+    public void testUndoUpdateWhenNotFound() throws Exception {
+        //then
+        mvc.perform(put("/api/v1/locations/undo/{id}", 1000))
+                .andExpect(status().isNotFound())
+                .andExpect(content().json("""
+                        {
+                          "code": 404,
+                          "message": "No snapshot found for location id 1000"
                         }
                         """));
     }

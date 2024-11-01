@@ -303,7 +303,7 @@ public class CategoryControllerTest extends IntegrationEnvironment {
     public void testUndoUpdateWhenNotFound() throws Exception {
         //when
         Mockito.when(service.undoUpdate(1L)).thenThrow(new SnapshotNotFoundApiException(
-                "No snapshot found for location id 1"
+                "No snapshot found for category id 1"
         ));
 
         //then
@@ -312,7 +312,7 @@ public class CategoryControllerTest extends IntegrationEnvironment {
                 .andExpect(content().json("""
                         {
                           "code": 404,
-                          "message": "No snapshot found for location id 1"
+                          "message": "No snapshot found for category id 1"
                         }
                         """));
     }

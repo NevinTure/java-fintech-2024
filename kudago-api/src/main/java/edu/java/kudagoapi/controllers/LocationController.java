@@ -2,7 +2,7 @@ package edu.java.kudagoapi.controllers;
 
 import edu.java.customaspect.annotations.Timed;
 import edu.java.kudagoapi.dtos.LocationDto;
-import edu.java.kudagoapi.services.location.LocationService;
+import edu.java.kudagoapi.services.location.UpdatableLocationService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.List;
 @Validated
 public class LocationController {
 
-    private final LocationService service;
+    private final UpdatableLocationService service;
 
     @GetMapping
     public ResponseEntity<List<LocationDto>> getAll() {
@@ -39,6 +39,11 @@ public class LocationController {
     public ResponseEntity<Object> putUpdate(
             @PathVariable("id") @Min(1) long id, @RequestBody @Valid LocationDto dto) {
         return service.fullUpdate(id, dto);
+    }
+
+    @PutMapping("/undo/{id}")
+    public ResponseEntity<Object> undoUpdate(@PathVariable("id") @Min(1) long id) {
+        return service.undoUpdate(id);
     }
 
     @DeleteMapping("/{id}")

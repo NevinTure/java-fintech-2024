@@ -19,7 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @ConditionalOnProperty(prefix = "app", value = "database-access-type", havingValue = "map")
 @Service
-public class MapLocationService implements LocationService {
+public class MapLocationService implements UpdatableLocationService {
 
     private final LocationRepository repository;
     private final ModelMapper mapper;
@@ -83,6 +83,11 @@ public class MapLocationService implements LocationService {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         throw new LocationNotFoundApiException(id);
+    }
+
+    @Override
+    public ResponseEntity<Object> undoUpdate(Long id) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
