@@ -1,5 +1,6 @@
 package edu.java.kudagoapi.services.location;
 
+import edu.java.kudagoapi.commands.Command;
 import edu.java.kudagoapi.dtos.LocationDto;
 import edu.java.kudagoapi.events.LocationServiceInitializedEvent;
 import edu.java.kudagoapi.exceptions.BadRequestApiException;
@@ -23,11 +24,11 @@ public class MapLocationService implements LocationService {
 
     private final LocationRepository repository;
     private final ModelMapper mapper;
-    private final ApplicationEventPublisher eventPublisher;
+    private final Command initializeLocationCommand;
 
     @PostConstruct
     public void init() {
-        eventPublisher.publishEvent(new LocationServiceInitializedEvent(this));
+        initializeLocationCommand.execute();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package edu.java.kudagoapi.services.category;
 
+import edu.java.kudagoapi.commands.Command;
 import edu.java.kudagoapi.dtos.CategoryDto;
 import edu.java.kudagoapi.events.CategoryServiceInitializedEvent;
 import edu.java.kudagoapi.exceptions.BadRequestApiException;
@@ -23,13 +24,13 @@ public class MapCategoryService implements CategoryService {
 
     private final CategoryRepository repository;
     private final ModelMapper mapper;
-    private final ApplicationEventPublisher eventPublisher;
+    private final Command initializeCategoryCommand;
     private final CategoryEventManager eventManager;
     private final CategoryHistory history;
 
     @PostConstruct
     public void init() {
-        eventPublisher.publishEvent(new CategoryServiceInitializedEvent(this));
+        initializeCategoryCommand.execute();
     }
 
     @Override
