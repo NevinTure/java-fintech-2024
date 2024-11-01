@@ -25,6 +25,7 @@ public class MapCategoryService implements CategoryService {
     private final ModelMapper mapper;
     private final ApplicationEventPublisher eventPublisher;
     private final CategoryEventManager eventManager;
+    private final CategoryHistory history;
 
     @PostConstruct
     public void init() {
@@ -95,6 +96,7 @@ public class MapCategoryService implements CategoryService {
             Category category = mapper.map(dto, Category.class);
             category.setId(id);
             repository.save(category);
+            history.push(id, category);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         throw new CategoryNotFoundApiException(id);
