@@ -2,6 +2,7 @@ package edu.java.kudagoapi;
 
 import edu.java.kudagoapi.dtos.CategoryDto;
 import edu.java.kudagoapi.dtos.LocationDto;
+import edu.java.kudagoapi.model.Category;
 import edu.java.kudagoapi.model.Location;
 import edu.java.kudagoapi.repositories.CategoryRepository;
 import edu.java.kudagoapi.repositories.JpaLocationRepository;
@@ -15,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-@RequiredArgsConstructor
 public class IntegrationTest extends IntegrationEnvironment {
 
     private final JpaLocationRepository repo;
@@ -24,6 +24,16 @@ public class IntegrationTest extends IntegrationEnvironment {
     private final CategoryService categoryService;
     private final CategoryHistory categoryHistory;
     private final CategoryRepository categoryRepository;
+
+    @Autowired
+    public IntegrationTest(JpaLocationRepository repo, JpaLocationHistory history, JpaLocationService locationService, CategoryService categoryService, CategoryHistory categoryHistory, CategoryRepository categoryRepository) {
+        this.repo = repo;
+        this.history = history;
+        this.locationService = locationService;
+        this.categoryService = categoryService;
+        this.categoryHistory = categoryHistory;
+        this.categoryRepository = categoryRepository;
+    }
 
     @Test
     public void test() {
@@ -54,6 +64,17 @@ public class IntegrationTest extends IntegrationEnvironment {
                 "test1",
                 "test1"
         );
-//        categoryService.save(dto1);
+        categoryService.save(dto1, 1L);
+        CategoryDto dto2 = new CategoryDto(
+                "test2",
+                "test2"
+        );
+        categoryService.fullUpdate(dto2, 1L);
+        Category category = categoryRepository.findById(1L).get();
+        System.out.println(category);
+        category = categoryHistory.poll(1L);
+        System.out.println(category);
+        category = categoryRepository.findById(1L).get();
+        System.out.println(category);
     }
 }

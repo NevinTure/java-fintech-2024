@@ -1,6 +1,6 @@
 package edu.java.kudagoapi.services.location;
 
-import edu.java.kudagoapi.exceptions.LocationNotFoundApiException;
+import edu.java.kudagoapi.exceptions.SnapshotNotFoundApiException;
 import edu.java.kudagoapi.model.Location;
 import edu.java.kudagoapi.model.LocationSnapshot;
 import edu.java.kudagoapi.repositories.JpaLocationRepository;
@@ -34,6 +34,7 @@ public class JpaLocationHistory implements LocationHistory {
             snapshotRepo.deleteById(snapshot.getId());
             return location;
         }
-        throw new LocationNotFoundApiException(originId);
+        throw new SnapshotNotFoundApiException(String
+                .format("No snapshot found for location id %d", originId));
     }
 }

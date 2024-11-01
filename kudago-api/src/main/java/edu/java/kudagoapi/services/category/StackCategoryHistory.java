@@ -1,6 +1,6 @@
 package edu.java.kudagoapi.services.category;
 
-import edu.java.kudagoapi.exceptions.CategoryNotFoundApiException;
+import edu.java.kudagoapi.exceptions.SnapshotNotFoundApiException;
 import edu.java.kudagoapi.model.Category;
 import edu.java.kudagoapi.model.CategorySnapshot;
 import edu.java.kudagoapi.repositories.CategoryRepository;
@@ -30,12 +30,13 @@ public class StackCategoryHistory implements CategoryHistory {
 
     @Override
     public Category poll(Long id) {
-        if (history.containsKey(id)) {
+        if (history.containsKey(id) && !history.get(id).isEmpty()) {
             CategorySnapshot snapshot = history.get(id).pollLast();
             Category category = mapper.map(snapshot, Category.class);
             repo.save(category);
             return category;
         }
-        throw new CategoryNotFoundApiException(id);
+        throw new SnapshotNotFoundApiException(String
+                .format("No snapshot found for category id %d", id));
     }
 }

@@ -30,7 +30,7 @@ public class MapCategoryRepository implements CategoryRepository {
 
     @Override
     public Optional<Category> findById(long id) {
-        return Optional.of(categories.get(id));
+        return Optional.ofNullable(categories.get(id));
     }
 
     @Override

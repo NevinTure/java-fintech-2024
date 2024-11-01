@@ -96,7 +96,7 @@ public class MapCategoryService implements CategoryService {
             Category category = mapper.map(dto, Category.class);
             category.setId(id);
             repository.save(category);
-            history.push(id, category);
+            history.push(id, categoryOptional.get());
             return new ResponseEntity<>(HttpStatus.OK);
         }
         throw new CategoryNotFoundApiException(id);

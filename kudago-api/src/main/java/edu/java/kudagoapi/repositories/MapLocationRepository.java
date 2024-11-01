@@ -21,8 +21,8 @@ public class MapLocationRepository implements LocationRepository {
     public Location save(Location location) {
         if (location.getId() == null) {
             long id = sequence.getAndIncrement();
-            locations.put(id, location);
             location.setId(id);
+            locations.put(id, location);
         } else {
             locations.put(location.getId(), location);
         }
@@ -32,14 +32,14 @@ public class MapLocationRepository implements LocationRepository {
     @Override
     public List<Location> saveAll(List<Location> locationList) {
         for (Location location : locationList) {
-            locations.put(sequence.getAndIncrement(), location);
+            save(location);
         }
         return locationList;
     }
 
     @Override
     public Optional<Location> findById(Long id) {
-        return Optional.of(locations.get(id));
+        return Optional.ofNullable(locations.get(id));
     }
 
     @Override
