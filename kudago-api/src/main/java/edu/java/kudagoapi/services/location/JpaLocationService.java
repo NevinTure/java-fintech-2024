@@ -22,6 +22,7 @@ public class JpaLocationService implements LocationService {
     private final JpaLocationRepository repo;
     private final ModelMapper mapper;
     private final LocationEventManager eventManager;
+    private final LocationHistory history;
 
     @Override
     public ResponseEntity<Object> save(LocationDto dto) {
@@ -61,6 +62,7 @@ public class JpaLocationService implements LocationService {
     public ResponseEntity<Object> fullUpdate(Long id, LocationDto dto) {
         Optional<Location> locationOp = repo.findById(id);
         if (locationOp.isPresent()) {
+            history.push(id, locationOp.get());
             dto.setId(id);
             return save(dto);
         }

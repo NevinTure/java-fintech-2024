@@ -3,17 +3,19 @@ package edu.java.kudagoapi.services.location;
 import edu.java.kudagoapi.model.Location;
 import edu.java.kudagoapi.repositories.JpaLocationRepository;
 import edu.java.kudagoapi.utils.LocationRequestOperation;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class LocationEventListenerImpl implements LocationEventListener {
 
     private final JpaLocationRepository repository;
     private final LocationEventManager eventManager;
 
-    public LocationEventListenerImpl(JpaLocationRepository repository, LocationEventManager eventManager) {
-        this.repository = repository;
-        this.eventManager = eventManager;
+    @PostConstruct
+    public void init() {
         subscribeToEvents();
     }
 
