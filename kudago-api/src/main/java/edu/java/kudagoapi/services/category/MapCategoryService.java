@@ -2,7 +2,6 @@ package edu.java.kudagoapi.services.category;
 
 import edu.java.kudagoapi.commands.Command;
 import edu.java.kudagoapi.dtos.CategoryDto;
-import edu.java.kudagoapi.events.CategoryServiceInitializedEvent;
 import edu.java.kudagoapi.exceptions.BadRequestApiException;
 import edu.java.kudagoapi.exceptions.CategoryNotFoundApiException;
 import edu.java.kudagoapi.model.Category;
@@ -11,7 +10,6 @@ import edu.java.kudagoapi.utils.CategoryRequestOperation;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
