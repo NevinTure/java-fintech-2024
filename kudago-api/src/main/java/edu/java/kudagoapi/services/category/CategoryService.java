@@ -14,7 +14,5 @@ public interface CategoryService {
 
     ResponseEntity<List<CategoryDto>> findAll();
 
-    ResponseEntity<Object> fullUpdate(CategoryDto dto, long id);
-
     ResponseEntity<Object> deleteById(long id);
 }

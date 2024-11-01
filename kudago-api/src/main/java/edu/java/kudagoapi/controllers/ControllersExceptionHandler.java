@@ -1,7 +1,7 @@
 package edu.java.kudagoapi.controllers;
 
 import edu.java.kudagoapi.dtos.ApiErrorResponse;
-import edu.java.kudagoapi.exceptions.BadRequestApiException;
+import edu.java.kudagoapi.exceptions.*;
 import jakarta.validation.ConstraintViolationException;
 import org.postgresql.util.PSQLException;
 import org.springframework.http.*;
@@ -46,11 +46,30 @@ public class ControllersExceptionHandler extends ResponseEntityExceptionHandler 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(SnapshotNotFoundApiException.class)
+    public ResponseEntity<Object> handleSnapshotNotFound(SnapshotNotFoundApiException ex) {
+        ApiErrorResponse response = new ApiErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage()
+        );
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,
             HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        List<String> violatedField = ex
+        List<String> violatedField = getViolatedFields(ex);
+        ApiErrorResponse response = new ApiErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                String.format("Invalid request params: %s", String.join(", ", violatedField))
+        );
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    private List<String> getViolatedFields(MethodArgumentNotValidException ex) {
+        return ex
                 .getBindingResult()
                 .getAllErrors()
                 .stream()
@@ -61,10 +80,5 @@ public class ControllersExceptionHandler extends ResponseEntityExceptionHandler 
                 })
                 .sorted()
                 .toList();
-        ApiErrorResponse response = new ApiErrorResponse(
-                HttpStatus.BAD_REQUEST.value(),
-                String.format("Invalid request params: %s", String.join(", ", violatedField))
-        );
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }

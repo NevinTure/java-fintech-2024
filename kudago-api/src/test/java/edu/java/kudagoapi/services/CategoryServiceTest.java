@@ -3,11 +3,10 @@ package edu.java.kudagoapi.services;
 import edu.java.kudagoapi.IntegrationEnvironment;
 import edu.java.kudagoapi.clients.KudagoClient;
 import edu.java.kudagoapi.dtos.CategoryDto;
-import edu.java.kudagoapi.exceptions.BadRequestApiException;
-import edu.java.kudagoapi.exceptions.CategoryNotFoundApiException;
+import edu.java.kudagoapi.exceptions.*;
 import edu.java.kudagoapi.model.Category;
 import edu.java.kudagoapi.repositories.CategoryRepository;
-import edu.java.kudagoapi.services.category.CategoryService;
+import edu.java.kudagoapi.services.category.UpdatableCategoryService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
@@ -28,7 +27,7 @@ public class CategoryServiceTest extends IntegrationEnvironment {
     @MockBean
     KudagoClient client;
     @Autowired
-    CategoryService service;
+    UpdatableCategoryService service;
     @Autowired
     ModelMapper mapper;
 
@@ -232,5 +231,30 @@ public class CategoryServiceTest extends IntegrationEnvironment {
         //then
         assertThatExceptionOfType(CategoryNotFoundApiException.class)
                 .isThrownBy(() -> service.deleteById(1L));
+    }
+
+    @Test
+    public void testUndoUpdate() {
+        //given
+        long id = 1L;
+        CategoryDto dto1 = new CategoryDto(id, "test1", "test1");
+        CategoryDto dto2 = new CategoryDto(id, "test2", "test2");
+        Category category1 = mapper.map(dto1, Category.class);
+
+        //when
+        service.save(dto1, id);
+        Mockito.when(repository.findById(id)).thenReturn(Optional.of(category1));
+        service.fullUpdate(dto2, id);
+        service.undoUpdate(id);
+
+        //then
+        assertThat(service.getById(id).getBody()).isEqualTo(dto1);
+    }
+
+    @Test
+    public void testUndoUpdateWhenNotFound() {
+        //then
+        assertThatExceptionOfType(SnapshotNotFoundApiException.class)
+                .isThrownBy(() -> service.undoUpdate(1000L));
     }
 }

@@ -2,7 +2,7 @@ package edu.java.kudagoapi.controllers;
 
 import edu.java.customaspect.annotations.Timed;
 import edu.java.kudagoapi.dtos.CategoryDto;
-import edu.java.kudagoapi.services.category.CategoryService;
+import edu.java.kudagoapi.services.category.UpdatableCategoryService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.List;
 @Validated
 public class CategoryController {
 
-    private final CategoryService service;
+    private final UpdatableCategoryService service;
 
     @GetMapping
     public ResponseEntity<List<CategoryDto>> getAll() {
@@ -40,6 +40,11 @@ public class CategoryController {
     public ResponseEntity<Object> putUpdate(
             @PathVariable("id") @Min(0) long id, @RequestBody @Valid CategoryDto dto) {
         return service.fullUpdate(dto, id);
+    }
+
+    @PutMapping("/undo/{id}")
+    public ResponseEntity<Object> undoUpdate(@PathVariable("id") @Min(0) long id) {
+        return service.undoUpdate(id);
     }
 
     @DeleteMapping("/{id}")

@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class MapCategoryService implements CategoryService {
+public class MapCategoryService implements UpdatableCategoryService {
 
     private final CategoryRepository repository;
     private final ModelMapper mapper;
@@ -109,5 +109,11 @@ public class MapCategoryService implements CategoryService {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         throw new CategoryNotFoundApiException(id);
+    }
+
+    @Override
+    public ResponseEntity<Object> undoUpdate(long id) {
+        history.poll(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
