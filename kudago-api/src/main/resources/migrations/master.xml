@@ -10,4 +10,7 @@
     <include file="migrations/location.sql"/>
     <include file="migrations/event.sql"/>
     <include file="migrations/location_snapshot.sql"/>
+    <include file="migrations/role.sql"/>
+    <include file="migrations/user.sql"/>
+    <include file="migrations/user_role.sql"/>
 </databaseChangeLog>
