@@ -102,6 +102,10 @@ dependencies {
     // https://mvnrepository.com/artifact/org.liquibase/liquibase-core
     implementation 'org.liquibase:liquibase-core:4.29.2'
 
+    //security
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security
+    implementation 'org.springframework.boot:spring-boot-starter-security:3.3.5'
+
 }
 
 configurations.configureEach {

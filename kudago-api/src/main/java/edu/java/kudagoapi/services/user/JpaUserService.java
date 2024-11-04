@@ -9,12 +9,14 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class JpaUserService implements UserService {
+public class JpaUserService implements UserService, UserDetailsService {
 
     private final JpaUserRepository repo;
     private final JpaRoleRepository roleRepo;
@@ -33,5 +35,14 @@ public class JpaUserService implements UserService {
     private void applyRoles(User user) {
         Role userRole = roleRepo.findByName("USER").get();
         user.getRoles().add(userRole);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> userOp = repo.findByName(username);
+        if (userOp.isPresent()) {
+            return new UserDetailsImpl(userOp.get());
+        }
+        throw new UsernameNotFoundException(String.format("User with name: %s not found", username));
     }
 }

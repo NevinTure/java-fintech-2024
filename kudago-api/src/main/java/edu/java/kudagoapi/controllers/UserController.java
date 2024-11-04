@@ -1,7 +1,6 @@
 package edu.java.kudagoapi.controllers;
 
 import edu.java.kudagoapi.dtos.RegisterRequest;
-import edu.java.kudagoapi.model.User;
 import edu.java.kudagoapi.services.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

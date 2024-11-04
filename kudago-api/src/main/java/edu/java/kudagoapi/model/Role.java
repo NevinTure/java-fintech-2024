@@ -2,6 +2,7 @@ package edu.java.kudagoapi.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
 import java.time.OffsetDateTime;
 
 @AllArgsConstructor
@@ -12,7 +13,7 @@ import java.time.OffsetDateTime;
 @EqualsAndHashCode
 @Entity
 @Table(name = "role")
-public class Role {
+public class Role implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,5 +28,10 @@ public class Role {
     public Role(String name, String description) {
         this.name = name;
         this.description = description;
+    }
+
+    @Override
+    public String getAuthority() {
+        return name;
     }
 }
