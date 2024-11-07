@@ -2,8 +2,7 @@ package edu.java.kudagoapi.services;
 
 import edu.java.kudagoapi.IntegrationEnvironment;
 import edu.java.kudagoapi.dtos.LocationDto;
-import edu.java.kudagoapi.dtos.events.EventDto;
-import edu.java.kudagoapi.dtos.events.EventsResponse;
+import edu.java.kudagoapi.dtos.events.*;
 import edu.java.kudagoapi.exceptions.ApiException;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -20,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 public class EventServiceTest extends IntegrationEnvironment {
 
     @Autowired
-    private EventService service;
+    private EventCollectorService service;
 
     @Test
     @SneakyThrows
@@ -33,7 +32,7 @@ public class EventServiceTest extends IntegrationEnvironment {
                 LocalDate.of(2024, 10, 12)).get();
 
         //then
-        EventDto expectedFirst = new EventDto(
+        EventDtoResponse expectedFirst = new EventDtoResponse(
                 192427L,
                 null,
                 new LocationDto(
@@ -66,7 +65,7 @@ public class EventServiceTest extends IntegrationEnvironment {
                 LocalDate.of(2024, 10, 12)).block();
 
         //then
-        EventDto expectedFirst = new EventDto(
+        EventDtoResponse expectedFirst = new EventDtoResponse(
                 192427L,
                 null,
                 new LocationDto(

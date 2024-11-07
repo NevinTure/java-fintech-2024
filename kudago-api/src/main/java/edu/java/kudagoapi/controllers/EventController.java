@@ -1,6 +1,9 @@
 package edu.java.kudagoapi.controllers;
 
+import edu.java.kudagoapi.dtos.EventFilter;
+import edu.java.kudagoapi.dtos.events.EventDto;
 import edu.java.kudagoapi.dtos.events.EventsResponse;
+import edu.java.kudagoapi.services.EventCollectorService;
 import edu.java.kudagoapi.services.EventService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
