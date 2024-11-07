@@ -4,7 +4,7 @@ app:
   currency-api-base-url: http://localhost:8070
   pool-size: 5
   update-delay: 1h
-  enable-update: true
+  enable-update: false
 
 custom-aspect:
   rate-limiter-config:
@@ -15,6 +15,21 @@ custom-aspect:
 spring:
   application:
     name: kudago-api
+  liquibase:
+    enabled: true
+    change-log: classpath:migrations/master.xml
+  datasource:
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    url: ${DB_URL}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
 server:
   port: 8090

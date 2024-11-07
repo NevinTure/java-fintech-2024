@@ -2,7 +2,8 @@ package edu.java.kudagoapi.services;
 
 import edu.java.kudagoapi.IntegrationEnvironment;
 import edu.java.kudagoapi.dtos.LocationDto;
-import edu.java.kudagoapi.dtos.events.*;
+import edu.java.kudagoapi.dtos.events.EventDtoResponse;
+import edu.java.kudagoapi.dtos.events.EventsResponse;
 import edu.java.kudagoapi.exceptions.ApiException;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @SpringBootTest
-public class EventServiceTest extends IntegrationEnvironment {
+public class EventCollectorServiceTest extends IntegrationEnvironment {
 
     @Autowired
     private EventCollectorService service;

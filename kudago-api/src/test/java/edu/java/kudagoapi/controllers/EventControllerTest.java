@@ -1,9 +1,10 @@
 package edu.java.kudagoapi.controllers;
 
+import edu.java.kudagoapi.IntegrationEnvironment;
 import edu.java.kudagoapi.dtos.LocationDto;
 import edu.java.kudagoapi.dtos.events.*;
 import edu.java.kudagoapi.exceptions.BadRequestApiException;
-import edu.java.kudagoapi.services.EventService;
+import edu.java.kudagoapi.services.EventCollectorService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,19 +25,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class EventControllerTest {
+public class EventControllerTest extends IntegrationEnvironment {
 
     @MockBean
-    private EventService service;
+    private EventCollectorService service;
     @Autowired
     private MockMvc mockMvc;
 
     @Test
     public void testGetEventWithFuture() throws Exception {
         //when
-        List<EventDto> events = List.of(
-                new EventDto(1L, new PlaceDto(), new LocationDto(), "200"),
-                new EventDto(2L, new PlaceDto(), new LocationDto(), "300")
+        List<EventDtoResponse> events = List.of(
+                new EventDtoResponse(1L, new PlaceDto(), new LocationDto(), "200"),
+                new EventDtoResponse(2L, new PlaceDto(), new LocationDto(), "300")
         );
         Mockito.when(service
                         .getEventsWithFuture(new BigDecimal(5), "USD", null, null))
@@ -88,9 +89,9 @@ public class EventControllerTest {
     @Test
     public void testGetEventWithReactor() throws Exception {
         //when
-        List<EventDto> events = List.of(
-                new EventDto(1L, new PlaceDto(), new LocationDto(), "200"),
-                new EventDto(2L, new PlaceDto(), new LocationDto(), "300")
+        List<EventDtoResponse> events = List.of(
+                new EventDtoResponse(1L, new PlaceDto(), new LocationDto(), "200"),
+                new EventDtoResponse(2L, new PlaceDto(), new LocationDto(), "300")
         );
         Mockito.when(service
                         .getEventsWithReactor(new BigDecimal(5), "USD", null, null))

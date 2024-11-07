@@ -11,7 +11,7 @@ import java.util.List;
 public class EventsResponse {
 
     @JsonProperty("results")
-    private List<EventDto> events;
+    private List<EventDtoResponse> events;
 
     public EventsResponse() {
         this.events = new ArrayList<>();

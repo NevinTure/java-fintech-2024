@@ -1,5 +1,6 @@
 package edu.java.kudagoapi.services;
 
+import edu.java.kudagoapi.IntegrationEnvironment;
 import edu.java.kudagoapi.clients.KudagoClient;
 import edu.java.kudagoapi.dtos.LocationDto;
 import edu.java.kudagoapi.exceptions.BadRequestApiException;
@@ -18,8 +19,8 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-@SpringBootTest
-public class LocationServiceTest {
+@SpringBootTest("app.database-access-type=map")
+public class MapLocationServiceTest extends IntegrationEnvironment {
 
     @MockBean
     LocationRepository repository;
@@ -57,7 +58,6 @@ public class LocationServiceTest {
     @Test
     public void testSave() {
         //given
-        String id = "test";
         LocationDto dto = new LocationDto(
                 "test",
                 "test",
@@ -66,7 +66,7 @@ public class LocationServiceTest {
         Location location = mapper.map(dto, Location.class);
 
         //when
-        service.save(dto, id);
+        service.save(dto);
 
         //then
         Mockito.verify(repository, Mockito.times(1)).save(location);
@@ -75,35 +75,37 @@ public class LocationServiceTest {
     @Test
     public void testSaveThenAlreadyExists() {
         //given
-        String id = "test";
+        Long id = 1L;
         Location location = new Location(
-                id,
+                "test",
                 "test",
                 "ru"
         );
+        location.setId(id);
         LocationDto dto = new LocationDto(
-                id,
                 "test2",
+                "test",
                 "ru"
         );
 
         //when
-        Mockito.when(repository.findById(id)).thenReturn(Optional.of(location));
+        Mockito.when(repository.findBySlug("test")).thenReturn(Optional.of(location));
 
         //then
         assertThatExceptionOfType(BadRequestApiException.class)
-                .isThrownBy(() -> service.save(dto, id));
+                .isThrownBy(() -> service.save(dto));
     }
 
     @Test
     public void testGetById() {
         //given
-        String id = "test";
+        Long id = 1L;
         Location location = new Location(
-                id,
+                "test",
                 "test",
                 "ru"
         );
+        location.setId(id);
         LocationDto dto = mapper.map(location, LocationDto.class);
 
         //when
@@ -116,11 +118,11 @@ public class LocationServiceTest {
     @Test
     public void testGetByIdWhenNotFound() {
         //when
-        Mockito.when(repository.findById("test")).thenReturn(Optional.empty());
+        Mockito.when(repository.findById(1L)).thenReturn(Optional.empty());
 
         //then
         assertThatExceptionOfType(LocationNotFoundApiException.class)
-                .isThrownBy(() -> service.getById("test"));
+                .isThrownBy(() -> service.getById(1L));
     }
 
     @Test
@@ -131,11 +133,13 @@ public class LocationServiceTest {
                 "test1",
                 "ru"
         );
+        location1.setId(1L);
         Location location2 = new Location(
                 "test2",
                 "test2",
                 "ru"
         );
+        location2.setId(2L);
         LocationDto dto1 = mapper.map(location1, LocationDto.class);
         LocationDto dto2 = mapper.map(location2, LocationDto.class);
 
@@ -150,22 +154,24 @@ public class LocationServiceTest {
     @Test
     public void testFullUpdate() {
         //given
-        String id = "test";
+        Long id = 1L;
         Location location = new Location(
-                id,
+                "test",
                 "test",
                 "ru"
         );
+        location.setId(id);
         LocationDto dto = new LocationDto(
-                id,
+                "test2",
                 "test2",
                 "ru"
         );
         Location saved = mapper.map(dto, Location.class);
+        saved.setId(id);
 
         //when
         Mockito.when(repository.findById(id)).thenReturn(Optional.of(location));
-        service.fullUpdate(dto, id);
+        service.fullUpdate(id, dto);
 
         //then
         Mockito.verify(repository, Mockito.times(1)).save(saved);
@@ -174,9 +180,9 @@ public class LocationServiceTest {
     @Test
     public void testFullUpdateWhenNotFound() {
         //given
-        String id = "test";
+        Long id = 1L;
         LocationDto dto = new LocationDto(
-                id,
+                "test2",
                 "test2",
                 "ru"
         );
@@ -186,18 +192,19 @@ public class LocationServiceTest {
 
         //then
         assertThatExceptionOfType(LocationNotFoundApiException.class)
-                .isThrownBy(() -> service.fullUpdate(dto, id));
+                .isThrownBy(() -> service.fullUpdate(id, dto));
     }
 
     @Test
     public void testDelete() {
         //given
-        String id = "test";
+        Long id = 1L;
         Location location = new Location(
-                id,
+                "test",
                 "test",
                 "ru"
         );
+        location.setId(id);
 
         //when
         Mockito.when(repository.findById(id)).thenReturn(Optional.of(location));
@@ -210,10 +217,10 @@ public class LocationServiceTest {
     @Test
     public void testDeleteWhenNotFound() {
         //when
-        Mockito.when(repository.findById("test")).thenReturn(Optional.empty());
+        Mockito.when(repository.findById(1L)).thenReturn(Optional.empty());
 
         //then
         assertThatExceptionOfType(LocationNotFoundApiException.class)
-                .isThrownBy(() -> service.deleteById("test"));
+                .isThrownBy(() -> service.deleteById(1L));
     }
 }

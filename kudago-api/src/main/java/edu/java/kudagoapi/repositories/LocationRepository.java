@@ -10,9 +10,11 @@ public interface LocationRepository {
 
     List<Location> saveAll(List<Location> locationList);
 
-    Optional<Location> findById(String id);
+    Optional<Location> findById(Long id);
 
     List<Location> findAll();
 
-    void deleteById(String id);
+    Optional<Location> findBySlug(String slug);
+
+    void deleteById(Long id);
 }

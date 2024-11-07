@@ -1,5 +1,6 @@
 package edu.java.kudagoapi.controllers;
 
+import edu.java.kudagoapi.IntegrationEnvironment;
 import edu.java.kudagoapi.clients.KudagoClient;
 import edu.java.kudagoapi.dtos.CategoryDto;
 import edu.java.kudagoapi.exceptions.BadRequestApiException;
@@ -20,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class CategoryControllerTest {
+public class CategoryControllerTest extends IntegrationEnvironment {
 
     @MockBean
     CategoryService service;
@@ -160,7 +161,7 @@ public class CategoryControllerTest {
                 .andExpect(content().json("""
                         {
                         "code": 400,
-                        "message": "Invalid request params: name, slug"
+                        "message": "Invalid request params: name size must be between 2 and 2147483647, slug size must be between 1 and 2147483647"
                         }
                         """));
     }
@@ -250,7 +251,7 @@ public class CategoryControllerTest {
                 .andExpect(content().json("""
                         {
                         "code": 400,
-                        "message": "Invalid request params: name, slug"
+                        "message": "Invalid request params: name size must be between 2 and 2147483647, slug size must be between 1 and 2147483647"
                         }
                         """));
     }

@@ -6,15 +6,15 @@ import java.util.List;
 
 public interface LocationService {
 
-    ResponseEntity<Object> save(LocationDto dto, String id);
+    ResponseEntity<Object> save(LocationDto dto);
 
     ResponseEntity<Object> saveAll(List<LocationDto> dtos);
 
-    ResponseEntity<LocationDto> getById(String id);
+    ResponseEntity<LocationDto> getById(Long id);
 
     ResponseEntity<List<LocationDto>> findAll();
 
-    ResponseEntity<Object> fullUpdate(LocationDto dto, String id);
+    ResponseEntity<Object> fullUpdate(Long id, LocationDto dto);
 
-    ResponseEntity<Object> deleteById(String id);
+    ResponseEntity<Object> deleteById(Long id);
 }

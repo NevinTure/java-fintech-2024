@@ -1,5 +1,6 @@
 package edu.java.kudagoapi.configuration;
 
+import edu.java.kudagoapi.utils.AccessType;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.validation.annotation.Validated;
@@ -13,7 +14,8 @@ public record ApplicationConfig(
         @DefaultValue("v1.4") String apiVersion,
         @DefaultValue("5") Integer poolSize,
         @DefaultValue("1h") Duration updateDelay,
-        @DefaultValue("false") Boolean enableUpdate
+        @DefaultValue("false") Boolean enableUpdate,
+        @DefaultValue("jpa") AccessType databaseAccessType
 ) {
 
 }

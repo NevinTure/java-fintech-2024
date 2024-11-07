@@ -5,6 +5,7 @@ app:
   pool-size: 5
   update-delay: 1ms
   enable-update: false
+  database-access-type: jpa
 
 custom-aspect:
   rate-limiter-config:
@@ -15,6 +16,16 @@ custom-aspect:
 spring:
   application:
     name: kudago-api
+  liquibase:
+    enabled: true
+    change-log: classpath:migrations/master.xml
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
 server:
   port: 8090

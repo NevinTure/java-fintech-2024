@@ -1,5 +1,6 @@
 package edu.java.kudagoapi.controllers;
 
+import edu.java.kudagoapi.IntegrationEnvironment;
 import edu.java.kudagoapi.clients.KudagoClient;
 import edu.java.kudagoapi.dtos.LocationDto;
 import edu.java.kudagoapi.exceptions.BadRequestApiException;
@@ -20,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class LocationControllerTest {
+public class LocationControllerTest extends IntegrationEnvironment {
 
     @MockBean
     LocationService service;
@@ -40,23 +41,23 @@ public class LocationControllerTest {
     @Test
     public void testGetById() throws Exception {
         //then
-        mockMvc.perform(get("/api/v1/locations/name"))
+        mockMvc.perform(get("/api/v1/locations/1"))
                 .andExpect(status().isOk());
-        Mockito.verify(service, Mockito.times(1)).getById("name");
+        Mockito.verify(service, Mockito.times(1)).getById(1L);
     }
 
     @Test
     public void testGetByIdWhenNotFound() throws Exception {
         //when
-        Mockito.when(service.getById("name")).thenThrow(new LocationNotFoundApiException("name"));
+        Mockito.when(service.getById(1L)).thenThrow(new LocationNotFoundApiException(1L));
 
         //then
-        mockMvc.perform(get("/api/v1/locations/name"))
+        mockMvc.perform(get("/api/v1/locations/1"))
                 .andExpect(status().isNotFound())
                 .andExpect(content().json("""
                         {
                             "code": 404,
-                            "message": "Location with id name not found"
+                            "message": "Location with id 1 not found"
                         }
                         """));
     }
@@ -64,12 +65,12 @@ public class LocationControllerTest {
     @Test
     public void testGetByIdWhenInvalidParams() throws Exception {
         //then
-        mockMvc.perform(get("/api/v1/locations/a"))
+        mockMvc.perform(get("/api/v1/locations/0"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().json("""
                         {
                         "code": 400,
-                        "message": "getById.id: size must be between 2 and 2147483647"
+                        "message": "getById.id: must be greater than or equal to 1"
                         }
                         """));
     }
@@ -84,7 +85,7 @@ public class LocationControllerTest {
         );
 
         //then
-        mockMvc.perform(post("/api/v1/locations/test")
+        mockMvc.perform(post("/api/v1/locations")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -94,7 +95,7 @@ public class LocationControllerTest {
                                 }
                                 """))
                 .andExpect(status().isOk());
-        Mockito.verify(service, Mockito.times(1)).save(dto, "test");
+        Mockito.verify(service, Mockito.times(1)).save(dto);
     }
 
     @Test
@@ -107,11 +108,11 @@ public class LocationControllerTest {
         );
 
         //when
-        Mockito.when(service.save(dto, "test"))
-                .thenThrow(new BadRequestApiException("Location with id test already exists"));
+        Mockito.when(service.save(dto))
+                .thenThrow(new BadRequestApiException("Key (slug)=(test) already exists."));
 
         //then
-        mockMvc.perform(post("/api/v1/locations/test")
+        mockMvc.perform(post("/api/v1/locations")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -124,28 +125,7 @@ public class LocationControllerTest {
                 .andExpect(content().json("""
                         {
                         "code": 400,
-                        "message": "Location with id test already exists"
-                        }
-                        """));
-    }
-
-    @Test
-    public void testCreateWhenInvalidRequestParams() throws Exception {
-        //then
-        mockMvc.perform(post("/api/v1/locations/a")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {
-                                "name": "test",
-                                "slug": "test",
-                                "language": "ru"
-                                }
-                                """))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().json("""
-                        {
-                        "code": 400,
-                        "message": "create.id: size must be between 2 and 2147483647"
+                        "message": "Key (slug)=(test) already exists."
                         }
                         """));
     }
@@ -153,7 +133,7 @@ public class LocationControllerTest {
     @Test
     public void testCreateWhenInvalidBody() throws Exception {
         //then
-        mockMvc.perform(post("/api/v1/locations/test")
+        mockMvc.perform(post("/api/v1/locations")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -166,7 +146,7 @@ public class LocationControllerTest {
                 .andExpect(content().json("""
                         {
                         "code": 400,
-                        "message": "Invalid request params: slug"
+                        "message": "Invalid request params: slug size must be between 1 and 2147483647"
                         }
                         """));
     }
@@ -181,7 +161,7 @@ public class LocationControllerTest {
         );
 
         //then
-        mockMvc.perform(put("/api/v1/locations/test")
+        mockMvc.perform(put("/api/v1/locations/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -191,7 +171,7 @@ public class LocationControllerTest {
                                 }
                                 """))
                 .andExpect(status().isOk());
-        Mockito.verify(service, Mockito.times(1)).fullUpdate(dto, "test");
+        Mockito.verify(service, Mockito.times(1)).fullUpdate(1L, dto);
     }
 
     @Test
@@ -204,10 +184,11 @@ public class LocationControllerTest {
         );
 
         //when
-        Mockito.when(service.fullUpdate(dto, "test")).thenThrow(new LocationNotFoundApiException("test"));
+        Mockito.when(service.fullUpdate(1L, dto))
+                .thenThrow(new LocationNotFoundApiException(1L));
 
         //then
-        mockMvc.perform(put("/api/v1/locations/test")
+        mockMvc.perform(put("/api/v1/locations/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -220,7 +201,7 @@ public class LocationControllerTest {
                 .andExpect(content().json("""
                         {
                         "code": 404,
-                        "message": "Location with id test not found"
+                        "message": "Location with id 1 not found"
                         }
                         """));
     }
@@ -228,7 +209,7 @@ public class LocationControllerTest {
     @Test
     public void testPutUpdateWhenInvalidParams() throws Exception {
         //then
-        mockMvc.perform(put("/api/v1/locations/a")
+        mockMvc.perform(put("/api/v1/locations/0")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -241,7 +222,7 @@ public class LocationControllerTest {
                 .andExpect(content().json("""
                         {
                         "code": 400,
-                        "message": "putUpdate.id: size must be between 2 and 2147483647"
+                        "message": "putUpdate.id: must be greater than or equal to 1"
                         }
                         """));
     }
@@ -249,7 +230,7 @@ public class LocationControllerTest {
     @Test
     public void testPutUpdateWhenInvalidBody() throws Exception {
         //then
-        mockMvc.perform(put("/api/v1/locations/test")
+        mockMvc.perform(put("/api/v1/locations/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -262,7 +243,7 @@ public class LocationControllerTest {
                 .andExpect(content().json("""
                         {
                         "code": 400,
-                        "message": "Invalid request params: name, slug"
+                        "message": "Invalid request params: slug size must be between 1 and 2147483647"
                         }
                         """));
     }
@@ -270,22 +251,22 @@ public class LocationControllerTest {
     @Test
     public void testDelete() throws Exception {
         //then
-        mockMvc.perform(delete("/api/v1/locations/test"))
+        mockMvc.perform(delete("/api/v1/locations/1"))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void testDeleteWhenNotFound() throws Exception {
         //when
-        Mockito.when(service.deleteById("test")).thenThrow(new LocationNotFoundApiException("test"));
+        Mockito.when(service.deleteById(1L)).thenThrow(new LocationNotFoundApiException(1L));
 
         //then
-        mockMvc.perform(delete("/api/v1/locations/test"))
+        mockMvc.perform(delete("/api/v1/locations/1"))
                 .andExpect(status().isNotFound())
                 .andExpect(content().json("""
                         {
                         "code": 404,
-                        "message": "Location with id test not found"
+                        "message": "Location with id 1 not found"
                         }
                         """));
     }
@@ -293,12 +274,12 @@ public class LocationControllerTest {
     @Test
     public void testDeleteWhenInvalidParams() throws Exception {
         //then
-        mockMvc.perform(delete("/api/v1/locations/a"))
+        mockMvc.perform(delete("/api/v1/locations/0"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().json("""
                         {
                         "code": 400,
-                        "message": "delete.id: size must be between 2 and 2147483647"
+                        "message": "delete.id: must be greater than or equal to 1"
                         }
                         """));
     }

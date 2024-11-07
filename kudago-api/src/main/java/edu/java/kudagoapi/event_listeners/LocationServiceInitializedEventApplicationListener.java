@@ -4,7 +4,7 @@ import edu.java.customaspect.annotations.Timed;
 import edu.java.kudagoapi.clients.KudagoClient;
 import edu.java.kudagoapi.events.LocationServiceInitializedEvent;
 import edu.java.kudagoapi.services.LocationService;
-import edu.java.kudagoapi.services.LocationServiceImpl;
+import edu.java.kudagoapi.services.MapLocationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -31,7 +31,7 @@ public class LocationServiceInitializedEventApplicationListener
     @Override
     @Timed
     public void onApplicationEvent(LocationServiceInitializedEvent event) {
-        LocationService locationService = (LocationServiceImpl) event.getSource();
+        LocationService locationService = (MapLocationService) event.getSource();
         kudagoUpdateScheduler.schedule(
                 () -> kudagoExecutor
                         .submit(() -> locationService.saveAll(kudagoClient.getLocations(FIELDS))),
