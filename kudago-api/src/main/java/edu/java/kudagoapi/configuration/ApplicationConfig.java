@@ -1,6 +1,7 @@
 package edu.java.kudagoapi.configuration;
 
 import edu.java.kudagoapi.utils.AccessType;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.validation.annotation.Validated;
@@ -15,7 +16,9 @@ public record ApplicationConfig(
         @DefaultValue("5") Integer poolSize,
         @DefaultValue("1h") Duration updateDelay,
         @DefaultValue("false") Boolean enableUpdate,
-        @DefaultValue("jpa") AccessType databaseAccessType
+        @DefaultValue("jpa") AccessType databaseAccessType,
+        @NotNull TokenAuthentication tokenAuthentication
 ) {
 
+    record TokenAuthentication(String cookieTokenKey, Duration ttl, Duration rememberMeTtl) {}
 }

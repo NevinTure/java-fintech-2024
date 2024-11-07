@@ -9,12 +9,12 @@ import lombok.*;
 @NoArgsConstructor
 public class RegisterRequest {
     @JsonProperty(required = true)
-    @Min(2)
+    @Size(min = 2)
     private String name;
     @JsonProperty(required = true)
     @Email
     private String email;
     @JsonProperty(required = true)
-    @Min(8)
+    @Size(min = 8)
     private String password;
 }

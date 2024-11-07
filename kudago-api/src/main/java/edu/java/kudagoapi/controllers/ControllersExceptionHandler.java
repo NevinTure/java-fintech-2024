@@ -2,9 +2,12 @@ package edu.java.kudagoapi.controllers;
 
 import edu.java.kudagoapi.dtos.ApiErrorResponse;
 import edu.java.kudagoapi.exceptions.*;
+import edu.java.kudagoapi.utils.ExceptionHandlerUtils;
 import jakarta.validation.ConstraintViolationException;
 import org.postgresql.util.PSQLException;
 import org.springframework.http.*;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -56,11 +59,21 @@ public class ControllersExceptionHandler extends ResponseEntityExceptionHandler 
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<Object> handleBadCredentials(BadCredentialsException ex) {
+        ApiErrorResponse response = new ApiErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage()
+        );
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,
             HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        List<String> violatedField = getViolatedFields(ex);
+        List<String> violatedField = ExceptionHandlerUtils.getViolatedFields(ex.getBindingResult());
         ApiErrorResponse response = new ApiErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 String.format("Invalid request params: %s", String.join(", ", violatedField))
@@ -68,17 +81,5 @@ public class ControllersExceptionHandler extends ResponseEntityExceptionHandler 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    private List<String> getViolatedFields(MethodArgumentNotValidException ex) {
-        return ex
-                .getBindingResult()
-                .getAllErrors()
-                .stream()
-                .map(v -> {
-                    FieldError fieldError = (FieldError) v;
-                    return String.format(
-                            "%s %s", fieldError.getField(), fieldError.getDefaultMessage());
-                })
-                .sorted()
-                .toList();
-    }
+
 }

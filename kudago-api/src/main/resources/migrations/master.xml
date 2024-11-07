@@ -13,4 +13,5 @@
     <include file="migrations/role.sql"/>
     <include file="migrations/user.sql"/>
     <include file="migrations/user_role.sql"/>
+    <include file="migrations/deactivated_token.sql"/>
 </databaseChangeLog>

@@ -12,7 +12,7 @@ import java.util.List;
 @ToString(exclude = "roles")
 @EqualsAndHashCode(exclude = "roles")
 @Entity
-@Table(name = "user")
+@Table(name = "\"user\"")
 public class User {
 
     @Id
@@ -25,7 +25,7 @@ public class User {
     private OffsetDateTime createdAt;
     @Column(name = "updated_at")
     private OffsetDateTime updatedAt;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),

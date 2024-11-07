@@ -105,6 +105,8 @@ dependencies {
     //security
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security
     implementation 'org.springframework.boot:spring-boot-starter-security:3.3.5'
+    // https://mvnrepository.com/artifact/com.nimbusds/nimbus-jose-jwt
+    implementation 'com.nimbusds:nimbus-jose-jwt:9.45'
 
 }
 

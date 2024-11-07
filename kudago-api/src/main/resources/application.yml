@@ -5,6 +5,11 @@ app:
   pool-size: 5
   update-delay: 1h
   enable-update: false
+  database-access-type: jpa
+  token-authentication:
+    cookie-token-key: ${COOKIE_TOKEN_KEY}
+    ttl: 10m
+    remember-me-ttl: 30d
 
 custom-aspect:
   rate-limiter-config:
