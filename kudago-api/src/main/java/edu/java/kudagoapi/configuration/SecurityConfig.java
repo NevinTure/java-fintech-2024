@@ -5,11 +5,11 @@ import edu.java.kudagoapi.deserializers.TokenCookieJweStringDeserializer;
 import edu.java.kudagoapi.repositories.DeactivatedTokenRepository;
 import edu.java.kudagoapi.services.user.TokenAuthenticationUserDetailsService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.*;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
-import org.springframework.security.authentication.*;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -71,6 +71,7 @@ public class SecurityConfig {
     }
 
     @Bean
+    @Profile("!without-security")
     public SecurityFilterChain filterChain(HttpSecurity http,
                                            TokenCookieAuthenticationConfigurer tokenAuthenticationConfigurer,
                                            TokenCookieSessionAuthenticationStrategy tokenAuthenticationStrategy,

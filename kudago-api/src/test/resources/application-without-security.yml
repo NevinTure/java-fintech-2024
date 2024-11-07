@@ -6,6 +6,10 @@ app:
   update-delay: 1ms
   enable-update: false
   database-access-type: jpa
+  token-authentication:
+    cookie-token-key: "{'kty':'oct','k':'13DKtkaA_HBVWMq-bsb_zYGjgX9h33-qze1emIRObO4'}"
+    ttl: 10m
+    remember-me-ttl: 30d
 
 custom-aspect:
   rate-limiter-config:

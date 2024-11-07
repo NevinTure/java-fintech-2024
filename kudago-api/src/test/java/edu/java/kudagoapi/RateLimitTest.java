@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.test.context.ActiveProfiles;
 import java.math.BigDecimal;
 import java.util.concurrent.*;
 import java.util.stream.Stream;
@@ -14,6 +15,7 @@ import java.util.stream.Stream;
 @SpringBootTest(properties = {"custom-aspect.rate-limiter-config.enable=true",
 "custom-aspect.rate-limiter-config.acquire-timeout=5ms",
 "custom-aspect.rate-limiter-config.permits=3"})
+@ActiveProfiles("without-security")
 public class RateLimitTest extends IntegrationEnvironment {
 
     @SpyBean
