@@ -9,6 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 @EqualsAndHashCode(exclude = "events")
+@ToString(exclude = "events")
 @Entity
 @Table(name = "location")
 public class Location {

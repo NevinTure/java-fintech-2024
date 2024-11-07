@@ -3,8 +3,8 @@ package edu.java.kudagoapi.event_listeners;
 import edu.java.customaspect.annotations.Timed;
 import edu.java.kudagoapi.clients.KudagoClient;
 import edu.java.kudagoapi.events.CategoryServiceInitializedEvent;
-import edu.java.kudagoapi.services.CategoryService;
-import edu.java.kudagoapi.services.CategoryServiceImpl;
+import edu.java.kudagoapi.services.category.CategoryService;
+import edu.java.kudagoapi.services.category.MapCategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -30,7 +30,7 @@ public class CategoryServiceInitializedEventApplicationListener
     @Override
     @Timed
     public void onApplicationEvent(CategoryServiceInitializedEvent event) {
-        CategoryService service = (CategoryServiceImpl) event.getSource();
+        CategoryService service = (MapCategoryService) event.getSource();
         kudagoUpdateScheduler.schedule(
                 () -> kudagoExecutor
                         .submit(() -> service.saveAll(kudagoClient.getCategories())),

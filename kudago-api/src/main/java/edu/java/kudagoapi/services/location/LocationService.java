@@ -1,4 +1,4 @@
-package edu.java.kudagoapi.services;
+package edu.java.kudagoapi.services.location;
 
 import edu.java.kudagoapi.dtos.LocationDto;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +13,6 @@ public interface LocationService {
     ResponseEntity<LocationDto> getById(Long id);
 
     ResponseEntity<List<LocationDto>> findAll();
-
-    ResponseEntity<Object> fullUpdate(Long id, LocationDto dto);
 
     ResponseEntity<Object> deleteById(Long id);
 }

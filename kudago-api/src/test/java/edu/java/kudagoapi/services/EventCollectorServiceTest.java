@@ -5,6 +5,7 @@ import edu.java.kudagoapi.dtos.LocationDto;
 import edu.java.kudagoapi.dtos.events.EventDtoResponse;
 import edu.java.kudagoapi.dtos.events.EventsResponse;
 import edu.java.kudagoapi.exceptions.ApiException;
+import edu.java.kudagoapi.services.event.EventCollectorService;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

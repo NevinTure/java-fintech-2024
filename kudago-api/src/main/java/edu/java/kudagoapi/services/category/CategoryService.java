@@ -1,4 +1,4 @@
-package edu.java.kudagoapi.services;
+package edu.java.kudagoapi.services.category;
 
 import edu.java.kudagoapi.dtos.CategoryDto;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +13,6 @@ public interface CategoryService {
     ResponseEntity<CategoryDto> getById(long id);
 
     ResponseEntity<List<CategoryDto>> findAll();
-
-    ResponseEntity<Object> fullUpdate(CategoryDto dto, long id);
 
     ResponseEntity<Object> deleteById(long id);
 }

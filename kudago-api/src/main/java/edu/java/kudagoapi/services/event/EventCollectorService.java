@@ -1,4 +1,4 @@
-package edu.java.kudagoapi.services;
+package edu.java.kudagoapi.services.event;
 
 import edu.java.kudagoapi.clients.*;
 import edu.java.kudagoapi.dtos.CurrencyConvertRequest;

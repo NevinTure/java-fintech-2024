@@ -1,7 +1,7 @@
-package edu.java.kudagoapi.services;
+package edu.java.kudagoapi.services.location;
 
+import edu.java.kudagoapi.commands.Command;
 import edu.java.kudagoapi.dtos.LocationDto;
-import edu.java.kudagoapi.events.LocationServiceInitializedEvent;
 import edu.java.kudagoapi.exceptions.BadRequestApiException;
 import edu.java.kudagoapi.exceptions.LocationNotFoundApiException;
 import edu.java.kudagoapi.model.Location;
@@ -10,24 +10,24 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @ConditionalOnProperty(prefix = "app", value = "database-access-type", havingValue = "map")
 @Service
-public class MapLocationService implements LocationService {
+public class MapLocationService implements UpdatableLocationService {
 
     private final LocationRepository repository;
     private final ModelMapper mapper;
-    private final ApplicationEventPublisher eventPublisher;
+    private final Command initializeLocationCommand;
 
     @PostConstruct
     public void init() {
-        eventPublisher.publishEvent(new LocationServiceInitializedEvent(this));
+        initializeLocationCommand.execute();
     }
 
     @Override
@@ -83,6 +83,11 @@ public class MapLocationService implements LocationService {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         throw new LocationNotFoundApiException(id);
+    }
+
+    @Override
+    public ResponseEntity<Object> undoUpdate(Long id) {
+        throw new UnsupportedOperationException();
     }
 
     @Override

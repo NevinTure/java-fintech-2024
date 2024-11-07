@@ -3,8 +3,8 @@ package edu.java.kudagoapi.clients;
 import edu.java.kudagoapi.IntegrationEnvironment;
 import edu.java.kudagoapi.dtos.CategoryDto;
 import edu.java.kudagoapi.dtos.LocationDto;
-import edu.java.kudagoapi.services.CategoryService;
-import edu.java.kudagoapi.services.LocationService;
+import edu.java.kudagoapi.services.category.UpdatableCategoryService;
+import edu.java.kudagoapi.services.location.UpdatableLocationService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,9 +21,9 @@ class KudagoClientTest extends IntegrationEnvironment {
     @Autowired
     KudagoClient kudagoClient;
     @MockBean
-    CategoryService categoryService;
+    UpdatableCategoryService categoryService;
     @MockBean
-    LocationService locationService;
+    UpdatableLocationService locationService;
 
     @Test
     public void testGetCategories() {

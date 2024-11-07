@@ -1,15 +1,15 @@
-package edu.java.kudagoapi.services;
+package edu.java.kudagoapi.services.category;
 
+import edu.java.kudagoapi.commands.Command;
 import edu.java.kudagoapi.dtos.CategoryDto;
-import edu.java.kudagoapi.events.CategoryServiceInitializedEvent;
 import edu.java.kudagoapi.exceptions.BadRequestApiException;
 import edu.java.kudagoapi.exceptions.CategoryNotFoundApiException;
 import edu.java.kudagoapi.model.Category;
 import edu.java.kudagoapi.repositories.CategoryRepository;
+import edu.java.kudagoapi.utils.CategoryRequestOperation;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,15 +18,17 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class CategoryServiceImpl implements CategoryService {
+public class MapCategoryService implements UpdatableCategoryService {
 
     private final CategoryRepository repository;
     private final ModelMapper mapper;
-    private final ApplicationEventPublisher eventPublisher;
+    private final Command initializeCategoryCommand;
+    private final CategoryEventManager eventManager;
+    private final CategoryHistory history;
 
     @PostConstruct
     public void init() {
-        eventPublisher.publishEvent(new CategoryServiceInitializedEvent(this));
+        initializeCategoryCommand.execute();
     }
 
     @Override
@@ -34,7 +36,7 @@ public class CategoryServiceImpl implements CategoryService {
         validateParams(id);
         Category category = mapper.map(dto, Category.class);
         category.setId(id);
-        repository.save(category);
+        eventManager.notify(CategoryRequestOperation.SAVE, category);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -93,6 +95,7 @@ public class CategoryServiceImpl implements CategoryService {
             Category category = mapper.map(dto, Category.class);
             category.setId(id);
             repository.save(category);
+            history.push(id, categoryOptional.get());
             return new ResponseEntity<>(HttpStatus.OK);
         }
         throw new CategoryNotFoundApiException(id);
@@ -106,5 +109,11 @@ public class CategoryServiceImpl implements CategoryService {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         throw new CategoryNotFoundApiException(id);
+    }
+
+    @Override
+    public ResponseEntity<Object> undoUpdate(long id) {
+        history.poll(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -3,9 +3,8 @@ package edu.java.kudagoapi.controllers;
 import edu.java.kudagoapi.IntegrationEnvironment;
 import edu.java.kudagoapi.clients.KudagoClient;
 import edu.java.kudagoapi.dtos.LocationDto;
-import edu.java.kudagoapi.exceptions.BadRequestApiException;
-import edu.java.kudagoapi.exceptions.LocationNotFoundApiException;
-import edu.java.kudagoapi.services.LocationService;
+import edu.java.kudagoapi.exceptions.*;
+import edu.java.kudagoapi.services.location.UpdatableLocationService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class LocationControllerTest extends IntegrationEnvironment {
 
     @MockBean
-    LocationService service;
+    UpdatableLocationService service;
     @MockBean
     KudagoClient client;
     @Autowired
@@ -280,6 +279,45 @@ public class LocationControllerTest extends IntegrationEnvironment {
                         {
                         "code": 400,
                         "message": "delete.id: must be greater than or equal to 1"
+                        }
+                        """));
+    }
+
+    @Test
+    public void testUndoUpdate() throws Exception {
+        //then
+        mockMvc.perform(put("/api/v1/locations/undo/1"))
+                .andExpect(status().isOk());
+        Mockito.verify(service, Mockito.times(1)).undoUpdate(1L);
+    }
+
+    @Test
+    public void testUndoUpdateWhenNotFound() throws Exception {
+        //when
+        Mockito.when(service.undoUpdate(1L)).thenThrow(new SnapshotNotFoundApiException(
+                "No snapshot found for location id 1"
+        ));
+
+        //then
+        mockMvc.perform(put("/api/v1/locations/undo/1"))
+                .andExpect(status().isNotFound())
+                .andExpect(content().json("""
+                        {
+                          "code": 404,
+                          "message": "No snapshot found for location id 1"
+                        }
+                        """));
+    }
+
+    @Test
+    public void testUndoUpdateWhenInvalidParams() throws Exception {
+        //then
+        mockMvc.perform(put("/api/v1/locations/undo/0"))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().json("""
+                        {
+                        "code": 400,
+                        "message": "undoUpdate.id: must be greater than or equal to 1"
                         }
                         """));
     }
