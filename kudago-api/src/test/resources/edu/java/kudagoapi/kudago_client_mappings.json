@@ -1,0 +1,206 @@
+{
+  "mappings": [
+    {
+      "request": {
+        "method": "GET",
+        "url": "/place-categories"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "jsonBody": [
+          {
+            "id": 1,
+            "slug": "test1",
+            "name": "test1"
+          },
+          {
+            "id": 2,
+            "slug": "test2",
+            "name": "test2"
+          },
+          {
+            "id": 3,
+            "slug": "test3",
+            "name": "test3"
+          }
+        ]
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "url": "/locations?fields=name%2Cslug%2Clanguage"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "jsonBody": [
+          {
+            "language": "ru",
+            "slug": "test1",
+            "name": "test1"
+          },
+          {
+            "language": "ru",
+            "slug": "test2",
+            "name": "test2"
+          },
+          {
+            "language": "ru",
+            "slug": "test3",
+            "name": "test3"
+          }
+        ]
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "url": "/events?expand=place%2Clocation&fields=id%2Cplace%2Clocation%2Cprice&actual_since=2024-08-12&actual_until=2024-10-12&page_size=1000"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "jsonBody": {
+          "results": [
+            {
+              "id": 192427,
+              "place": null,
+              "location": {
+                "slug": "spb",
+                "name": "Saint Petersburg",
+                "language": "ru"
+              },
+              "price": ""
+            },
+            {
+              "id": 202918,
+              "place": null,
+              "location": {
+                "slug": "msk",
+                "name": "Moscow",
+                "language": "ru"
+              },
+              "price": ""
+            },
+            {
+              "id": 178324,
+              "place": null,
+              "location": {
+                "slug": "spb",
+                "name": "Saint Petersburg",
+                "language": "ru"
+              },
+              "price": ""
+            },
+            {
+              "id": 169550,
+              "place": null,
+              "location": {
+                "slug": "spb",
+                "name": "Saint Petersburg",
+                "language": "ru"
+              },
+              "price": ""
+            },
+            {
+              "id": 210396,
+              "place": {
+                "id": 2543,
+                "title": "Юсуповский сад",
+                "address": "ул. Садовая, д. 54",
+                "phone": ""
+              },
+              "location": {
+                "slug": "spb",
+                "name": "Saint Petersburg",
+                "language": "ru"
+              },
+              "price": "1500 руб."
+            },
+            {
+              "id": 205190,
+              "place": {
+                "id": 134,
+                "title": "олимпийский комплекс «Лужники»",
+                "address": "наб. Лужнецкая, д. 24",
+                "phone": "+7 495 780-08-08"
+              },
+              "location": {
+                "slug": "msk",
+                "name": "Moscow",
+                "language": "ru"
+              },
+              "price": "от 1100 до 21100 рублей"
+            },
+            {
+              "id": 166899,
+              "place": null,
+              "location": {
+                "slug": "spb",
+                "name": "Saint Petersburg",
+                "language": "ru"
+              },
+              "price": ""
+            },
+            {
+              "id": 188656,
+              "place": {
+                "id": 30483,
+                "title": "общественное пространство «Севкабель Порт»",
+                "slug": "art-prostranstvo-port-sevkabel-30483",
+                "address": "Кожевенная линия, д. 40",
+                "phone": ""
+              },
+              "location": {
+                "slug": "spb",
+                "name": "Saint Petersburg",
+                "timezone": "GMT+03:00",
+                "currency": "RUB"
+              },
+              "price": "от 3000 рублей"
+            },
+            {
+              "id": 185408,
+              "place": {
+                "id": 362,
+                "title": "Парк 300-летия Санкт-Петербурга",
+                "slug": "300-letiya",
+                "address": "просп. Приморский, д. 74",
+                "phone": ""
+              },
+              "location": {
+                "slug": "spb",
+                "name": "Saint Petersburg",
+                "language": "ru"
+              },
+              "price": "на один день от 900 рублей до 10 600 рублей, на два от 1500 рублей до 20100 рублей"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "url": "/events?expand=place%2Clocation&fields=id%2Cplace%2Clocation%2Cprice&actual_since=1970-01-01&actual_until=4707-11-29&page_size=1000"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "jsonBody": {
+          "results": []
+        }
+      }
+    }
+  ]
+}
