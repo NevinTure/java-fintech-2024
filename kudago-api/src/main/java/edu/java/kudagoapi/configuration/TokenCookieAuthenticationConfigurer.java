@@ -11,14 +11,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.web.FilterChainProxy;
-import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.security.web.authentication.*;
 import org.springframework.security.web.authentication.logout.CookieClearingLogoutHandler;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
 
 @RequiredArgsConstructor
@@ -32,8 +29,8 @@ public class TokenCookieAuthenticationConfigurer
     @Override
     public void init(HttpSecurity builder) throws Exception {
         builder.logout(logout -> logout.addLogoutHandler(
-                new CookieClearingLogoutHandler("__Host-auth-token")
-        )
+                        new CookieClearingLogoutHandler("__Host-auth-token")
+                )
                 .addLogoutHandler((request, response, authentication) -> {
                     if (authentication != null && authentication.getPrincipal() instanceof TokenUser user) {
                         Token token = user.getToken();
@@ -54,7 +51,8 @@ public class TokenCookieAuthenticationConfigurer
                 builder.getSharedObject(AuthenticationManager.class),
                 new TokenCookieAuthenticationConverter(tokenCookieDeserializer)
         );
-        cookieAuthenticationFilter.setSuccessHandler((request, response, authentication) -> {});
+        cookieAuthenticationFilter.setSuccessHandler((request, response, authentication) -> {
+        });
         cookieAuthenticationFilter.setFailureHandler(
                 new AuthenticationEntryPointFailureHandler(
                         new Http403ForbiddenEntryPoint()
@@ -64,7 +62,7 @@ public class TokenCookieAuthenticationConfigurer
         authenticationProvider.setPreAuthenticatedUserDetailsService(
                 tokenAuthenticationUserDetailsService
         );
-        builder.addFilterAfter(cookieAuthenticationFilter, ExceptionTranslationFilter.class)
+        builder.addFilterBefore(cookieAuthenticationFilter, LogoutFilter.class)
                 .authenticationProvider(authenticationProvider);
     }
 }

@@ -1,13 +1,11 @@
 package edu.java.kudagoapi.configuration;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.java.kudagoapi.serializers.TokenCookieJweStringSerializer;
 import edu.java.kudagoapi.utils.Token;
 import jakarta.servlet.http.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.stereotype.Component;
@@ -20,13 +18,13 @@ public class TokenCookieSessionAuthenticationStrategy
         implements SessionAuthenticationStrategy {
 
     private final TokenCookieFactory tokenCookieFactory;
+    private final TokenCookieJweStringSerializer tokenSerializer;
 
     @Override
     public void onAuthentication(Authentication authentication, HttpServletRequest request, HttpServletResponse response) throws SessionAuthenticationException {
-        System.out.println("kek inside");
         if (authentication instanceof UsernamePasswordAuthenticationToken) {
             Token token = tokenCookieFactory.create(authentication, request);
-            String tokenString = token.toString();
+            String tokenString = tokenSerializer.serialize(token);
             Cookie cookie = new Cookie("__Host-auth-token", tokenString);
             cookie.setPath("/");
             cookie.setDomain(null);

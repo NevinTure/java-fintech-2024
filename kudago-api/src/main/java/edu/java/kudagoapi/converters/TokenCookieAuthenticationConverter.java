@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationConverter;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
-import org.springframework.security.web.authentication.rememberme.InvalidCookieException;
 import java.util.stream.Stream;
 
 @RequiredArgsConstructor
@@ -27,6 +26,6 @@ public class TokenCookieAuthenticationConverter implements AuthenticationConvert
                     })
                     .orElse(null);
         }
-        throw new InvalidCookieException("No cookie found");
+        return null;
     }
 }

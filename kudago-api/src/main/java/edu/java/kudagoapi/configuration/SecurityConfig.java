@@ -20,9 +20,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
+import org.springframework.security.web.session.DisableEncodeUrlFilter;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @Configuration
@@ -75,25 +75,18 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http,
                                            TokenCookieAuthenticationConfigurer tokenAuthenticationConfigurer,
                                            TokenCookieSessionAuthenticationStrategy tokenAuthenticationStrategy,
-                                           UsernamePasswordAuthenticationFilter authenticationFilter
+                                           UsernamePasswordAuthenticationFilter jsonAuthenticationFilter
     ) throws Exception {
         http.httpBasic(AbstractHttpConfigurer::disable)
-                .addFilterAt(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .formLogin(login ->
-                        login
-                                .loginPage("/login")
-                                .permitAll()
-                                .successHandler((request, response, authentication) -> {
-                                    System.out.println("inside kek");
-                                }))
+                .addFilterBefore(jsonAuthenticationFilter, AnonymousAuthenticationFilter.class)
+                .addFilterBefore(new CachedBodyFilter(), DisableEncodeUrlFilter.class)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/api/v1/locations/**").hasRole("ADMIN")
-                                .requestMatchers("/api/v1/places/**").hasRole("USER")
+                                .requestMatchers("/register", "/login", "/error", "/").permitAll()
+                                .requestMatchers("/api/v1/locations/**").hasAuthority("ADMIN")
+                                .requestMatchers("/api/v1/places/categories/**").hasAuthority("USER")
                                 .anyRequest().authenticated())
-                .securityMatcher(new NegatedRequestMatcher(new AntPathRequestMatcher("/register")))
-//                .securityMatcher(new NegatedRequestMatcher(new AntPathRequestMatcher("/login")))
                 .sessionManagement(sessionManagement -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                         .sessionAuthenticationStrategy(tokenAuthenticationStrategy));

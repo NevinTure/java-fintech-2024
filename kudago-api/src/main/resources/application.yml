@@ -40,8 +40,9 @@ server:
   port: 8090
 
 logging:
-  config: classpath:log4j2-plain.xml
-#  level:
+#  config: classpath:log4j2-plain.xml
+  level:
+    org.springframework.security: trace
 #    root: debug
 #    org:
 #      springframework:

@@ -7,7 +7,6 @@ import edu.java.kudagoapi.utils.ExceptionHandlerUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -45,7 +44,6 @@ public class JsonUsernamePasswordAuthenticationFilter extends UsernamePasswordAu
         }
         throw new AccessDeniedException("Login must be in json format");
     }
-
 
 
     private void validateLoginRequest(LoginRequest loginRequest) {
