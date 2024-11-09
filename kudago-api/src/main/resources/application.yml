@@ -37,7 +37,12 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
 server:
-  port: 8090
+  port: 8443
+  ssl:
+    key-store: classpath:java-fintech.p12
+    key-store-password: ${KEY_STORE_PASS}
+    key-alias: fintech
+
 
 logging:
 #  config: classpath:log4j2-plain.xml

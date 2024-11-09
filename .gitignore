@@ -37,3 +37,6 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### SSL ###
+/kudago-api/src/main/resources/java-fintech.p12

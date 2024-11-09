@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -48,9 +49,13 @@ public class SecurityConfig {
     @Bean
     public UsernamePasswordAuthenticationFilter jsonAuthenticationFilter(
             ObjectMapper objectMapper, LocalValidatorFactoryBean validator) {
-        return new JsonUsernamePasswordAuthenticationFilter(
+        JsonUsernamePasswordAuthenticationFilter authenticationFilter = new JsonUsernamePasswordAuthenticationFilter(
                 authenticationManager(), objectMapper, validator
         );
+        authenticationFilter.setSessionAuthenticationStrategy((auth, request, response) ->
+                SecurityContextHolder.getContext().setAuthentication(auth));
+        authenticationFilter.setContinueChainBeforeSuccessfulAuthentication(true);
+        return authenticationFilter;
     }
 
     @Bean
