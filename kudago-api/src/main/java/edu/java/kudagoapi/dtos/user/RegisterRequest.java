@@ -1,4 +1,4 @@
-package edu.java.kudagoapi.dtos;
+package edu.java.kudagoapi.dtos.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;

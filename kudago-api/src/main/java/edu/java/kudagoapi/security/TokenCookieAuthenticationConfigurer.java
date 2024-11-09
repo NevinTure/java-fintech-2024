@@ -1,4 +1,4 @@
-package edu.java.kudagoapi.configuration;
+package edu.java.kudagoapi.security;
 
 import edu.java.kudagoapi.converters.TokenCookieAuthenticationConverter;
 import edu.java.kudagoapi.deserializers.TokenCookieJweStringDeserializer;
@@ -31,6 +31,7 @@ public class TokenCookieAuthenticationConfigurer
         builder.logout(logout -> logout.addLogoutHandler(
                         new CookieClearingLogoutHandler("__Host-auth-token")
                 )
+                .logoutUrl("/user/logout")
                 .addLogoutHandler((request, response, authentication) -> {
                     if (authentication != null && authentication.getPrincipal() instanceof TokenUser user) {
                         Token token = user.getToken();

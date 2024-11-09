@@ -7,8 +7,8 @@ import java.time.OffsetDateTime;
 @Getter
 @Setter
 @AllArgsConstructor
-@ToString
-@EqualsAndHashCode
+@ToString(exclude = "user")
+@EqualsAndHashCode(exclude = "user")
 @Entity
 @Table(name = "user_secret_key")
 public class UserSecretKey {
@@ -17,7 +17,7 @@ public class UserSecretKey {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String secret;
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
     @Column(name = "created_at")

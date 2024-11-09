@@ -1,7 +1,7 @@
-package edu.java.kudagoapi.configuration;
+package edu.java.kudagoapi.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.java.kudagoapi.dtos.LoginRequest;
+import edu.java.kudagoapi.dtos.user.LoginRequest;
 import edu.java.kudagoapi.exceptions.BadRequestApiException;
 import edu.java.kudagoapi.utils.ExceptionHandlerUtils;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,8 +1,7 @@
 package edu.java.kudagoapi.services.user;
 
 import com.j256.twofactorauth.TimeBasedOneTimePasswordUtil;
-import edu.java.kudagoapi.dtos.RegisterRequest;
-import edu.java.kudagoapi.dtos.TwoFAResponse;
+import edu.java.kudagoapi.dtos.user.*;
 import edu.java.kudagoapi.exceptions.BadRequestApiException;
 import edu.java.kudagoapi.model.*;
 import edu.java.kudagoapi.repositories.*;
@@ -14,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 @Service
@@ -37,11 +37,38 @@ public class JpaUserService implements UserService {
     }
 
     @Override
+    public ResponseEntity<Object> changePassword(ChangePasswordRequest request) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth.getPrincipal() instanceof TokenUser tokenUser) {
+            User user = repo.findByName(tokenUser.getUsername()).get();
+            validateChangePassword(request, user);
+            user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+            repo.save(user);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        throw new BadRequestApiException("Authentication must be of type TokenUser");
+    }
+
+    private void validateChangePassword(ChangePasswordRequest request, User user) {
+        if (user.getSecretKey() == null) {
+            throw new BadRequestApiException("2FA must be enabled");
+        }
+        if (!Objects.equals(request.getCode(), "0000")) {
+            throw new BadRequestApiException("2FA code doesn't match");
+        }
+        if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+            throw new BadRequestApiException("Wrong password");
+        }
+        if (!Objects.equals(request.getNewPassword(), request.getConfirmPassword())) {
+            throw new BadRequestApiException("New password doesn't match");
+        }
+    }
+
+    @Override
     public ResponseEntity<TwoFAResponse> enable2FA() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authentication.getClass());
-        if (authentication.getPrincipal() instanceof TokenUser tokenUser) {
-            User user = repo.findByName(tokenUser.getToken().subject()).get();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth.getPrincipal() instanceof TokenUser tokenUser) {
+            User user = repo.findByName(tokenUser.getUsername()).get();
             TwoFAResponse twoFAResponse = createKey(user);
             return ResponseEntity.ok(twoFAResponse);
         }
@@ -50,11 +77,13 @@ public class JpaUserService implements UserService {
 
     @Override
     public ResponseEntity<Object> disable2FA() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication.getPrincipal() instanceof TokenUser tokenUser) {
-            User user = repo.findByName(tokenUser.getToken().subject()).get();
-            if (user.getSecretKey() != null) {
-                userSecretKeyRepo.deleteById(user.getSecretKey().getId());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth.getPrincipal() instanceof TokenUser tokenUser) {
+            User user = repo.findByName(tokenUser.getUsername()).get();
+            UserSecretKey secretKey = user.getSecretKey();
+            System.out.println(secretKey);
+            if (secretKey != null) {
+                userSecretKeyRepo.deleteById(secretKey.getId());
             }
             return new ResponseEntity<>(HttpStatus.OK);
         }

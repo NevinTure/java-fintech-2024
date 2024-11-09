@@ -1,6 +1,6 @@
 package edu.java.kudagoapi.controllers;
 
-import edu.java.kudagoapi.dtos.*;
+import edu.java.kudagoapi.dtos.user.*;
 import edu.java.kudagoapi.services.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +21,18 @@ public class UserController {
         return userService.register(request);
     }
 
-    @PostMapping("/enable-2fa")
+    @PatchMapping("/enable-2fa")
     public ResponseEntity<TwoFAResponse> enable2FA() {
         return userService.enable2FA();
     }
 
-    @PostMapping("/disable-2fa")
+    @PatchMapping("/disable-2fa")
     public ResponseEntity<Object> disable2FA() {
         return userService.disable2FA();
+    }
+
+    @PatchMapping("/change-password")
+    public ResponseEntity<Object> changePassword(@Valid @RequestBody ChangePasswordRequest request) {
+        return userService.changePassword(request);
     }
 }

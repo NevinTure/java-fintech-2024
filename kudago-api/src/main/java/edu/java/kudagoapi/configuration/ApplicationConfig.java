@@ -20,5 +20,5 @@ public record ApplicationConfig(
         @NotNull TokenAuthentication tokenAuthentication
 ) {
 
-    record TokenAuthentication(String cookieTokenKey, Duration ttl, Duration rememberMeTtl) {}
+   public record TokenAuthentication(String cookieTokenKey, Duration ttl, Duration rememberMeTtl) {}
 }

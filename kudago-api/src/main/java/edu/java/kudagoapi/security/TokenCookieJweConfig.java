@@ -1,4 +1,4 @@
-package edu.java.kudagoapi.configuration;
+package edu.java.kudagoapi.security;
 
 import com.nimbusds.jose.crypto.DirectDecrypter;
 import com.nimbusds.jose.crypto.DirectEncrypter;

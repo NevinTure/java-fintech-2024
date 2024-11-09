@@ -6,7 +6,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @Profile("without-security")
-public class SecurityTestConfig {
+public class DisabledSecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {

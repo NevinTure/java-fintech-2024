@@ -1,4 +1,4 @@
-package edu.java.kudagoapi.configuration;
+package edu.java.kudagoapi.security;
 
 import edu.java.kudagoapi.utils.CachedBodyHttpServletRequest;
 import jakarta.servlet.FilterChain;

@@ -3,6 +3,7 @@ package edu.java.kudagoapi.configuration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.java.kudagoapi.deserializers.TokenCookieJweStringDeserializer;
 import edu.java.kudagoapi.repositories.DeactivatedTokenRepository;
+import edu.java.kudagoapi.security.*;
 import edu.java.kudagoapi.services.user.TokenAuthenticationUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.*;
@@ -55,6 +56,7 @@ public class SecurityConfig {
         authenticationFilter.setSessionAuthenticationStrategy((auth, request, response) ->
                 SecurityContextHolder.getContext().setAuthentication(auth));
         authenticationFilter.setContinueChainBeforeSuccessfulAuthentication(true);
+        authenticationFilter.setFilterProcessesUrl("/user/login");
         return authenticationFilter;
     }
 
@@ -88,7 +90,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/register", "/login", "/error", "/").permitAll()
+                                .requestMatchers("/user/register", "/user/login", "/error", "/").permitAll()
                                 .requestMatchers("/api/v1/locations/**").hasAuthority("ADMIN")
                                 .requestMatchers("/api/v1/places/categories/**").hasAuthority("USER")
                                 .anyRequest().authenticated())
