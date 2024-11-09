@@ -1,9 +1,7 @@
 package edu.java.kudagoapi.services.user;
 
 import edu.java.kudagoapi.model.DeactivatedToken;
-import edu.java.kudagoapi.model.User;
 import edu.java.kudagoapi.repositories.DeactivatedTokenRepository;
-import edu.java.kudagoapi.repositories.JpaUserRepository;
 import edu.java.kudagoapi.utils.Token;
 import edu.java.kudagoapi.utils.TokenUser;
 import lombok.RequiredArgsConstructor;
@@ -18,19 +16,17 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class TokenAuthenticationUserDetailsService
-    implements AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> {
+        implements AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> {
 
     private final DeactivatedTokenRepository deactivatedTokenRepo;
-    private final JpaUserRepository userRepo;
 
     @Override
     public UserDetails loadUserDetails(PreAuthenticatedAuthenticationToken authenticationToken) throws UsernameNotFoundException {
         if (authenticationToken.getPrincipal() instanceof Token token) {
             Optional<DeactivatedToken> deactivatedTokenOp = deactivatedTokenRepo.findById(token.id());
-            User user = userRepo.findByName(token.subject()).get();
             return new TokenUser(
-                    user.getName(),
-                    user.getPassword(),
+                    token.subject(),
+                    "nopassword",
                     true,
                     true,
                     deactivatedTokenOp.isEmpty() && token.expiresAt().isAfter(OffsetDateTime.now()),

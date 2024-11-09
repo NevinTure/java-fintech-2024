@@ -32,6 +32,8 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private List<Role> roles;
+    @OneToOne(mappedBy = "user")
+    private UserSecretKey secretKey;
 
     public User() {
         this.createdAt = OffsetDateTime.now().withNano(0);

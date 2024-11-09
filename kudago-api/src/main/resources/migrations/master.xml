@@ -14,4 +14,5 @@
     <include file="migrations/user.sql"/>
     <include file="migrations/user_role.sql"/>
     <include file="migrations/deactivated_token.sql"/>
+    <include file="migrations/user_secret.sql"/>
 </databaseChangeLog>
