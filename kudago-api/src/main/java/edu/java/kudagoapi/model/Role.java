@@ -6,7 +6,6 @@ import org.springframework.security.core.GrantedAuthority;
 import java.time.OffsetDateTime;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 @ToString
@@ -25,7 +24,13 @@ public class Role implements GrantedAuthority {
     @Column(name = "updated_at")
     private OffsetDateTime updatedAt;
 
+    public Role() {
+        createdAt = OffsetDateTime.now().withNano(0);
+        updatedAt = OffsetDateTime.now().withNano(0);
+    }
+
     public Role(String name, String description) {
+        this();
         this.name = name;
         this.description = description;
     }

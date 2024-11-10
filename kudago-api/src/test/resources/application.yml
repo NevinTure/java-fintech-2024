@@ -28,6 +28,8 @@ spring:
     password: ${DB_PASSWORD}
     url: ${DB_URL}
     driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 2
   jpa:
     show-sql: true
     hibernate:

@@ -52,7 +52,7 @@ public class UserControllerSystemTest extends IntegrationEnvironment {
     @Test
     public void testRegister() throws Exception {
         //given
-        Role role = createAndSaveRole("USER", "test");
+        Role role = createAndSaveRole("ROLE_USER", "test");
 
         //then
         mvc.perform(post("/user/register")
@@ -73,7 +73,7 @@ public class UserControllerSystemTest extends IntegrationEnvironment {
     @Test
     public void testRegisterThanAlreadyExists() throws Exception {
         //given
-        Role role = createAndSaveRole("USER", "test");
+        Role role = createAndSaveRole("ROLE_USER", "test");
         User user = createAndSaveUser("test1", "12345678", List.of(role));
 
         //then
@@ -108,7 +108,7 @@ public class UserControllerSystemTest extends IntegrationEnvironment {
     @Test
     public void testLogin() throws Exception {
         //given
-        Role role = createAndSaveRole("USER", "test");
+        Role role = createAndSaveRole("ROLE_USER", "test");
         User user = createAndSaveUser("test1", "12345678", List.of(role));
 
         //then
@@ -147,7 +147,7 @@ public class UserControllerSystemTest extends IntegrationEnvironment {
     @Test
     public void testLoginThenInvalidCredentials() throws Exception {
         //given
-        Role role = createAndSaveRole("USER", "test");
+        Role role = createAndSaveRole("ROLE_USER", "test");
         User user = createAndSaveUser("test1", "12345678", List.of(role));
 
         //then
@@ -165,7 +165,7 @@ public class UserControllerSystemTest extends IntegrationEnvironment {
     @Test
     public void testEnable2FA() throws Exception {
         //given
-        Role role = createAndSaveRole("USER", "test");
+        Role role = createAndSaveRole("ROLE_USER", "test");
         User user = createAndSaveUser("test1", "12345678", List.of(role));
         Authentication auth = createTokenUserAuthentication(user);
         //then
@@ -177,7 +177,7 @@ public class UserControllerSystemTest extends IntegrationEnvironment {
     @Test
     public void testEnable2FAThenAlreadyEnabled() throws Exception {
         //given
-        Role role = createAndSaveRole("USER", "test");
+        Role role = createAndSaveRole("ROLE_USER", "test");
         User user = createAndSaveUser("test1", "12345678", List.of(role));
         Authentication auth = createTokenUserAuthentication(user);
 
@@ -194,7 +194,7 @@ public class UserControllerSystemTest extends IntegrationEnvironment {
     @Test
     public void testDisable2FA() throws Exception {
         //given
-        Role role = createAndSaveRole("USER", "test");
+        Role role = createAndSaveRole("ROLE_USER", "test");
         User user = createAndSaveUser("test1", "12345678", List.of(role));
         Authentication auth = createTokenUserAuthentication(user);
 
@@ -207,7 +207,7 @@ public class UserControllerSystemTest extends IntegrationEnvironment {
     @Test
     public void testChangePassword() throws Exception {
         //given
-        Role role = createAndSaveRole("USER", "test");
+        Role role = createAndSaveRole("ROLE_USER", "test");
         User user = createAndSaveUser("test1", "12345678", List.of(role));
         Authentication auth = createTokenUserAuthentication(user);
 
@@ -233,7 +233,7 @@ public class UserControllerSystemTest extends IntegrationEnvironment {
     @WithMockUser(username = "test1", password = "12345678")
     public void testChangePasswordThenInvalidParams() throws Exception {
         //given
-        Role role = createAndSaveRole("USER", "test");
+        Role role = createAndSaveRole("ROLE_USER", "test");
         User user = createAndSaveUser("test1", "12345678", List.of(role));
 
         //then
@@ -262,8 +262,8 @@ public class UserControllerSystemTest extends IntegrationEnvironment {
     }
 
     private Role createAndSaveRole(String name, String description) {
-        Role role = new Role("USER", "test");
-        Optional<Role> foundRole = roleRepo.findByName("USER");
+        Role role = new Role(name, description);
+        Optional<Role> foundRole = roleRepo.findByName(name);
         if (foundRole.isEmpty()) {
             roleRepo.save(role);
         } else {
@@ -272,7 +272,7 @@ public class UserControllerSystemTest extends IntegrationEnvironment {
         return role;
     }
 
-    private Authentication createTokenUserAuthentication(User user) {
+    public static Authentication createTokenUserAuthentication(User user) {
         Token token = new Token(
                 UUID.randomUUID(),
                 user.getName(),

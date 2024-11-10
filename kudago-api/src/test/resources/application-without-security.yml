@@ -23,6 +23,9 @@ spring:
   liquibase:
     enabled: true
     change-log: classpath:migrations/master.xml
+  datasource:
+    hikari:
+      maximum-pool-size: 2
   jpa:
     show-sql: true
     hibernate:

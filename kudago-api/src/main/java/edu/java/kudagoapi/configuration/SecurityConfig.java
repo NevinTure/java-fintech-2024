@@ -100,8 +100,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/user/register", "/user/login", "/error", "/").permitAll()
-                                .requestMatchers("/api/v1/locations/**").hasAuthority("ADMIN")
-                                .requestMatchers("/api/v1/places/categories/**").hasAuthority("USER")
+                                .requestMatchers("/api/v1/locations/**").hasRole("ADMIN")
+                                .requestMatchers("/api/v1/places/categories/**").hasRole("USER")
                                 .anyRequest().authenticated())
                 .sessionManagement(sessionManagement -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

@@ -9,4 +9,5 @@ create table if not exists role(
     updated_at timestamp with time zone default current_timestamp(0)
 );
 
-insert into role(name, description) values ('USER', 'user role'), ('ADMIN', 'admin role') on conflict do nothing;
+insert into role(name, description) values ('ROLE_USER', 'user role'),
+                                           ('ROLE_ADMIN', 'admin role') on conflict do nothing;

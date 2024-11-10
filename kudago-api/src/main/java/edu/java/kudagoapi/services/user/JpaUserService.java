@@ -91,7 +91,7 @@ public class JpaUserService implements UserService {
     }
 
     private void applyRoles(User user) {
-        Role userRole = roleRepo.findByName("USER").get();
+        Role userRole = roleRepo.findByName("ROLE_USER").get();
         user.getRoles().add(userRole);
     }
 
