@@ -33,7 +33,7 @@ public class TokenCookieFactory {
 
     @SneakyThrows
     private boolean getRememberMeFromRequest(HttpServletRequest request) {
-        if (request.getContentType().contains("json")) {
+        if (request.getContentType() != null && request.getContentType().contains("json")) {
             LoginRequest loginRequest = objectMapper.readValue(request.getReader(), LoginRequest.class);
             return loginRequest.isRememberMe();
         }

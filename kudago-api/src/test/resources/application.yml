@@ -1,0 +1,56 @@
+app:
+  api-version: v1.4
+  kudago-api-base-url: https://kudago.com/public-api/${app.api-version}
+  currency-api-base-url: http://localhost:8070
+  pool-size: 5
+  update-delay: 1h
+  enable-update: false
+  database-access-type: jpa
+  token-authentication:
+    cookie-token-key: "{'kty':'oct','k':'13DKtkaA_HBVWMq-bsb_zYGjgX9h33-qze1emIRObO4'}"
+    ttl: 10m
+    remember-me-ttl: 30d
+
+custom-aspect:
+  rate-limiter-config:
+    enable: true
+    acquire-timeout: 100ms
+    permits: 10
+
+spring:
+  application:
+    name: kudago-api
+  liquibase:
+    enabled: true
+    change-log: classpath:migrations/master.xml
+  datasource:
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    url: ${DB_URL}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 8443
+  ssl:
+    key-store: classpath:java-fintech.p12
+    key-store-password: 322322
+    key-alias: fintech
+
+
+logging:
+  #  config: classpath:log4j2-plain.xml
+  level:
+    org.springframework.security: trace
+#    root: debug
+#    org:
+#      springframework:
+#        web: trace
+#      apache: trace
+#debug: true

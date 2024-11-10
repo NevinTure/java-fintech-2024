@@ -40,7 +40,7 @@ public class JsonUsernamePasswordAuthenticationFilter extends UsernamePasswordAu
             return super.getAuthenticationManager()
                     .authenticate(
                             new UsernamePasswordAuthenticationToken(
-                                    loginRequest.getUsername(), loginRequest.getPassword()));
+                                    loginRequest.getName(), loginRequest.getPassword()));
         }
         throw new AccessDeniedException("Login must be in json format");
     }

@@ -60,7 +60,7 @@ public class JpaUserService implements UserService {
             throw new BadRequestApiException("Wrong password");
         }
         if (!Objects.equals(request.getNewPassword(), request.getConfirmPassword())) {
-            throw new BadRequestApiException("New password doesn't match");
+            throw new BadRequestApiException("new_pass and confirm_pass doesn't match");
         }
     }
 
@@ -98,11 +98,15 @@ public class JpaUserService implements UserService {
     private TwoFAResponse createKey(User user) {
         if (user.getSecretKey() == null) {
             String secret = TimeBasedOneTimePasswordUtil.generateBase32Secret();
-            UserSecretKey userSecretKey = new UserSecretKey(secret);
-            userSecretKey.setUser(user);
-            userSecretKeyRepo.save(userSecretKey);
+            saveKey(user, secret);
             return new TwoFAResponse(secret);
         }
         throw new BadRequestApiException("2FA already enabled");
+    }
+
+    private void saveKey(User user, String secret) {
+        UserSecretKey userSecretKey = new UserSecretKey(secret);
+        userSecretKey.setUser(user);
+        userSecretKeyRepo.save(userSecretKey);
     }
 }

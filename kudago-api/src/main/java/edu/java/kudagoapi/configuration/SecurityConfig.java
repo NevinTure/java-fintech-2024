@@ -26,6 +26,8 @@ import org.springframework.security.web.authentication.AnonymousAuthenticationFi
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.session.DisableEncodeUrlFilter;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 @Configuration
 @EnableWebSecurity(debug = true)
@@ -61,6 +63,11 @@ public class SecurityConfig {
     }
 
     @Bean
+    public OncePerRequestFilter exceptionHandlerFilter(HandlerExceptionResolver handlerExceptionResolver) {
+        return new ExceptionHandlerFilter(handlerExceptionResolver);
+    }
+
+    @Bean
     public RoleHierarchy roleHierarchy() {
         return RoleHierarchyImpl.withDefaultRolePrefix()
                 .role("ADMIN").implies("USER")
@@ -82,11 +89,13 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http,
                                            TokenCookieAuthenticationConfigurer tokenAuthenticationConfigurer,
                                            TokenCookieSessionAuthenticationStrategy tokenAuthenticationStrategy,
-                                           UsernamePasswordAuthenticationFilter jsonAuthenticationFilter
+                                           UsernamePasswordAuthenticationFilter jsonAuthenticationFilter,
+                                           OncePerRequestFilter exceptionHandlerFilter
     ) throws Exception {
         http.httpBasic(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jsonAuthenticationFilter, AnonymousAuthenticationFilter.class)
                 .addFilterBefore(new CachedBodyFilter(), DisableEncodeUrlFilter.class)
+                .addFilterAfter(exceptionHandlerFilter, CachedBodyFilter.class)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
