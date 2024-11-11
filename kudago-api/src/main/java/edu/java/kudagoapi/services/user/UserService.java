@@ -8,5 +8,5 @@ public interface UserService {
     ResponseEntity<Object> register(RegisterRequest request);
     ResponseEntity<Object> changePassword(ChangePasswordRequest request);
     ResponseEntity<TwoFAResponse> enable2FA();
-    ResponseEntity<Object> disable2FA();
+    ResponseEntity<Object> disable2FA(Disable2FARequest request);
 }

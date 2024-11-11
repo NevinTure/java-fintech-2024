@@ -76,12 +76,11 @@ public class JpaUserService implements UserService {
     }
 
     @Override
-    public ResponseEntity<Object> disable2FA() {
+    public ResponseEntity<Object> disable2FA(Disable2FARequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth.getPrincipal() instanceof TokenUser tokenUser) {
+        if (auth.getPrincipal() instanceof TokenUser tokenUser && request.getCode().equals("0000")) {
             User user = repo.findByName(tokenUser.getUsername()).get();
             UserSecretKey secretKey = user.getSecretKey();
-            System.out.println(secretKey);
             if (secretKey != null) {
                 userSecretKeyRepo.deleteById(secretKey.getId());
             }

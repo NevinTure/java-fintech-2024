@@ -200,6 +200,12 @@ public class UserControllerSystemTest extends IntegrationEnvironment {
 
         //then
         mvc.perform(patch("/user/disable-2fa")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "code": "0000"
+                                }
+                                """)
                         .with(authentication(auth)))
                 .andExpect(status().isOk());
     }

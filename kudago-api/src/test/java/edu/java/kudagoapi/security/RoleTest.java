@@ -71,7 +71,6 @@ public class RoleTest extends IntegrationEnvironment {
         Role role = createAndSaveRole("ROLE_ADMIN", "test");
         User user = createAndSaveUser("test1", "12345678", List.of(role));
         Authentication auth = UserControllerSystemTest.createTokenUserAuthentication(user);
-        System.out.println(roleRepo.findAll() + " kek");
         //then
         mvc.perform(get("/api/v1/places/categories")
                         .with(authentication(auth)))

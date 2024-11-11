@@ -27,8 +27,8 @@ public class UserController {
     }
 
     @PatchMapping("/disable-2fa")
-    public ResponseEntity<Object> disable2FA() {
-        return userService.disable2FA();
+    public ResponseEntity<Object> disable2FA(@Valid @RequestBody Disable2FARequest request) {
+        return userService.disable2FA(request);
     }
 
     @PatchMapping("/change-password")
