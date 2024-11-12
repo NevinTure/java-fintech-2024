@@ -29,11 +29,11 @@ jobs:
           ./gradlew kudago-api:build jacocoTestReport
 
       - name: docker build image
-        run: docker image build -f kudago-api.Dockerfile -t ghcr.io/nevintur/kudago-api:latest .
+        run: docker image build -f kudago-api.Dockerfile -t ghcr.io/nevinture/kudago-api:latest .
 
       - name: publish image
         run: |
-          docker login --username nevinture --password ${{ secrets.GHCR_TOKEN }} ghcr.io
+          docker login --username nevinture --password-stdin ${{ secrets.GHCR_TOKEN }} ghcr.io
           docker push ghcr.io/nevinture/kudago-api:latest
 
       - name: Add coverage to PR
