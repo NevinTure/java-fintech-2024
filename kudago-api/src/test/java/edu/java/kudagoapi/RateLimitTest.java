@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 
 @SpringBootTest(properties = {"custom-aspect.rate-limiter-config.enable=true",
 "custom-aspect.rate-limiter-config.acquire-timeout=5ms",
-"custom-aspect.rate-limiter-config.permits=3"})
+"custom-aspect.rate-limiter-config.allowed=3"})
 @ActiveProfiles("without-security")
 public class RateLimitTest extends IntegrationEnvironment {
 
