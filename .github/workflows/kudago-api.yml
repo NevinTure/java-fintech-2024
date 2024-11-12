@@ -54,4 +54,4 @@ jobs:
 
       - run: |
           chmod +x gradlew
-          ./gradlew kudago-api:CheckstyleMain --scan
+          ./gradlew CheckstyleMain
