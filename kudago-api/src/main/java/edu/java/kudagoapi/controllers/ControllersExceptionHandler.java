@@ -1,14 +1,13 @@
 package edu.java.kudagoapi.controllers;
 
 import edu.java.kudagoapi.dtos.ApiErrorResponse;
-import edu.java.kudagoapi.exceptions.*;
+import edu.java.kudagoapi.exceptions.BadRequestApiException;
+import edu.java.kudagoapi.exceptions.SnapshotNotFoundApiException;
 import edu.java.kudagoapi.utils.ExceptionHandlerUtils;
 import jakarta.validation.ConstraintViolationException;
 import org.postgresql.util.PSQLException;
 import org.springframework.http.*;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
@@ -43,7 +42,7 @@ public class ControllersExceptionHandler extends ResponseEntityExceptionHandler 
     public ResponseEntity<Object> handleHibernateConstraintViolation(PSQLException ex) {
         String message = ex.getServerErrorMessage() == null ? ex.getMessage() : ex.getServerErrorMessage().getDetail();
         ApiErrorResponse response = new ApiErrorResponse(
-            HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.value(),
                 message
         );
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);

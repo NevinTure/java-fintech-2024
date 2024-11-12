@@ -15,7 +15,7 @@ custom-aspect:
   rate-limiter-config:
     enable: true
     acquire-timeout: 100ms
-    permits: 10
+    allowed: 10
 
 spring:
   application:

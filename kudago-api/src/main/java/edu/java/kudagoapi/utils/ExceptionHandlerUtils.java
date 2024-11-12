@@ -4,7 +4,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import java.util.List;
 
-public class ExceptionHandlerUtils {
+public final class ExceptionHandlerUtils {
+
+    private ExceptionHandlerUtils() {
+    }
 
     public static List<String> getViolatedFields(BindingResult bindingResult) {
         return bindingResult

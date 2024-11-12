@@ -39,7 +39,7 @@ public class CachedBodyHttpServletRequest extends HttpServletRequestWrapper {
 
         private final InputStream cachedBodyInputStream;
 
-        public CachedBodyServletInputStream(byte[] body) {
+        CachedBodyServletInputStream(byte[] body) {
             this.cachedBodyInputStream = new ByteArrayInputStream(body);
         }
 

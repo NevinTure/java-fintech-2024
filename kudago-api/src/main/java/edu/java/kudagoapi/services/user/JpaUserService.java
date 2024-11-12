@@ -17,6 +17,7 @@ import java.util.Objects;
 
 @RequiredArgsConstructor
 @Service
+@SuppressWarnings("MultipleStringLiterals")
 public class JpaUserService implements UserService {
 
     private final JpaUserRepository repo;

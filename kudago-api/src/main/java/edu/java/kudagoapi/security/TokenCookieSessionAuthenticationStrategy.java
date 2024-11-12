@@ -21,7 +21,10 @@ public class TokenCookieSessionAuthenticationStrategy
     private final TokenCookieJweStringSerializer tokenSerializer;
 
     @Override
-    public void onAuthentication(Authentication authentication, HttpServletRequest request, HttpServletResponse response) throws SessionAuthenticationException {
+    public void onAuthentication(
+            Authentication authentication,
+            HttpServletRequest request,
+            HttpServletResponse response) throws SessionAuthenticationException {
         if (authentication instanceof UsernamePasswordAuthenticationToken) {
             Token token = tokenCookieFactory.create(authentication, request);
             String tokenString = tokenSerializer.serialize(token);

@@ -12,7 +12,7 @@ public record CustomAspectConfig(
 
     public record RateLimiterConfig(
             Boolean enable,
-            Integer permits,
+            Integer allowed,
             Duration acquireTimeout
     ) {}
 }

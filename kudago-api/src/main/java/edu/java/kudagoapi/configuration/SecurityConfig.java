@@ -32,6 +32,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 @Configuration
 @EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
+@SuppressWarnings("MultipleStringLiterals")
 public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
