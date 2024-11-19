@@ -1,20 +1,11 @@
+HELP.md
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-target/
-!**/src/main/**/target/
-!**/src/test/**/target/
 
-### IntelliJ IDEA ###
-.idea
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
-java-fintech-2024.iml
-
-### Eclipse ###
+### STS ###
 .apt_generated
 .classpath
 .factorypath
@@ -26,6 +17,15 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -35,9 +35,3 @@ bin/
 
 ### VS Code ###
 .vscode/
-
-### Mac OS ###
-.DS_Store
-
-### SSL ###
-/kudago-api/src/main/resources/java-fintech.p12
