@@ -12,6 +12,7 @@ target/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+java-fintech-2024.iml
 
 ### Eclipse ###
 .apt_generated
@@ -37,3 +38,6 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### SSL ###
+/kudago-api/src/main/resources/java-fintech.p12

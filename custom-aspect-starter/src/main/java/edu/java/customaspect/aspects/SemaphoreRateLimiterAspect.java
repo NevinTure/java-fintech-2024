@@ -23,7 +23,7 @@ public class SemaphoreRateLimiterAspect {
 
     private final Map<String, Semaphore> limiter = new ConcurrentHashMap<>();
 
-    private final static Logger log = LoggerFactory.getLogger(SemaphoreRateLimiterAspect.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(SemaphoreRateLimiterAspect.class);
 
     public SemaphoreRateLimiterAspect(CustomAspectConfig config) {
         this.config = config.rateLimiterConfig();
@@ -40,7 +40,7 @@ public class SemaphoreRateLimiterAspect {
     @Around("annotatedMethod() || annotatedClass()")
     public Object rateLimit(ProceedingJoinPoint joinPoint) throws Throwable {
         String id = getAnnotationValue(joinPoint);
-        Semaphore semaphore = limiter.computeIfAbsent(id, k -> new Semaphore(config.permits()));
+        Semaphore semaphore = limiter.computeIfAbsent(id, k -> new Semaphore(config.allowed()));
         try {
             boolean isAcquired = semaphore
                     .tryAcquire(config.acquireTimeout().toNanos(), TimeUnit.NANOSECONDS);
@@ -51,7 +51,7 @@ public class SemaphoreRateLimiterAspect {
                         .format("Rate limit exceeded for rateLimiter: %s", id));
             }
         } catch (Throwable e) {
-            log.error(e.getMessage(), e);
+            LOGGER.error(e.getMessage(), e);
             throw e;
         } finally {
             semaphore.release();
