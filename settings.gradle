@@ -1,2 +1,3 @@
 rootProject.name = 'java-fintech-2024'
-include ':custom-aspect-starter',':kudago-api',":currency-api",':mq-benchmark'
+include ':custom-aspect-starter',':kudago-api',':currency-api',':mq-benchmark'
+

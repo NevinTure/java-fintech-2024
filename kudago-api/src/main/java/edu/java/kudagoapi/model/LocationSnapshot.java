@@ -23,9 +23,8 @@ public class LocationSnapshot {
     @Column(name = "origin_id")
     private Long originId;
 
-    public LocationSnapshot(Long id, String slug, String name, String language) {
+    public LocationSnapshot(String slug, String name, String language) {
         this();
-        this.id = id;
         this.slug = slug;
         this.name = name;
         this.language = language;

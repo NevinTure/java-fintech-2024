@@ -28,6 +28,14 @@ jobs:
           chmod +x gradlew
           ./gradlew kudago-api:build jacocoTestReport
 
+      - name: docker build image
+        run: docker image build -f kudago-api.Dockerfile -t ghcr.io/nevinture/kudago-api:latest .
+
+      - name: publish image
+        run: |
+          docker login --username nevinture --password ${{ secrets.GHCR_TOKEN }} ghcr.io
+          docker push ghcr.io/nevinture/kudago-api:latest
+
       - name: Add coverage to PR
         id: jacoco
         uses: madrapps/jacoco-report@v1.6.1
@@ -39,3 +47,19 @@ jobs:
           min-coverage-changed-files: 30
           title: Code Coverage
           update-comment: true
+
+  checkstyle:
+    name: checkstyle
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: gradle
+
+      - run: |
+          chmod +x gradlew
+          ./gradlew CheckstyleMain

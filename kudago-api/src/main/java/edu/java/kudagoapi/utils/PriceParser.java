@@ -4,12 +4,15 @@ import java.math.BigDecimal;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PriceParser {
+public final class PriceParser {
 
     private static final Pattern PRICE_PATTERN = Pattern.compile("\\b\\d+\\b");
 
     public static BigDecimal toBigDecimal(String input) {
         return new BigDecimal(toLong(input));
+    }
+
+    private PriceParser() {
     }
 
     public static long toLong(String input) {

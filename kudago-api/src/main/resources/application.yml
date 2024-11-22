@@ -5,12 +5,17 @@ app:
   pool-size: 5
   update-delay: 1h
   enable-update: false
+  database-access-type: jpa
+  token-authentication:
+    cookie-token-key: ${COOKIE_TOKEN_KEY}
+    ttl: 10m
+    remember-me-ttl: 30d
 
 custom-aspect:
   rate-limiter-config:
     enable: true
     acquire-timeout: 100ms
-    permits: 10
+    allowed: 10
 
 spring:
   application:
@@ -32,11 +37,17 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
 server:
-  port: 8090
+  port: 8443
+  ssl:
+    key-store: classpath:java-fintech.p12
+    key-store-password: ${KEY_STORE_PASS}
+    key-alias: fintech
+
 
 logging:
-  config: classpath:log4j2-plain.xml
-#  level:
+#  config: classpath:log4j2-plain.xml
+  level:
+    org.springframework.security: trace
 #    root: debug
 #    org:
 #      springframework:

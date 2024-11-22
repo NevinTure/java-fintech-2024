@@ -1,0 +1,49 @@
+app:
+  api-version: v1.4
+  kudago-api-base-url: http://localhost:8080
+  currency-api-base-url: http://localhost:8080
+  pool-size: 5
+  update-delay: 1ms
+  enable-update: false
+  database-access-type: jpa
+  token-authentication:
+    cookie-token-key: "{'kty':'oct','k':'13DKtkaA_HBVWMq-bsb_zYGjgX9h33-qze1emIRObO4'}"
+    ttl: 10m
+    remember-me-ttl: 30d
+
+custom-aspect:
+  rate-limiter-config:
+    enable: true
+    acquire-timeout: 10ms
+    allowed: 1
+
+spring:
+  application:
+    name: kudago-api
+  liquibase:
+    enabled: true
+    change-log: classpath:migrations/master.xml
+  datasource:
+    hikari:
+      maximum-pool-size: 2
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 8090
+
+logging:
+  config: classpath:log4j2-plain.xml
+#  level:
+#    root: debug
+#    org:
+#      springframework:
+#        web: trace
+#      apache: trace
+#debug: true
+
