@@ -1,8 +1,6 @@
 package edu.java.mqbenchmark.utils;
 
-import java.time.Duration;
-
-public record ProducerProperties(
+public record KafkaProducerProperties(
         String bootstrapServers,
         String clientId,
         String acksMode,

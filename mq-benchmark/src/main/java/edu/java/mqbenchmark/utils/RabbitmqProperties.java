@@ -2,10 +2,11 @@ package edu.java.mqbenchmark.utils;
 
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
-public record KafkaProperties(
+public record RabbitmqProperties(
+        String routingKey,
         @NestedConfigurationProperty
-        KafkaProducerProperties producer,
+        RabbitmqProducerProperties producer,
         @NestedConfigurationProperty
-        KafkaConsumerProperties consumer
-) {
+        RabbitmqConsumerProperties consumer) {
+
 }

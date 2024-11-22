@@ -1,94 +1,128 @@
 package edu.java.mqbenchmark;
 
-import edu.java.mqbenchmark.configuration.ApplicationConfig;
+import edu.java.mqbenchmark.configuration.KafkaConfig;
 import edu.java.mqbenchmark.dtos.KafkaMessage;
-import org.apache.kafka.clients.consumer.*;
+import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import org.junit.jupiter.api.Test;
 import org.openjdk.jmh.annotations.*;
-import org.openjdk.jmh.infra.Blackhole;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.openjdk.jmh.runner.Runner;
+import org.openjdk.jmh.runner.RunnerException;
+import org.openjdk.jmh.runner.options.Options;
+import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.ProducerFactory;
 import java.time.Duration;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-@SpringBootTest
 @State(Scope.Thread)
-@Warmup(iterations = 5, time = 1)
-@Measurement(iterations = 30, time = 1)
+@Warmup(iterations = 3, time = 1)
+@Measurement(iterations = 10, time = 1)
 @BenchmarkMode(Mode.Throughput)
 @OutputTimeUnit(TimeUnit.SECONDS)
-public class KafkaBenchmarkTest extends AbstractBenchmark {
+public class KafkaBenchmarkTest {
 
-    private static ProducerFactory<String, KafkaMessage> producerFactory;
-    private static ConsumerFactory<String, KafkaMessage> consumerFactory;
-    private static ApplicationConfig config;
+    private ProducerFactory<String, KafkaMessage> producerFactory;
+    private ConsumerFactory<String, KafkaMessage> consumerFactory;
+    private final String topic = "mq-benchmark.benchmark";
+    private final String groupId = "benchmark";
+    private List<Producer<String, KafkaMessage>> producers;
+    private List<Consumer<String, KafkaMessage>> consumers;
 
-    @Autowired
-    public void setProducerFactory(ProducerFactory<String, KafkaMessage> producerFactory) {
-        KafkaBenchmarkTest.producerFactory = producerFactory;
+
+    @Setup(Level.Trial)
+    public void setup() {
+        KafkaConfig kafkaConfig = new KafkaConfig();
+        producerFactory = kafkaConfig.producerFactoryWithDefaults();
+        consumerFactory = kafkaConfig.consumerFactoryWithDefaults();
+        producers = createProducers(10);
+        consumers = createConsumers(10, groupId, topic);
     }
 
-    @Autowired
-    public void setConsumerFactory(ConsumerFactory<String, KafkaMessage> consumerFactory) {
-        KafkaBenchmarkTest.consumerFactory = consumerFactory;
+    @Benchmark
+    public void testSimpleConfig() {
+        List<Producer<String, KafkaMessage>> oneProducer = producers.subList(0, 1);
+        List<Consumer<String, KafkaMessage>> oneConsumer = consumers.subList(0, 1);
+        sendDefaultMessages(oneProducer, topic, 1);
+        receiveMessages(oneConsumer, Duration.ofMillis(100), 1);
     }
 
-    @Autowired
-    public void setConfig(ApplicationConfig config) {
-        KafkaBenchmarkTest.config = config;
-    }
-
-
-//    @Benchmark
-//    public void testSimpleConfig() {
-//        Producer<String, KafkaMessage> producer =
-//                producerFactory.createProducer();
-//        producer.send(new ProducerRecord<>(config.kafka().producer().topicName(), new KafkaMessage("message1")));
-//        Consumer<String, KafkaMessage> consumer =
-//                consumerFactory.createConsumer(config.kafka().consumer().groupId(), "mq-benchmark");
-//        consumer.subscribe(List.of(config.kafka().producer().topicName()));
-//        ConsumerRecords<String, KafkaMessage> poll = consumer.poll(Duration.ofMillis(500));
-//    }
-
-//    @Benchmark
+    @Benchmark
     public void testLoadBalancing() {
-        Producer<String, KafkaMessage> producer1 =
-                producerFactory.createProducer();
-        Producer<String, KafkaMessage> producer2 =
-                producerFactory.createProducer();
-        Producer<String, KafkaMessage> producer3 =
-                producerFactory.createProducer();
-        producer1.send(new ProducerRecord<>(config.kafka().producer().topicName(), new KafkaMessage("message1")));
-        producer2.send(new ProducerRecord<>(config.kafka().producer().topicName(), new KafkaMessage("message1")));
-        producer3.send(new ProducerRecord<>(config.kafka().producer().topicName(), new KafkaMessage("message1")));
-        Consumer<String, KafkaMessage> consumer =
-                consumerFactory.createConsumer(config.kafka().consumer().groupId(), "mq-benchmark");
-        consumer.subscribe(List.of(config.kafka().producer().topicName()));
-        ConsumerRecords<String, KafkaMessage> poll = consumer.poll(Duration.ofSeconds(1));
+        List<Producer<String, KafkaMessage>> threeProducers = producers.subList(0, 3);
+        List<Consumer<String, KafkaMessage>> oneConsumer = consumers.subList(0, 1);
+        sendDefaultMessages(threeProducers, topic, 3);
+        receiveMessages(oneConsumer, Duration.ofMillis(100), 3);
     }
 
     @Benchmark
     public void testMultipleConsumers() {
-        Producer<String, KafkaMessage> producer =
-                producerFactory.createProducer();
-        producer.send(new ProducerRecord<>(config.kafka().producer().topicName(), new KafkaMessage("message1")));
-        Consumer<String, KafkaMessage> consumer1 =
-                consumerFactory.createConsumer(config.kafka().consumer().groupId(), "mq-benchmark");
-        consumer1.subscribe(List.of(config.kafka().producer().topicName()));
-         consumer1.poll(Duration.ofSeconds(1));
-        Consumer<String, KafkaMessage> consumer2 =
-                consumerFactory.createConsumer(config.kafka().consumer().groupId(), "mq-benchmark");
-        consumer2.subscribe(List.of(config.kafka().producer().topicName()));
-        consumer2.poll(Duration.ofSeconds(1));
-        Consumer<String, KafkaMessage> consumer3 =
-                consumerFactory.createConsumer(config.kafka().consumer().groupId(), "mq-benchmark");
-        consumer3.subscribe(List.of(config.kafka().producer().topicName()));
-        consumer3.poll(Duration.ofSeconds(1));
+        List<Producer<String, KafkaMessage>> oneProducer = producers.subList(0, 1);
+        List<Consumer<String, KafkaMessage>> threeConsumers = consumers.subList(0, 3);
+        sendDefaultMessages(oneProducer, topic, 3);
+        receiveMessages(threeConsumers, Duration.ofMillis(100), 3);
     }
 
+    @Benchmark
+    public void testLoadBalancingMultipleConsumers() {
+        List<Producer<String, KafkaMessage>> threeProducers = producers.subList(0, 3);
+        List<Consumer<String, KafkaMessage>> threeConsumers = consumers.subList(0, 3);
+        sendDefaultMessages(threeProducers, topic, 3);
+        receiveMessages(threeConsumers, Duration.ofMillis(100), 3);
+    }
+
+    @Benchmark
+    public void stressTest() {
+        List<Producer<String, KafkaMessage>> tenProducers = producers.subList(0, 10);
+        List<Consumer<String, KafkaMessage>> tenConsumers = consumers.subList(0, 10);
+        sendDefaultMessages(tenProducers, topic, 10);
+        receiveMessages(tenConsumers, Duration.ofMillis(100), 10);
+    }
+
+    private List<Consumer<String, KafkaMessage>> createConsumers(int count, String groupId, String... topic) {
+        List<Consumer<String, KafkaMessage>> consumers = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            Consumer<String, KafkaMessage> consumer = consumerFactory.createConsumer(groupId, null);
+            consumer.subscribe(Arrays.asList(topic));
+            consumers.add(consumer);
+        }
+        return consumers;
+    }
+
+    private List<Producer<String, KafkaMessage>> createProducers(int count) {
+        List<Producer<String, KafkaMessage>> producers = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            producers.add(producerFactory.createProducer());
+        }
+        return producers;
+    }
+
+    private void sendMessages(List<Producer<String, KafkaMessage>> producers, String topic, KafkaMessage message, int times) {
+        int n = producers.size();
+        for (int i = 0; i < times; i++) {
+            producers.get(i % n).send(new ProducerRecord<>(topic, message));
+        }
+    }
+
+    private void sendDefaultMessages(List<Producer<String, KafkaMessage>> producers, String topic, int times) {
+        sendMessages(producers, topic, new KafkaMessage("message"), times);
+    }
+
+    private void receiveMessages(List<Consumer<String, KafkaMessage>> consumers, Duration timeout, int times) {
+        int n = consumers.size();
+        for (int i = 0; i < times; i++) {
+            consumers.get(i % n).poll(timeout);
+        }
+    }
+
+    public static void main(String[] args) throws RunnerException {
+        Options opts = new OptionsBuilder()
+                .include(KafkaBenchmarkTest.class.getSimpleName())
+                .forks(1)
+                .threads(1)
+                .output("kafka-results.txt")
+                .build();
+        new Runner(opts).run();
+    }
 }

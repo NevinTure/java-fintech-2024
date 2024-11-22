@@ -1,6 +1,6 @@
 package edu.java.mqbenchmark.utils;
 
-public record ConsumerProperties(
+public record KafkaConsumerProperties(
         String bootstrapServers,
         String groupId,
         String autoOffsetReset,

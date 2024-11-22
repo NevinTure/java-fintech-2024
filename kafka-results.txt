@@ -1,0 +1,195 @@
+# JMH version: 1.37
+# VM version: JDK 21, OpenJDK 64-Bit Server VM, 21+35-2513
+# VM invoker: C:\Users\nikit\.jdks\openjdk-21\bin\java.exe
+# VM options: -Dfile.encoding=windows-1251 -Duser.country=RU -Duser.language=ru -Duser.variant
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: edu.java.mqbenchmark.KafkaBenchmarkTest.stressTest
+
+# Run progress: 0,00% complete, ETA 00:01:05
+# Fork: 1 of 1
+# Warmup Iteration   1: 0,811 ops/s
+# Warmup Iteration   2: 0,905 ops/s
+# Warmup Iteration   3: 0,909 ops/s
+Iteration   1: 0,904 ops/s
+Iteration   2: 0,916 ops/s
+Iteration   3: 0,916 ops/s
+Iteration   4: 0,938 ops/s
+Iteration   5: 1,010 ops/s
+Iteration   6: 1,006 ops/s
+Iteration   7: 1,018 ops/s
+Iteration   8: 0,999 ops/s
+Iteration   9: 1,014 ops/s
+Iteration  10: 1,020 ops/s
+
+
+Result "edu.java.mqbenchmark.KafkaBenchmarkTest.stressTest":
+  0,974 ±(99.9%) 0,074 ops/s [Average]
+  (min, avg, max) = (0,904, 0,974, 1,020), stdev = 0,049
+  CI (99.9%): [0,900, 1,048] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 21, OpenJDK 64-Bit Server VM, 21+35-2513
+# VM invoker: C:\Users\nikit\.jdks\openjdk-21\bin\java.exe
+# VM options: -Dfile.encoding=windows-1251 -Duser.country=RU -Duser.language=ru -Duser.variant
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: edu.java.mqbenchmark.KafkaBenchmarkTest.testLoadBalancing
+
+# Run progress: 20,00% complete, ETA 00:01:21
+# Fork: 1 of 1
+# Warmup Iteration   1: 2,715 ops/s
+# Warmup Iteration   2: 3,031 ops/s
+# Warmup Iteration   3: 3,006 ops/s
+Iteration   1: 3,033 ops/s
+Iteration   2: 3,011 ops/s
+Iteration   3: 3,032 ops/s
+Iteration   4: 3,020 ops/s
+Iteration   5: 3,025 ops/s
+Iteration   6: 3,034 ops/s
+Iteration   7: 3,016 ops/s
+Iteration   8: 3,037 ops/s
+Iteration   9: 3,018 ops/s
+Iteration  10: 3,031 ops/s
+
+
+Result "edu.java.mqbenchmark.KafkaBenchmarkTest.testLoadBalancing":
+  3,026 ±(99.9%) 0,013 ops/s [Average]
+  (min, avg, max) = (3,011, 3,026, 3,037), stdev = 0,009
+  CI (99.9%): [3,012, 3,039] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 21, OpenJDK 64-Bit Server VM, 21+35-2513
+# VM invoker: C:\Users\nikit\.jdks\openjdk-21\bin\java.exe
+# VM options: -Dfile.encoding=windows-1251 -Duser.country=RU -Duser.language=ru -Duser.variant
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: edu.java.mqbenchmark.KafkaBenchmarkTest.testLoadBalancingMultipleConsumers
+
+# Run progress: 40,00% complete, ETA 00:00:58
+# Fork: 1 of 1
+# Warmup Iteration   1: 2,656 ops/s
+# Warmup Iteration   2: 3,055 ops/s
+# Warmup Iteration   3: 3,023 ops/s
+Iteration   1: 3,033 ops/s
+Iteration   2: 3,011 ops/s
+Iteration   3: 3,006 ops/s
+Iteration   4: 3,027 ops/s
+Iteration   5: 3,020 ops/s
+Iteration   6: 3,022 ops/s
+Iteration   7: 3,069 ops/s
+Iteration   8: 2,969 ops/s
+Iteration   9: 3,024 ops/s
+Iteration  10: 3,018 ops/s
+
+
+Result "edu.java.mqbenchmark.KafkaBenchmarkTest.testLoadBalancingMultipleConsumers":
+  3,020 ±(99.9%) 0,037 ops/s [Average]
+  (min, avg, max) = (2,969, 3,020, 3,069), stdev = 0,025
+  CI (99.9%): [2,982, 3,057] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 21, OpenJDK 64-Bit Server VM, 21+35-2513
+# VM invoker: C:\Users\nikit\.jdks\openjdk-21\bin\java.exe
+# VM options: -Dfile.encoding=windows-1251 -Duser.country=RU -Duser.language=ru -Duser.variant
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: edu.java.mqbenchmark.KafkaBenchmarkTest.testMultipleConsumers
+
+# Run progress: 60,00% complete, ETA 00:00:38
+# Fork: 1 of 1
+# Warmup Iteration   1: 2,655 ops/s
+# Warmup Iteration   2: 3,030 ops/s
+# Warmup Iteration   3: 3,005 ops/s
+Iteration   1: 3,008 ops/s
+Iteration   2: 3,056 ops/s
+Iteration   3: 3,019 ops/s
+Iteration   4: 3,019 ops/s
+Iteration   5: 3,012 ops/s
+Iteration   6: 3,015 ops/s
+Iteration   7: 3,015 ops/s
+Iteration   8: 3,013 ops/s
+Iteration   9: 3,032 ops/s
+Iteration  10: 3,024 ops/s
+
+
+Result "edu.java.mqbenchmark.KafkaBenchmarkTest.testMultipleConsumers":
+  3,021 ±(99.9%) 0,021 ops/s [Average]
+  (min, avg, max) = (3,008, 3,021, 3,056), stdev = 0,014
+  CI (99.9%): [3,001, 3,042] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 21, OpenJDK 64-Bit Server VM, 21+35-2513
+# VM invoker: C:\Users\nikit\.jdks\openjdk-21\bin\java.exe
+# VM options: -Dfile.encoding=windows-1251 -Duser.country=RU -Duser.language=ru -Duser.variant
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: edu.java.mqbenchmark.KafkaBenchmarkTest.testSimpleConfig
+
+# Run progress: 80,00% complete, ETA 00:00:19
+# Fork: 1 of 1
+# Warmup Iteration   1: 8,186 ops/s
+# Warmup Iteration   2: 9,202 ops/s
+# Warmup Iteration   3: 9,141 ops/s
+Iteration   1: 9,165 ops/s
+Iteration   2: 9,180 ops/s
+Iteration   3: 9,152 ops/s
+Iteration   4: 9,098 ops/s
+Iteration   5: 9,082 ops/s
+Iteration   6: 8,886 ops/s
+Iteration   7: 9,120 ops/s
+Iteration   8: 9,166 ops/s
+Iteration   9: 9,185 ops/s
+Iteration  10: 9,164 ops/s
+
+
+Result "edu.java.mqbenchmark.KafkaBenchmarkTest.testSimpleConfig":
+  9,120 ±(99.9%) 0,135 ops/s [Average]
+  (min, avg, max) = (8,886, 9,120, 9,185), stdev = 0,089
+  CI (99.9%): [8,985, 9,255] (assumes normal distribution)
+
+
+# Run complete. Total time: 00:01:32
+
+REMEMBER: The numbers below are just data. To gain reusable insights, you need to follow up on
+why the numbers are the way they are. Use profilers (see -prof, -lprof), design factorial
+experiments, perform baseline and negative tests that provide experimental control, make sure
+the benchmarking environment is safe on JVM/OS/HW level, ask for reviews from the domain experts.
+Do not assume the numbers tell you what you want them to tell.
+
+NOTE: Current JVM experimentally supports Compiler Blackholes, and they are in use. Please exercise
+extra caution when trusting the results, look into the generated code to check the benchmark still
+works, and factor in a small probability of new VM bugs. Additionally, while comparisons between
+different JVMs are already problematic, the performance difference caused by different Blackhole
+modes can be very significant. Please make sure you use the consistent Blackhole mode for comparisons.
+
+Benchmark                                               Mode  Cnt  Score   Error  Units
+KafkaBenchmarkTest.stressTest                          thrpt   10  0,974 ± 0,074  ops/s
+KafkaBenchmarkTest.testLoadBalancing                   thrpt   10  3,026 ± 0,013  ops/s
+KafkaBenchmarkTest.testLoadBalancingMultipleConsumers  thrpt   10  3,020 ± 0,037  ops/s
+KafkaBenchmarkTest.testMultipleConsumers               thrpt   10  3,021 ± 0,021  ops/s
+KafkaBenchmarkTest.testSimpleConfig                    thrpt   10  9,120 ± 0,135  ops/s
