@@ -12,25 +12,25 @@
 
 # Run progress: 0,00% complete, ETA 00:01:05
 # Fork: 1 of 1
-# Warmup Iteration   1: 0,811 ops/s
-# Warmup Iteration   2: 0,905 ops/s
-# Warmup Iteration   3: 0,909 ops/s
-Iteration   1: 0,904 ops/s
-Iteration   2: 0,916 ops/s
+# Warmup Iteration   1: 0,789 ops/s
+# Warmup Iteration   2: 0,928 ops/s
+# Warmup Iteration   3: 0,916 ops/s
+Iteration   1: 0,917 ops/s
+Iteration   2: 0,917 ops/s
 Iteration   3: 0,916 ops/s
-Iteration   4: 0,938 ops/s
-Iteration   5: 1,010 ops/s
-Iteration   6: 1,006 ops/s
-Iteration   7: 1,018 ops/s
-Iteration   8: 0,999 ops/s
-Iteration   9: 1,014 ops/s
-Iteration  10: 1,020 ops/s
+Iteration   4: 0,930 ops/s
+Iteration   5: 0,912 ops/s
+Iteration   6: 0,917 ops/s
+Iteration   7: 0,918 ops/s
+Iteration   8: 0,911 ops/s
+Iteration   9: 0,927 ops/s
+Iteration  10: 0,915 ops/s
 
 
 Result "edu.java.mqbenchmark.KafkaBenchmarkTest.stressTest":
-  0,974 ±(99.9%) 0,074 ops/s [Average]
-  (min, avg, max) = (0,904, 0,974, 1,020), stdev = 0,049
-  CI (99.9%): [0,900, 1,048] (assumes normal distribution)
+  0,918 ±(99.9%) 0,009 ops/s [Average]
+  (min, avg, max) = (0,911, 0,918, 0,930), stdev = 0,006
+  CI (99.9%): [0,909, 0,927] (assumes normal distribution)
 
 
 # JMH version: 1.37
@@ -45,27 +45,27 @@ Result "edu.java.mqbenchmark.KafkaBenchmarkTest.stressTest":
 # Benchmark mode: Throughput, ops/time
 # Benchmark: edu.java.mqbenchmark.KafkaBenchmarkTest.testLoadBalancing
 
-# Run progress: 20,00% complete, ETA 00:01:21
+# Run progress: 20,00% complete, ETA 00:01:03
 # Fork: 1 of 1
-# Warmup Iteration   1: 2,715 ops/s
-# Warmup Iteration   2: 3,031 ops/s
-# Warmup Iteration   3: 3,006 ops/s
-Iteration   1: 3,033 ops/s
-Iteration   2: 3,011 ops/s
-Iteration   3: 3,032 ops/s
-Iteration   4: 3,020 ops/s
-Iteration   5: 3,025 ops/s
-Iteration   6: 3,034 ops/s
-Iteration   7: 3,016 ops/s
-Iteration   8: 3,037 ops/s
-Iteration   9: 3,018 ops/s
-Iteration  10: 3,031 ops/s
+# Warmup Iteration   1: 2,574 ops/s
+# Warmup Iteration   2: 3,082 ops/s
+# Warmup Iteration   3: 3,056 ops/s
+Iteration   1: 3,094 ops/s
+Iteration   2: 3,059 ops/s
+Iteration   3: 3,047 ops/s
+Iteration   4: 3,041 ops/s
+Iteration   5: 3,070 ops/s
+Iteration   6: 3,055 ops/s
+Iteration   7: 3,049 ops/s
+Iteration   8: 3,032 ops/s
+Iteration   9: 3,026 ops/s
+Iteration  10: 3,053 ops/s
 
 
 Result "edu.java.mqbenchmark.KafkaBenchmarkTest.testLoadBalancing":
-  3,026 ±(99.9%) 0,013 ops/s [Average]
-  (min, avg, max) = (3,011, 3,026, 3,037), stdev = 0,009
-  CI (99.9%): [3,012, 3,039] (assumes normal distribution)
+  3,053 ±(99.9%) 0,029 ops/s [Average]
+  (min, avg, max) = (3,026, 3,053, 3,094), stdev = 0,019
+  CI (99.9%): [3,024, 3,082] (assumes normal distribution)
 
 
 # JMH version: 1.37
@@ -80,27 +80,27 @@ Result "edu.java.mqbenchmark.KafkaBenchmarkTest.testLoadBalancing":
 # Benchmark mode: Throughput, ops/time
 # Benchmark: edu.java.mqbenchmark.KafkaBenchmarkTest.testLoadBalancingMultipleConsumers
 
-# Run progress: 40,00% complete, ETA 00:00:58
+# Run progress: 40,00% complete, ETA 00:00:51
 # Fork: 1 of 1
-# Warmup Iteration   1: 2,656 ops/s
-# Warmup Iteration   2: 3,055 ops/s
-# Warmup Iteration   3: 3,023 ops/s
-Iteration   1: 3,033 ops/s
-Iteration   2: 3,011 ops/s
-Iteration   3: 3,006 ops/s
-Iteration   4: 3,027 ops/s
-Iteration   5: 3,020 ops/s
-Iteration   6: 3,022 ops/s
-Iteration   7: 3,069 ops/s
-Iteration   8: 2,969 ops/s
-Iteration   9: 3,024 ops/s
-Iteration  10: 3,018 ops/s
+# Warmup Iteration   1: 2,610 ops/s
+# Warmup Iteration   2: 3,080 ops/s
+# Warmup Iteration   3: 3,050 ops/s
+Iteration   1: 3,058 ops/s
+Iteration   2: 3,056 ops/s
+Iteration   3: 3,055 ops/s
+Iteration   4: 3,047 ops/s
+Iteration   5: 3,064 ops/s
+Iteration   6: 3,051 ops/s
+Iteration   7: 3,062 ops/s
+Iteration   8: 3,069 ops/s
+Iteration   9: 3,051 ops/s
+Iteration  10: 3,087 ops/s
 
 
 Result "edu.java.mqbenchmark.KafkaBenchmarkTest.testLoadBalancingMultipleConsumers":
-  3,020 ±(99.9%) 0,037 ops/s [Average]
-  (min, avg, max) = (2,969, 3,020, 3,069), stdev = 0,025
-  CI (99.9%): [2,982, 3,057] (assumes normal distribution)
+  3,060 ±(99.9%) 0,017 ops/s [Average]
+  (min, avg, max) = (3,047, 3,060, 3,087), stdev = 0,012
+  CI (99.9%): [3,043, 3,077] (assumes normal distribution)
 
 
 # JMH version: 1.37
@@ -115,27 +115,27 @@ Result "edu.java.mqbenchmark.KafkaBenchmarkTest.testLoadBalancingMultipleConsume
 # Benchmark mode: Throughput, ops/time
 # Benchmark: edu.java.mqbenchmark.KafkaBenchmarkTest.testMultipleConsumers
 
-# Run progress: 60,00% complete, ETA 00:00:38
+# Run progress: 60,00% complete, ETA 00:00:35
 # Fork: 1 of 1
-# Warmup Iteration   1: 2,655 ops/s
-# Warmup Iteration   2: 3,030 ops/s
-# Warmup Iteration   3: 3,005 ops/s
-Iteration   1: 3,008 ops/s
-Iteration   2: 3,056 ops/s
-Iteration   3: 3,019 ops/s
-Iteration   4: 3,019 ops/s
-Iteration   5: 3,012 ops/s
-Iteration   6: 3,015 ops/s
-Iteration   7: 3,015 ops/s
-Iteration   8: 3,013 ops/s
-Iteration   9: 3,032 ops/s
-Iteration  10: 3,024 ops/s
+# Warmup Iteration   1: 2,563 ops/s
+# Warmup Iteration   2: 3,055 ops/s
+# Warmup Iteration   3: 3,064 ops/s
+Iteration   1: 3,049 ops/s
+Iteration   2: 3,060 ops/s
+Iteration   3: 3,038 ops/s
+Iteration   4: 3,056 ops/s
+Iteration   5: 3,040 ops/s
+Iteration   6: 3,028 ops/s
+Iteration   7: 3,057 ops/s
+Iteration   8: 3,064 ops/s
+Iteration   9: 3,061 ops/s
+Iteration  10: 3,050 ops/s
 
 
 Result "edu.java.mqbenchmark.KafkaBenchmarkTest.testMultipleConsumers":
-  3,021 ±(99.9%) 0,021 ops/s [Average]
-  (min, avg, max) = (3,008, 3,021, 3,056), stdev = 0,014
-  CI (99.9%): [3,001, 3,042] (assumes normal distribution)
+  3,050 ±(99.9%) 0,018 ops/s [Average]
+  (min, avg, max) = (3,028, 3,050, 3,064), stdev = 0,012
+  CI (99.9%): [3,033, 3,068] (assumes normal distribution)
 
 
 # JMH version: 1.37
@@ -150,30 +150,30 @@ Result "edu.java.mqbenchmark.KafkaBenchmarkTest.testMultipleConsumers":
 # Benchmark mode: Throughput, ops/time
 # Benchmark: edu.java.mqbenchmark.KafkaBenchmarkTest.testSimpleConfig
 
-# Run progress: 80,00% complete, ETA 00:00:19
+# Run progress: 80,00% complete, ETA 00:00:17
 # Fork: 1 of 1
-# Warmup Iteration   1: 8,186 ops/s
-# Warmup Iteration   2: 9,202 ops/s
-# Warmup Iteration   3: 9,141 ops/s
-Iteration   1: 9,165 ops/s
-Iteration   2: 9,180 ops/s
-Iteration   3: 9,152 ops/s
-Iteration   4: 9,098 ops/s
-Iteration   5: 9,082 ops/s
-Iteration   6: 8,886 ops/s
-Iteration   7: 9,120 ops/s
-Iteration   8: 9,166 ops/s
-Iteration   9: 9,185 ops/s
-Iteration  10: 9,164 ops/s
+# Warmup Iteration   1: 7,538 ops/s
+# Warmup Iteration   2: 9,095 ops/s
+# Warmup Iteration   3: 9,175 ops/s
+Iteration   1: 9,156 ops/s
+Iteration   2: 9,204 ops/s
+Iteration   3: 9,159 ops/s
+Iteration   4: 9,166 ops/s
+Iteration   5: 9,198 ops/s
+Iteration   6: 9,148 ops/s
+Iteration   7: 9,175 ops/s
+Iteration   8: 9,140 ops/s
+Iteration   9: 9,207 ops/s
+Iteration  10: 9,142 ops/s
 
 
 Result "edu.java.mqbenchmark.KafkaBenchmarkTest.testSimpleConfig":
-  9,120 ±(99.9%) 0,135 ops/s [Average]
-  (min, avg, max) = (8,886, 9,120, 9,185), stdev = 0,089
-  CI (99.9%): [8,985, 9,255] (assumes normal distribution)
+  9,170 ±(99.9%) 0,038 ops/s [Average]
+  (min, avg, max) = (9,140, 9,170, 9,207), stdev = 0,025
+  CI (99.9%): [9,131, 9,208] (assumes normal distribution)
 
 
-# Run complete. Total time: 00:01:32
+# Run complete. Total time: 00:01:26
 
 REMEMBER: The numbers below are just data. To gain reusable insights, you need to follow up on
 why the numbers are the way they are. Use profilers (see -prof, -lprof), design factorial
@@ -188,8 +188,8 @@ different JVMs are already problematic, the performance difference caused by dif
 modes can be very significant. Please make sure you use the consistent Blackhole mode for comparisons.
 
 Benchmark                                               Mode  Cnt  Score   Error  Units
-KafkaBenchmarkTest.stressTest                          thrpt   10  0,974 ± 0,074  ops/s
-KafkaBenchmarkTest.testLoadBalancing                   thrpt   10  3,026 ± 0,013  ops/s
-KafkaBenchmarkTest.testLoadBalancingMultipleConsumers  thrpt   10  3,020 ± 0,037  ops/s
-KafkaBenchmarkTest.testMultipleConsumers               thrpt   10  3,021 ± 0,021  ops/s
-KafkaBenchmarkTest.testSimpleConfig                    thrpt   10  9,120 ± 0,135  ops/s
+KafkaBenchmarkTest.stressTest                          thrpt   10  0,918 ± 0,009  ops/s
+KafkaBenchmarkTest.testLoadBalancing                   thrpt   10  3,053 ± 0,029  ops/s
+KafkaBenchmarkTest.testLoadBalancingMultipleConsumers  thrpt   10  3,060 ± 0,017  ops/s
+KafkaBenchmarkTest.testMultipleConsumers               thrpt   10  3,050 ± 0,018  ops/s
+KafkaBenchmarkTest.testSimpleConfig                    thrpt   10  9,170 ± 0,038  ops/s

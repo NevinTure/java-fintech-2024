@@ -1,4 +1,4 @@
-package edu.java.mqbenchmark.utils;
+package edu.java.mqbenchmark.utils.rabbitmq;
 
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 

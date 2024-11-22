@@ -1,4 +1,4 @@
-package edu.java.mqbenchmark.utils;
+package edu.java.mqbenchmark.utils.kafka;
 
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
