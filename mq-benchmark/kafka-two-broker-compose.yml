@@ -9,8 +9,6 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_SERVER_ID: 1
       ZOOKEEPER_SERVERS: zookeeper:2888:3888
-    volumes:
-      - zookeeper_data:/var/lib/zookeeper/data
     networks:
       - kafka
 
@@ -27,41 +25,56 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
       KAFKA_BROKER_ID: 1
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
       KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
-#      KAFKA_LOG4J_LOGGERS: "org.apache.zookeeper=DEBUG,org.apache.kafka=DEBUG,kafka=DEBUG,kafka.cluster=DEBUG,kafka.controller=DEBUG,kafka.coordinator=DEBUG,kafka.log=DEBUG,kafka.server=DEBUG,kafka.zookeeper=DEBUG,state.change.logger=DEBUG"
-
       KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.authorizer.AclAuthorizer
       KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
     depends_on:
       - zookeeper
-    volumes:
-      - kafka1_data:/var/lib/kafka/data
+    networks:
+      - kafka
+
+  kafka2:
+    image: confluentinc/cp-kafka:7.7.1
+    hostname: kafka2
+    container_name: kafka2
+    ports:
+      - "9093:9093"
+      - "29093:29093"
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka2:19093,EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9093,DOCKER://host.docker.internal:29093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,DOCKER:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_BROKER_ID: 2
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
+      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
+      KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.authorizer.AclAuthorizer
+      KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
+    depends_on:
+      - zookeeper
     networks:
       - kafka
 
   init-kafka:
-    image: confluentinc/cp-kafka:7.7.1
+    image: confluentinc/cp-kafka:7.3.2
     depends_on:
       - kafka1
+      - kafka2
     entrypoint: [ '/bin/sh','-c' ]
     networks:
       - kafka
     command: |
       "
       # blocks until kafka is reachable
-      kafka-topics --bootstrap-server kafka1:29092 --list
+      kafka-topics --bootstrap-server kafka1:29092,kafka2:29093 --list
 
       echo -e 'Creating kafka topics'
-      kafka-topics --bootstrap-server kafka1:29092 --create --if-not-exists --topic mq-benchmark.benchmark --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka1:29092,kafka2:29093 --create --if-not-exists --topic scrapper.updates --replication-factor 2 --partitions 1
 
       echo -e 'Successfully created the following topics:'
-      kafka-topics --bootstrap-server kafka1:29092 --list
+      kafka-topics --bootstrap-server kafka1:29092,kafka2:29093 --list
       "
-
-volumes:
-  zookeeper_data: { }
-  kafka1_data: { }
 
 networks:
   kafka: { }

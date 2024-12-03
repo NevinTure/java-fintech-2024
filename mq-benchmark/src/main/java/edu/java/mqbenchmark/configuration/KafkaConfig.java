@@ -54,14 +54,13 @@ public class KafkaConfig {
     }
 
     public ProducerFactory<String, String> producerFactoryWithDefaults() {
-        Map<String, Object> props = new HashMap<>();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-        props.put(ProducerConfig.ACKS_CONFIG, "1");
-        props.put(ProducerConfig.CLIENT_ID_CONFIG, "mq-benchmark");
-        props.put(ProducerConfig.BATCH_SIZE_CONFIG, 10);
-        props.put(ProducerConfig.LINGER_MS_CONFIG, 1);
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        Map<String, Object> props = getDefaultProducerPropertyMap();
+        return new DefaultKafkaProducerFactory<>(props);
+    }
+
+    public ProducerFactory<String, String> producerFactoryWithDefaults(Map<String, Object> overrides) {
+        Map<String, Object> props = getDefaultProducerPropertyMap();
+        props.putAll(overrides);
         return new DefaultKafkaProducerFactory<>(props);
     }
 
@@ -74,5 +73,17 @@ public class KafkaConfig {
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         return new DefaultKafkaConsumerFactory<>(props);
+    }
+
+    private Map<String, Object> getDefaultProducerPropertyMap() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ProducerConfig.ACKS_CONFIG, "1");
+        props.put(ProducerConfig.CLIENT_ID_CONFIG, "mq-benchmark");
+        props.put(ProducerConfig.BATCH_SIZE_CONFIG, 10);
+        props.put(ProducerConfig.LINGER_MS_CONFIG, 1);
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        return props;
     }
 }
