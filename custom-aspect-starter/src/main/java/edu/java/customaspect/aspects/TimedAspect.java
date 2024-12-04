@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class TimedAspect {
 
-    private final static Logger log = LoggerFactory.getLogger(TimedAspect.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(TimedAspect.class);
 
     @Pointcut("@annotation(edu.java.customaspect.annotations.Timed)")
     void annotatedMethod() {
@@ -26,11 +26,11 @@ public class TimedAspect {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         String methodName = getMethodName(signature);
         String className = getClassName(signature);
-        log.info(String.format("Method: %s from class: %s started", methodName, className));
+        LOGGER.info(String.format("Method: %s from class: %s started", methodName, className));
         long startTime = System.nanoTime();
         Object result = joinPoint.proceed();
         long endTime = System.nanoTime();
-        log.info(String
+        LOGGER.info(String
                 .format("Method: %s from class: %s took %d ns to finish",
                         methodName, className, endTime - startTime));
         return result;

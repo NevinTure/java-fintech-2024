@@ -24,6 +24,7 @@ public interface JpaEventRepository extends JpaRepository<Event, Long> {
     @EntityGraph("event_entity-graph")
     List<Event> findAll(Specification<Event> spec);
 
+    @SuppressWarnings("MultipleStringLiterals")
     static Specification<Event> buildSpecification(String title, Location location, LocalDate fromDate, LocalDate toDate) {
         List<Specification<Event>> specs = new ArrayList<>();
         if (title != null) {

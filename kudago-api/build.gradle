@@ -58,6 +58,12 @@ build {
     dependsOn jacocoTestReport
 }
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'edu.java.kudagoapi.KudagoApiApplication'
+    }
+}
+
 dependencies {
     //web
     implementation'org.springframework.boot:spring-boot-starter-web'
@@ -77,6 +83,8 @@ dependencies {
     implementation 'org.wiremock.integrations.testcontainers:wiremock-testcontainers-module:1.0-alpha-14'
     // https://mvnrepository.com/artifact/org.testcontainers/postgresql
     testImplementation 'org.testcontainers:postgresql:1.20.3'
+    // https://mvnrepository.com/artifact/org.springframework.security/spring-security-test
+    testImplementation 'org.springframework.security:spring-security-test:6.3.4'
 
     //utils
     implementation 'org.projectlombok:lombok'
@@ -101,6 +109,14 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.7.4'
     // https://mvnrepository.com/artifact/org.liquibase/liquibase-core
     implementation 'org.liquibase:liquibase-core:4.29.2'
+
+    //security
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security
+    implementation 'org.springframework.boot:spring-boot-starter-security:3.3.5'
+    // https://mvnrepository.com/artifact/com.nimbusds/nimbus-jose-jwt
+    implementation 'com.nimbusds:nimbus-jose-jwt:9.45'
+    // https://mvnrepository.com/artifact/com.j256.two-factor-auth/two-factor-auth
+    implementation 'com.j256.two-factor-auth:two-factor-auth:1.3'
 
 }
 

@@ -3,6 +3,10 @@ package edu.java;
 import java.util.*;
 
 public class Main {
+
+    private Main() {
+    }
+
     public static void main(String[] args) {
         outOfMemoryExample();
     }

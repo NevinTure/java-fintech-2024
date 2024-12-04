@@ -3,6 +3,7 @@ package edu.java.utils;
 import lombok.*;
 import java.util.Collection;
 
+@SuppressWarnings("ParameterAssignment")
 public class CustomLinkedList<T> {
 
     private final Node<T> head;

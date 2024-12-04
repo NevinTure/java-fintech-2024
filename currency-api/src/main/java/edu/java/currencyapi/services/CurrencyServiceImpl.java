@@ -25,6 +25,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     private final Set<Currency> buildInCurrencies = Currency.getAvailableCurrencies();
     private static final CbrCurrency RUBLE
             = new CbrCurrency(643, "RUB", new BigDecimal(1));
+    private static final int CURRENCY_SCALE = 4;
 
     @Override
     public ResponseEntity<CurrencyRateResponse> getRate(Integer code) {

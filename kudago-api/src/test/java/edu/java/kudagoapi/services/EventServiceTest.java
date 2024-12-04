@@ -4,10 +4,12 @@ import edu.java.kudagoapi.IntegrationEnvironment;
 import edu.java.kudagoapi.dtos.LocationDto;
 import edu.java.kudagoapi.dtos.events.*;
 import edu.java.kudagoapi.exceptions.ApiException;
+import edu.java.kudagoapi.services.event.EventCollectorService;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.concurrent.TimeUnit;
@@ -16,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @SpringBootTest
+@ActiveProfiles("without-security")
 public class EventServiceTest extends IntegrationEnvironment {
 
     @Autowired

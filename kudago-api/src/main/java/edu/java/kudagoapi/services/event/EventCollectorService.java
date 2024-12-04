@@ -24,6 +24,8 @@ public class EventCollectorService {
     private final KudagoWebClient kudagoWebClient;
     private static final String RUBLE = "RUB";
     private static final int PAGE_SIZE = 1000;
+    private static final LocalDate START_DATE = LocalDate.ofEpochDay(0);
+    private static final LocalDate INF_DATE = LocalDate.ofEpochDay(1_000_000);
 
     @Async
     public CompletableFuture<EventsResponse> getEventsWithFuture(
@@ -64,8 +66,8 @@ public class EventCollectorService {
 
     private Map<String, String> createEventsRequestWithDefaults(LocalDate from, LocalDate to) {
         Map<String, String> request = new HashMap<>();
-        request.put("actual_since", (from == null ? LocalDate.ofEpochDay(0) : from).toString());
-        request.put("actual_until", (to == null ? LocalDate.ofEpochDay(1_000_000) : to).toString());
+        request.put("actual_since", (from == null ? START_DATE : from).toString());
+        request.put("actual_until", (to == null ? INF_DATE : to).toString());
         request.put("fields", "id,place,location,price");
         request.put("expand", "place,location");
         request.put("page_size", String.valueOf(PAGE_SIZE));
