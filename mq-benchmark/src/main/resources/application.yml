@@ -1,0 +1,44 @@
+app:
+  kafka:
+    producer:
+      bootstrap-servers: ${spring.kafka.bootstrap-servers}
+      client-id: mq-benchmark
+      acks-mode: 1
+      batch-size: 1
+      linger-ms: 10
+      topic-name: mq-benchmark.benchmark
+    consumer:
+      bootstrap-servers: ${spring.kafka.bootstrap-servers}
+      group-id: benchmark
+      auto-offset-reset: latest
+      max-poll-interval-ms: 300_000
+      enable-auto-commit: true
+      concurrency: 1
+      topic-name: mq-benchmark.benchmark
+  rabbitmq:
+    routing-key: benchmark
+    producer:
+      exchange: mq-benchmark
+    consumer:
+      queue: benchmark
+
+spring:
+  application:
+    name: mq-benchmark
+  kafka:
+    bootstrap-servers: localhost:9092
+  rabbitmq:
+    host: localhost
+    virtual-host: vhost
+    username: guest
+    password: guest
+
+#logging:
+#  level:
+#    root: debug
+#    org:
+#      springframework:
+#        kafka: trace
+#        web: trace
+#      apache: trace
+#debug: true
